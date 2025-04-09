@@ -39,7 +39,7 @@ public class playerScript : MonoBehaviour
 
         Sprint();
 
-        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.green);
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
     }
 
     void Movement()
@@ -63,6 +63,11 @@ public class playerScript : MonoBehaviour
         controller.Move(playerVel * Time.deltaTime);
 
         shootTimer += Time.deltaTime;
+
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        {
+            Shoot();
+        }
     }
 
     void Jump()
@@ -83,6 +88,22 @@ public class playerScript : MonoBehaviour
         else if (Input.GetButtonUp("Sprint"))
         {
             speed /= sprintMod;
+        }
+    }
+
+    void Shoot()
+    {
+        shootTimer = 0;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
+        {
+            Debug.Log(hit.collider.name);
+
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+            if (dmg != null) dmg.TakeDamage(shootDamage);
         }
     }
 }
