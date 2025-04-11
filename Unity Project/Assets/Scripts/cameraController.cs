@@ -35,7 +35,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         //rotate the camera on the x-axis (up and down)
         transform.localRotation = Quaternion.Euler(rotX, 0, 0);
 
-        //rotate the pkayer on his y-axis (left and right)
+        //rotate the player on his y-axis (left and right)
         transform.parent.Rotate(Vector3.up * mouseX);
     }
 }
