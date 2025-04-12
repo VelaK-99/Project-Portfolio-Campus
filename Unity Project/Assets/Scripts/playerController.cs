@@ -18,7 +18,11 @@ public class PlayerScript : MonoBehaviour, IDamage
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
+    [SerializeField] int pistolTotalAmmo;
+    [SerializeField] float pistolReloadTime;
+    [SerializeField] int pistolMaxAmmo = 7;
 
+    int bulletsInGun;
 
     int jumpCount;
     int HPOrig;
@@ -29,12 +33,13 @@ public class PlayerScript : MonoBehaviour, IDamage
     Vector3 playerVel;
 
     bool isSprinting;
-
+    bool isReloading;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
+        bulletsInGun = pistolMaxAmmo;
     }
 
     // Update is called once per frame
@@ -43,6 +48,11 @@ public class PlayerScript : MonoBehaviour, IDamage
         Movement();
 
         Sprint();
+
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < pistolMaxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
     }
@@ -69,7 +79,7 @@ public class PlayerScript : MonoBehaviour, IDamage
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading)
         {
             Shoot();
         }
@@ -120,6 +130,31 @@ public class PlayerScript : MonoBehaviour, IDamage
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
+        bulletsInGun--;
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+
+        yield return new WaitForSeconds(pistolReloadTime);
+
+        if(pistolTotalAmmo >= pistolMaxAmmo)
+        {
+            pistolTotalAmmo -= pistolMaxAmmo;
+            bulletsInGun = pistolMaxAmmo;
+        }
+        else
+        {
+            bulletsInGun = pistolTotalAmmo;
+            pistolTotalAmmo = 0;
+        }
+        isReloading = false;
+    }
+
+    public void AddAmmo(int amount)
+    {
+        pistolTotalAmmo += amount;
     }
 
     public void TakeDamage(int amount)

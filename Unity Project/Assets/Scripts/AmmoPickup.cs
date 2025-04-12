@@ -17,17 +17,17 @@ public class AmmoPickup : MonoBehaviour
     {
         
     }
-//    void OnTriggerEnter(Collider other)
-//    {
-//        if(other.CompareTag("Player"))
-//        {
-//            PlayerScript player = other.GetComponent<PlayerScript>();
-            
-//            if(player != null )
-//            {
-//                player.AddAmmo(ammoAmt);
-//                Destroy(gameObject);
-//            }
-//        }
-//    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerScript player = other.GetComponent<PlayerScript>();
+
+            if (player != null)
+            {
+                player.AddAmmo(ammoAmt);
+                Destroy(gameObject);
+            }
+        }
+    }
 }

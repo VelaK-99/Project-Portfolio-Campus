@@ -129,16 +129,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   controller: {fileID: 115092001376261301}
+  HP: 5
   speed: 5
   sprintMod: 3
   jumpSpeed: 12
   jumpMax: 2
+  jetForce: 0
+  jetMax: 0
   gravity: 35
   shootDamage: 1
   shootDist: 25
   shootRate: 0.5
-  totalAmmoCount: 24
-  reloadTime: 1.5
+  pistolTotalAmmo: 24
+  pistolReloadTime: 1.5
+  pistolMaxAmmo: 7
 --- !u!143 &115092001376261301
 CharacterController:
   m_ObjectHideFlags: 0
