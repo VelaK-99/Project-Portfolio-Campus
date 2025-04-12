@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class playerScript : MonoBehaviour
@@ -14,9 +15,14 @@ public class playerScript : MonoBehaviour
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
+    [SerializeField] int totalAmmoCount;
+    [SerializeField] float reloadTime;
 
 
     int jumpCount;
+
+    int pistolCapacity = 7;
+    int bulletsInGun;
 
     float shootTimer;
 
@@ -24,12 +30,13 @@ public class playerScript : MonoBehaviour
     Vector3 playerVel;
 
     bool isSprinting;
+    bool isReloading;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        bulletsInGun = pistolCapacity;
     }
 
     // Update is called once per frame
@@ -38,6 +45,11 @@ public class playerScript : MonoBehaviour
         Movement();
 
         Sprint();
+
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < pistolCapacity && totalAmmoCount > 0)
+        {
+            StartCoroutine(Reload());
+        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
     }
@@ -64,7 +76,7 @@ public class playerScript : MonoBehaviour
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading)
         {
             Shoot();
         }
@@ -105,6 +117,31 @@ public class playerScript : MonoBehaviour
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
+        bulletsInGun--;
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+        yield return new WaitForSeconds(reloadTime);
+
+        if (totalAmmoCount > pistolCapacity)
+        {
+            totalAmmoCount -= pistolCapacity;
+            bulletsInGun = pistolCapacity;
+        }
+        else
+        {
+            bulletsInGun = totalAmmoCount;
+            totalAmmoCount = 0;
+        }
+
+        isReloading = false;
+    }
+
+    public void AddAmmo(int amount)
+    {
+        totalAmmoCount += amount;
     }
 }
 
