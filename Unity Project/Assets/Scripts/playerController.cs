@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-public class playerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour, IDamage
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
 
+    [SerializeField] int HP;
     [SerializeField] int speed;
     [SerializeField] int sprintMod;
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMax;
+    [SerializeField] int jetForce;
+    [SerializeField] int jetMax;
     [SerializeField] int gravity;
 
     [SerializeField] int shootDamage;
@@ -20,6 +23,7 @@ public class playerScript : MonoBehaviour
 
 
     int jumpCount;
+    int HPOrig;
 
     int pistolCapacity = 7;
     int bulletsInGun;
@@ -36,6 +40,8 @@ public class playerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        HPOrig = HP;
+
         bulletsInGun = pistolCapacity;
     }
 
@@ -89,6 +95,16 @@ public class playerScript : MonoBehaviour
             jumpCount++;
             playerVel.y = jumpSpeed;
         }
+
+        if (jumpCount == 2 && Input.GetButton("Jump"))
+        {
+            playerVel.y = jetForce * Time.deltaTime;
+
+            if (playerVel.y > jetMax)
+            {
+                playerVel.y = jetMax;
+            }
+        }
     }
 
     void Sprint()
@@ -119,29 +135,29 @@ public class playerScript : MonoBehaviour
         }
         bulletsInGun--;
     }
+}
 
-    IEnumerator Reload()
+public void TakeDamage(int amount)
+{
+    HP -= amount;
+
+    if(HP <= 0)
     {
-        isReloading = true;
-        yield return new WaitForSeconds(reloadTime);
-
-        if (totalAmmoCount > pistolCapacity)
-        {
-            totalAmmoCount -= pistolCapacity;
-            bulletsInGun = pistolCapacity;
-        }
-        else
-        {
-            bulletsInGun = totalAmmoCount;
-            totalAmmoCount = 0;
-        }
-
-        isReloading = false;
-    }
-
-    public void AddAmmo(int amount)
-    {
-        totalAmmoCount += amount;
+        gameMana.instance.youLose();
     }
 }
+
+    }    
+
+    public void TakeDamage(int amount)
+    {
+        HP -= amount;
+
+        if (HP <= 0)
+        {
+            gameManager.instance.youLose();
+        }
+    }
+}
+
 

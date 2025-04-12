@@ -1,29 +1,62 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
+
 
 public class EnemyAI : MonoBehaviour, IDamage
 {
-    [SerializeField] int HP;
     [SerializeField] Renderer model;
+    [SerializeField] NavMeshAgent agent;
+
+    [SerializeField] int HP;
+    [SerializeField] int faceTargetSpeed;
+    
+
+    [SerializeField] Transform shootPos;
+    [SerializeField] GameObject bullet;
+    [SerializeField] float shootRate;
+
+    float shootTimer;
 
     Color colorOriginal;
+
+    Vector3 playerDir;
 
 
     void Start()
     {
         colorOriginal = model.material.color;
+        gameManager.instance.UpdateGameGoal(1);
     }
 
     void Update()
     {
+        playerDir = (gameManager.instance.player.transform.position - transform.position);
 
+        agent.SetDestination(gameManager.instance.player.transform.position);
+
+        if(agent.remainingDistance <= agent.stoppingDistance)
+        {
+            faceTarget();
+        }
+
+        shootTimer += Time.deltaTime;
+
+        if(shootTimer >= shootRate)
+        {
+            shoot();
+        }
     }
     public void TakeDamage(int amount)
     {
         HP -= amount;
         StartCoroutine(flashRed());
 
-        if (HP <= 0) Destroy(gameObject);
+        if (HP <= 0)
+        {
+            gameManager.instance.UpdateGameGoal(-1);
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator flashRed()
@@ -31,5 +64,17 @@ public class EnemyAI : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOriginal;
+    }
+
+    void shoot()
+    {
+        shootTimer = 0;
+        Instantiate(bullet, shootPos.position, transform.rotation);
+    }
+
+    void faceTarget()
+    {
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
     }
 }
