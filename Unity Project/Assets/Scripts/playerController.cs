@@ -18,15 +18,10 @@ public class PlayerScript : MonoBehaviour, IDamage
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
-    [SerializeField] int totalAmmoCount;
-    [SerializeField] float reloadTime;
 
 
     int jumpCount;
     int HPOrig;
-
-    int pistolCapacity = 7;
-    int bulletsInGun;
 
     float shootTimer;
 
@@ -34,15 +29,12 @@ public class PlayerScript : MonoBehaviour, IDamage
     Vector3 playerVel;
 
     bool isSprinting;
-    bool isReloading;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
-
-        bulletsInGun = pistolCapacity;
     }
 
     // Update is called once per frame
@@ -51,11 +43,6 @@ public class PlayerScript : MonoBehaviour, IDamage
         Movement();
 
         Sprint();
-
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < pistolCapacity && totalAmmoCount > 0)
-        {
-            StartCoroutine(Reload());
-        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
     }
@@ -82,7 +69,7 @@ public class PlayerScript : MonoBehaviour, IDamage
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
         {
             Shoot();
         }
@@ -133,21 +120,7 @@ public class PlayerScript : MonoBehaviour, IDamage
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
-        bulletsInGun--;
     }
-}
-
-public void TakeDamage(int amount)
-{
-    HP -= amount;
-
-    if(HP <= 0)
-    {
-        gameMana.instance.youLose();
-    }
-}
-
-    }    
 
     public void TakeDamage(int amount)
     {
