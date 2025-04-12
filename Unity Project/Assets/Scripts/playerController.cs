@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IDamage
+public class PlayerScript : MonoBehaviour, IDamage , IPickup
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
@@ -130,6 +130,21 @@ public class PlayerScript : MonoBehaviour, IDamage
             gameManager.instance.youLose();
         }
     }
+
+    public void pickupHealth(int health)
+    {
+        HP += health;
+        if (HP > HPOrig)
+        {
+            HP = HPOrig;
+        }
+    }
+
+    public void pickupAmmo(int ammo)
+    {
+        // need to add ammo count or amount
+    }
+
 }
 
 
