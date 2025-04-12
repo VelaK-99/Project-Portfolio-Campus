@@ -32,8 +32,11 @@ public class pickups : MonoBehaviour
 
         if(pickup != null && type == pickupType.healthPack)
         {
-            pickup.pickupHealth(healthAmount);
-            Destroy(gameObject);
+            if (gameManager.instance.playerScript.getOrigHP() > gameManager.instance.playerScript.getCurHP())
+            {
+                pickup.pickupHealth(healthAmount);
+                Destroy(gameObject);
+            }
         }
 
         if(pickup != null && type == pickupType.ammoPack)

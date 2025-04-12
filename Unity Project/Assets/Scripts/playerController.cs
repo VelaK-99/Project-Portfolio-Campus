@@ -145,6 +145,15 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         // need to add ammo count or amount
     }
 
+    public int getOrigHP()
+    {
+        return HPOrig;
+    }
+
+    public int getCurHP()
+    {
+        return HP;
+    }
 }
 
 
