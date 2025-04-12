@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class playerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour, IDamage
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
 
+    [SerializeField] int HP;
     [SerializeField] int speed;
     [SerializeField] int sprintMod;
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMax;
+    [SerializeField] int jetForce;
+    [SerializeField] int jetMax;
     [SerializeField] int gravity;
 
     [SerializeField] int shootDamage;
@@ -17,6 +20,7 @@ public class playerScript : MonoBehaviour
 
 
     int jumpCount;
+    int HPOrig;
 
     float shootTimer;
 
@@ -29,7 +33,7 @@ public class playerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        HPOrig = HP;
     }
 
     // Update is called once per frame
@@ -77,6 +81,16 @@ public class playerScript : MonoBehaviour
             jumpCount++;
             playerVel.y = jumpSpeed;
         }
+
+        if(jumpCount == 2 && Input.GetButton("Jump"))
+        {
+            playerVel.y = jetForce * Time.deltaTime;
+
+            if(playerVel.y > jetMax)
+            {
+                playerVel.y = jetMax;
+            }
+        }
     }
 
     void Sprint()
@@ -105,6 +119,17 @@ public class playerScript : MonoBehaviour
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
+    }    
+
+    public void TakeDamage(int amount)
+    {
+        HP -= amount;
+
+        if (HP <= 0)
+        {
+            gameManager.instance.youLose();
+        }
     }
 }
+
 
