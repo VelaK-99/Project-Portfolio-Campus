@@ -10,6 +10,8 @@ public class PlayerScript : MonoBehaviour, IDamage
     [SerializeField] int sprintMod;
     [SerializeField] int jumpSpeed;
     [SerializeField] int jumpMax;
+    [SerializeField] int jetForce;
+    [SerializeField] int jetMax;
     [SerializeField] int gravity;
 
     [SerializeField] int shootDamage;
@@ -78,6 +80,16 @@ public class PlayerScript : MonoBehaviour, IDamage
         {
             jumpCount++;
             playerVel.y = jumpSpeed;
+        }
+
+        if(jumpCount == 2 && Input.GetButton("Jump"))
+        {
+            playerVel.y = jetForce * Time.deltaTime;
+
+            if(playerVel.y > jetMax)
+            {
+                playerVel.y = jetMax;
+            }
         }
     }
 
