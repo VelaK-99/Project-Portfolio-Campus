@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IDamage , IPickup
+public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
@@ -16,6 +16,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
 
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
+    [SerializeField] int interactDist;
     [SerializeField] float shootRate;
 
 
@@ -44,6 +45,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         Sprint();
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
     }
 
     void Movement()
@@ -71,6 +73,12 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         if (Input.GetButton("Fire1") && shootTimer >= shootRate)
         {
             Shoot();
+        }
+
+
+        if(Input.GetButton("Interact"))
+        {
+            Interact();
         }
     }
 
@@ -119,7 +127,23 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
-    }    
+    }
+
+    public void Interact()
+    {
+
+        RaycastHit hitInteract; // Create ray for interaction
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInteract, interactDist, ~ignoreLayer))
+        {
+            Debug.Log(hitInteract.collider.name); // created a debug to see what is trying to interact with
+
+            IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
+
+            if (interaction != null) interaction.Interact();
+        }
+
+    }
 
     public void TakeDamage(int amount)
     {
@@ -154,6 +178,8 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     {
         return HP;
     }
+
+   
 }
 
 
