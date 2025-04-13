@@ -22,7 +22,11 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     [SerializeField] float slideDuration;
     [SerializeField] float slideSpeed;
     [SerializeField] float slideCooldown;
-
+   
+    [SerializeField] float slideHeight;
+    [SerializeField] float originalHeight;
+    [SerializeField] Vector3 originalCenter;
+    [SerializeField] Vector3 slideCenter;
 
 
     int jumpCount;
@@ -44,6 +48,9 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     {
         HPOrig = HP;
         canSlide = true;
+
+        originalHeight = controller.height;
+        originalCenter = controller.center;
     }
 
     // Update is called once per frame
@@ -199,6 +206,9 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
             isSliding = true;
             canSlide = false;
             slideTimer = 0;
+
+            controller.height = slideHeight;
+            controller.center = slideCenter;
         }
 
         if (isSliding)
@@ -210,6 +220,9 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
             if (slideTimer >= slideDuration)
             {
                 isSliding = false;
+                controller.height = originalHeight;
+                controller.center = originalCenter;
+
                 Invoke("ResetSlide", slideCooldown);
             }
         }
