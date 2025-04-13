@@ -19,6 +19,11 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     [SerializeField] int interactDist;
     [SerializeField] float shootRate;
 
+    [SerializeField] float slideDuration;
+    [SerializeField] float slideSpeed;
+    [SerializeField] float slideCooldown;
+
+
 
     int jumpCount;
     int HPOrig;
@@ -30,11 +35,15 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
 
     bool isSprinting;
 
+    bool isSliding;
+    bool canSlide;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
+        canSlide = true;
     }
 
     // Update is called once per frame
@@ -43,6 +52,8 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
         Movement();
 
         Sprint();
+
+        Slide();
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
@@ -179,7 +190,32 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
         return HP;
     }
 
-   
+    float slideTimer;
+
+    void Slide()
+    {
+        if (Input.GetButtonDown("Crouch") && isSprinting && controller.isGrounded && canSlide)
+        {
+            isSliding = true;
+            canSlide = false;
+            slideTimer = 0;
+        }
+
+        if (isSliding)
+        {
+            slideTimer += Time.deltaTime;
+
+            controller.Move(moveDir.normalized * slideSpeed * Time.deltaTime);
+
+            if (slideTimer >= slideDuration)
+            {
+                isSliding = false;
+                Invoke("ResetSlide", slideCooldown);
+            }
+        }
+    }
+
+
 }
 
 
