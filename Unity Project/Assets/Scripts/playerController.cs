@@ -1,6 +1,8 @@
+using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IDamage
+public class PlayerScript : MonoBehaviour, IDamage , IPickup
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
@@ -14,10 +16,14 @@ public class PlayerScript : MonoBehaviour, IDamage
     [SerializeField] int jetMax;
     [SerializeField] int gravity;
 
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
+    [SerializeField] int shootDamage = 1;
+    [SerializeField] int shootDist = 25;
+    [SerializeField] float shootRate = 0.5f;
+    [SerializeField] int TotalAmmo = 70;
+    [SerializeField] float reloadTime = 1.2f;
+    [SerializeField] int AmmoCapacity = 7;
 
+    int bulletsInGun;
 
     int jumpCount;
     int HPOrig;
@@ -28,7 +34,7 @@ public class PlayerScript : MonoBehaviour, IDamage
     Vector3 playerVel;
 
     bool isSprinting;
-
+    bool isReloading;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,6 +48,11 @@ public class PlayerScript : MonoBehaviour, IDamage
         Movement();
 
         Sprint();
+
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
+        {
+            StartCoroutine(Reload());
+        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
     }
@@ -68,7 +79,7 @@ public class PlayerScript : MonoBehaviour, IDamage
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading)
         {
             Shoot();
         }
@@ -82,11 +93,11 @@ public class PlayerScript : MonoBehaviour, IDamage
             playerVel.y = jumpSpeed;
         }
 
-        if(jumpCount == 2 && Input.GetButton("Jump"))
+        if (jumpCount == 2 && Input.GetButton("Jump"))
         {
             playerVel.y = jetForce * Time.deltaTime;
 
-            if(playerVel.y > jetMax)
+            if (playerVel.y > jetMax)
             {
                 playerVel.y = jetMax;
             }
@@ -119,7 +130,38 @@ public class PlayerScript : MonoBehaviour, IDamage
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
-    }    
+        bulletsInGun--;
+    }
+
+    IEnumerator Reload()
+    {
+        isReloading = true;
+
+        yield return new WaitForSeconds(reloadTime);
+
+        if(TotalAmmo >= AmmoCapacity)
+        {
+            TotalAmmo -= AmmoCapacity;
+            bulletsInGun = AmmoCapacity;
+        }
+        else
+        {
+            bulletsInGun = TotalAmmo;
+            TotalAmmo = 0;
+        }
+        isReloading = false;
+    }
+
+    public void AddAmmo(int amount)
+    {
+        TotalAmmo += amount;
+    }
+
+    public void AddHealth(int amount)
+    {
+        HP += amount;
+        if(HP > HPOrig) HP = HPOrig;
+    }
 
     public void TakeDamage(int amount)
     {
@@ -129,6 +171,39 @@ public class PlayerScript : MonoBehaviour, IDamage
         {
             gameManager.instance.youLose();
         }
+    }
+
+    public void pickupHealth(int health)
+    {
+        HP += health;
+        if (HP > HPOrig)
+        {
+            HP = HPOrig;
+        }
+    }
+
+    public int getOrigHP()
+    {
+        return HPOrig;
+    }
+
+    public int getCurHP()
+    {
+        return HP;
+    }
+
+    public void pickupAmmo(int ammo)
+    {
+        //No Need
+    }
+
+    public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
+    {
+        shootDamage = damage;
+        shootDist = range;
+        shootRate = fireRate;
+        reloadTime = ReloadTime;
+        AmmoCapacity = ammoCapacity;
     }
 }
 
