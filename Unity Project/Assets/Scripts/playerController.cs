@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
@@ -15,12 +16,12 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     [SerializeField] int jetMax;
     [SerializeField] int gravity;
 
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
-    [SerializeField] int pistolTotalAmmo;
-    [SerializeField] float pistolReloadTime;
-    [SerializeField] int pistolMaxAmmo = 7;
+    [SerializeField] int shootDamage = 1;
+    [SerializeField] int shootDist = 25;
+    [SerializeField] float shootRate = 0.5f;
+    [SerializeField] int TotalAmmo = 70;
+    [SerializeField] float reloadTime = 1.2f;
+    [SerializeField] int AmmoCapacity = 7;
 
     int bulletsInGun;
 
@@ -39,7 +40,6 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     void Start()
     {
         HPOrig = HP;
-        bulletsInGun = pistolMaxAmmo;
     }
 
     // Update is called once per frame
@@ -49,7 +49,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
 
         Sprint();
 
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < pistolMaxAmmo)
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
         {
             StartCoroutine(Reload());
         }
@@ -137,24 +137,30 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     {
         isReloading = true;
 
-        yield return new WaitForSeconds(pistolReloadTime);
+        yield return new WaitForSeconds(reloadTime);
 
-        if(pistolTotalAmmo >= pistolMaxAmmo)
+        if(TotalAmmo >= AmmoCapacity)
         {
-            pistolTotalAmmo -= pistolMaxAmmo;
-            bulletsInGun = pistolMaxAmmo;
+            TotalAmmo -= AmmoCapacity;
+            bulletsInGun = AmmoCapacity;
         }
         else
         {
-            bulletsInGun = pistolTotalAmmo;
-            pistolTotalAmmo = 0;
+            bulletsInGun = TotalAmmo;
+            TotalAmmo = 0;
         }
         isReloading = false;
     }
 
     public void AddAmmo(int amount)
     {
-        pistolTotalAmmo += amount;
+        TotalAmmo += amount;
+    }
+
+    public void AddHealth(int amount)
+    {
+        HP += amount;
+        if(HP > HPOrig) HP = HPOrig;
     }
 
     public void TakeDamage(int amount)
@@ -176,11 +182,6 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         }
     }
 
-    public void pickupAmmo(int ammo)
-    {
-        // need to add ammo count or amount
-    }
-
     public int getOrigHP()
     {
         return HPOrig;
@@ -189,6 +190,20 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     public int getCurHP()
     {
         return HP;
+    }
+
+    public void pickupAmmo(int ammo)
+    {
+        //No Need
+    }
+
+    public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
+    {
+        shootDamage = damage;
+        shootDist = range;
+        shootRate = fireRate;
+        reloadTime = ReloadTime;
+        AmmoCapacity = ammoCapacity;
     }
 }
 
