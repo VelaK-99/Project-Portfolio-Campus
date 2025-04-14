@@ -6,9 +6,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
     [SerializeField] int sens;
     [SerializeField] int lockVertMax, lockVertMin;
     [SerializeField] bool invertY;
+    [SerializeField] float slideTiltAmount;
+    [SerializeField] float tiltSmoothSpeed;
+
 
     float rotX;
 
+    float currentTiltZ;
+    float targetTiltZ;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,5 +42,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         //rotate the player on his y-axis (left and right)
         transform.parent.Rotate(Vector3.up * mouseX);
+
+        currentTiltZ = Mathf.Lerp(currentTiltZ, targetTiltZ, Time.deltaTime * tiltSmoothSpeed);
+        transform.localRotation = Quaternion.Euler(rotX, 0, currentTiltZ);
     }
+
+    public void SetSlideTilt(bool isSliding)
+    {
+        targetTiltZ = isSliding ? slideTiltAmount : 0;
+    }
+
 }
