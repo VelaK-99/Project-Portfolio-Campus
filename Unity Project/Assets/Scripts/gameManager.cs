@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Android;
 
 public class gameManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+
+    [SerializeField] GameObject InventoryMENU;
 
     public GameObject player;
     public PlayerScript playerScript;
@@ -39,6 +42,20 @@ public class gameManager : MonoBehaviour
                 menuActive.SetActive(true);
             }
             else if (menuActive == menuPause)
+            {
+                stateUnpause();
+            }
+        }
+
+        if (Input.GetButtonDown("TAB"))
+        {
+            if (menuActive == null) 
+                {
+                statePause();
+                menuActive = InventoryMENU;
+                menuActive.SetActive(true);
+                }
+            else if (menuActive == InventoryMENU)
             {
                 stateUnpause();
             }
@@ -81,4 +98,8 @@ public class gameManager : MonoBehaviour
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
+
+
+
+
 }
