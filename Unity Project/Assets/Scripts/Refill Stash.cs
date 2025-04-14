@@ -19,5 +19,6 @@ public class RefillStash : MonoBehaviour, IInteract
     public void Interact()
     {
         gameManager.instance.playerScript.pickupHealth(gameManager.instance.playerScript.getOrigHP());
+        gameManager.instance.playerScript.AddAmmo(gameManager.instance.playerScript.GetMaxAmmo());
     }
 }

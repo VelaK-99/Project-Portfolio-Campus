@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     [SerializeField] int gravity;
 
     [SerializeField] int shootDamage = 1;
+    [SerializeField] int interactDist;
     [SerializeField] int shootDist = 25;
     [SerializeField] float shootRate = 0.5f;
     [SerializeField] int TotalAmmo = 70;
@@ -24,6 +25,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     [SerializeField] int AmmoCapacity = 7;
 
     int bulletsInGun;
+    int MaxAmmo = 100;
 
     int jumpCount;
     int HPOrig;
@@ -162,6 +164,8 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     public void AddAmmo(int amount)
     {
         TotalAmmo += amount;
+
+        if(TotalAmmo > MaxAmmo) { TotalAmmo = MaxAmmo; }
     }
 
     public void AddHealth(int amount)
@@ -227,6 +231,11 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
         shootRate = fireRate;
         reloadTime = ReloadTime;
         AmmoCapacity = ammoCapacity;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return MaxAmmo;
     }
 }
 
