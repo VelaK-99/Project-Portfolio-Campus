@@ -1,13 +1,9 @@
 using UnityEngine;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
 using UnityEngine.Android;
-=======
+
 using UnityEngine.UI;
->>>>>>> Stashed changes
-=======
-using UnityEngine.UI;
->>>>>>> Stashed changes
+
 
 public class gameManager : MonoBehaviour
 {
@@ -19,15 +15,12 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     [SerializeField] GameObject InventoryMENU;
-=======
+
+
     public Image playerHPbar;
->>>>>>> Stashed changes
-=======
-    public Image playerHPbar;
->>>>>>> Stashed changes
+
 
     public GameObject player;
     public PlayerScript playerScript;
@@ -115,20 +108,8 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     }
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-
-
-
-=======
-=======
->>>>>>> Stashed changes
     public void updatePLAYER_UI()
     {
 
     }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
