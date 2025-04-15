@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class pickups : MonoBehaviour
 {
-    enum pickupType { healthPack, ammoPack, Pistol, AssaultRifle, Shotgun }
+    enum pickupType { healthPack, ammoPack, Pistol, AssaultRifle, Shotgun, Sniper }
     [SerializeField] int healthAmount;
     [SerializeField] int ammoAmount;
     [SerializeField] pickupType type;
@@ -25,26 +25,6 @@ public class pickups : MonoBehaviour
     {
 
     }
-
-    //    private void OnTriggerEnter(Collider other)
-    //    {
-    //        IPickup pickup = other.GetComponent<IPickup>();
-
-    //        if(pickup != null && type == pickupType.healthPack)
-    //        {
-    //            if (gameManager.instance.playerScript.getOrigHP() > gameManager.instance.playerScript.getCurHP())
-    //            {
-    //                pickup.pickupHealth(healthAmount);
-    //                Destroy(gameObject);
-    //            }
-    //        }
-
-    //        if(pickup != null && type == pickupType.ammoPack)
-    //        {
-    //            pickup.pickupAmmo(ammoAmount);
-    //            Destroy(gameObject);
-    //        }
-    //    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -82,6 +62,12 @@ public class pickups : MonoBehaviour
             if (player != null && type == pickupType.Shotgun)
             {
                 player.UpdateWeapon(15, 10, 1.2f, 3.8f, 8);
+                Destroy(gameObject);
+            }
+
+            if (player != null && type == pickupType.Sniper)
+            {
+                player.UpdateWeapon(30, 70, 2, 3f, 5);
                 Destroy(gameObject);
             }
         }

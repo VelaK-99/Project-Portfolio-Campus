@@ -138,11 +138,12 @@ MonoBehaviour:
   jetMax: 0
   gravity: 35
   shootDamage: 1
+  interactDist: 2
   shootDist: 25
   shootRate: 0.5
-  pistolTotalAmmo: 24
-  pistolReloadTime: 1.5
-  pistolMaxAmmo: 7
+  TotalAmmo: 70
+  reloadTime: 1.2
+  AmmoCapacity: 7
 --- !u!143 &115092001376261301
 CharacterController:
   m_ObjectHideFlags: 0
