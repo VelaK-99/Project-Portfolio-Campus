@@ -91,17 +91,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         {
             jumpCount++;
             playerVel.y = jumpSpeed;
-        }
-
-        if (jumpCount == 2 && Input.GetButton("Jump"))
-        {
-            playerVel.y = jetForce * Time.deltaTime;
-
-            if (playerVel.y > jetMax)
-            {
-                playerVel.y = jetMax;
-            }
-        }
+        }      
     }
 
     void Sprint()
