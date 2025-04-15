@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IDamage , IPickup
+public class PlayerScript : MonoBehaviour, IDamage, IInteract
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     [SerializeField] int gravity;
 
     [SerializeField] int shootDamage = 1;
+    [SerializeField] int interactDist;
     [SerializeField] int shootDist = 25;
     [SerializeField] float shootRate = 0.5f;
     [SerializeField] int TotalAmmo = 70;
@@ -24,6 +25,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     [SerializeField] int AmmoCapacity = 7;
 
     int bulletsInGun;
+    int MaxAmmo = 100;
 
     int jumpCount;
     int HPOrig;
@@ -55,6 +57,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
+        Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
     }
 
     void Movement()
@@ -79,10 +82,12 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused)
         {
             Shoot();
         }
+
+        Interact();
     }
 
     void Jump()
@@ -145,12 +150,36 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
     public void AddAmmo(int amount)
     {
         TotalAmmo += amount;
+
+        if(TotalAmmo > MaxAmmo) { TotalAmmo = MaxAmmo; }
     }
 
     public void AddHealth(int amount)
     {
         HP += amount;
         if(HP > HPOrig) HP = HPOrig;
+    }
+
+    public void Interact()
+    {
+
+        RaycastHit hitInteract; // Create ray for interaction
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInteract, interactDist, ~ignoreLayer))
+        {
+            Debug.Log(hitInteract.collider.name); // created a debug to see what is trying to interact with
+
+            IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
+
+            if (interaction != null) interaction.Interact();
+
+        }
+        else if(gameManager.instance.textActive != null) // If the raycast does not detect the object it resets and clears the text.
+        {
+                gameManager.instance.textActive.SetActive(false);
+                gameManager.instance.textActive = null; 
+        }
+
     }
 
     public void TakeDamage(int amount)
@@ -160,15 +189,6 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         if (HP <= 0)
         {
             gameManager.instance.youLose();
-        }
-    }
-
-    public void pickupHealth(int health)
-    {
-        HP += health;
-        if (HP > HPOrig)
-        {
-            HP = HPOrig;
         }
     }
 
@@ -182,11 +202,6 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         return HP;
     }
 
-    public void pickupAmmo(int ammo)
-    {
-        //No Need
-    }
-
     public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
     {
         shootDamage = damage;
@@ -194,6 +209,11 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup
         shootRate = fireRate;
         reloadTime = ReloadTime;
         AmmoCapacity = ammoCapacity;
+    }
+
+    public int GetMaxAmmo()
+    {
+        return MaxAmmo;
     }
 }
 
