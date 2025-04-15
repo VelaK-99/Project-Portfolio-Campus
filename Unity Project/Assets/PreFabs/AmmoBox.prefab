@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8335616612328454202}
   - component: {fileID: 7291734407169044957}
   - component: {fileID: 6672375484214023911}
-  - component: {fileID: 6830753587559720751}
+  - component: {fileID: 4070908625076439235}
   m_Layer: 0
   m_Name: AmmoBox
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6830753587559720751
+--- !u!114 &4070908625076439235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +118,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 466210940899232553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e56e654ee6c9b91468d35b7638264d24, type: 3}
+  m_Script: {fileID: 11500000, guid: 39abc035bfc66144f84e32953850838a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoAmt: 7
+  healthAmount: 0
+  ammoAmount: 7
+  type: 1
+  destroyTime: 1000

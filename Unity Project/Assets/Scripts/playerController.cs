@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
+public class PlayerScript : MonoBehaviour, IDamage, IInteract
 {
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
@@ -82,7 +82,7 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused)
         {
             Shoot();
         }
@@ -200,15 +200,6 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
         }
     }
 
-    public void pickupHealth(int health)
-    {
-        HP += health;
-        if (HP > HPOrig)
-        {
-            HP = HPOrig;
-        }
-    }
-
     public int getOrigHP()
     {
         return HPOrig;
@@ -217,11 +208,6 @@ public class PlayerScript : MonoBehaviour, IDamage , IPickup, IInteract
     public int getCurHP()
     {
         return HP;
-    }
-
-    public void pickupAmmo(int ammo)
-    {
-        //No Need
     }
 
     public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
