@@ -1,6 +1,10 @@
 using UnityEngine;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 using UnityEngine.Android;
+=======
+using UnityEngine.UI;
+>>>>>>> Stashed changes
 =======
 using UnityEngine.UI;
 >>>>>>> Stashed changes
@@ -16,7 +20,11 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     [SerializeField] GameObject InventoryMENU;
+=======
+    public Image playerHPbar;
+>>>>>>> Stashed changes
 =======
     public Image playerHPbar;
 >>>>>>> Stashed changes
@@ -108,13 +116,19 @@ public class gameManager : MonoBehaviour
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 
 
 =======
+=======
+>>>>>>> Stashed changes
     public void updatePLAYER_UI()
     {
 
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
