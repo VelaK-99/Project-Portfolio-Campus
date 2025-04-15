@@ -87,11 +87,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             Shoot();
         }
 
-
-        if(Input.GetButton("Interact"))
-        {
-            Interact();
-        }
+        Interact();
     }
 
     void Jump()
@@ -186,6 +182,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
             if (interaction != null) interaction.Interact();
+
+        }
+        else if(gameManager.instance.textActive != null) // If the raycast does not detect the object it resets and clears the text.
+        {
+                gameManager.instance.textActive.SetActive(false);
+                gameManager.instance.textActive = null; 
         }
 
     }

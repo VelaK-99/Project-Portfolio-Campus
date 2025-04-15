@@ -9,6 +9,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    public GameObject textActive;
 
     public GameObject player;
     public PlayerScript playerScript;
