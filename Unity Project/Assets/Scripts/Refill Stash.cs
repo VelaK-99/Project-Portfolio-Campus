@@ -18,7 +18,7 @@ public class RefillStash : MonoBehaviour, IInteract
     // Interact method uses the gameManager to change the HP, ammo, or whatever else is needed.
     public void Interact()
     {
-        gameManager.instance.playerScript.pickupHealth(gameManager.instance.playerScript.getOrigHP());
+        gameManager.instance.playerScript.AddHealth(gameManager.instance.playerScript.getOrigHP());
         gameManager.instance.playerScript.AddAmmo(gameManager.instance.playerScript.GetMaxAmmo());
     }
 }

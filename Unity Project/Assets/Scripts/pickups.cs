@@ -26,26 +26,6 @@ public class pickups : MonoBehaviour
 
     }
 
-    //    private void OnTriggerEnter(Collider other)
-    //    {
-    //        IPickup pickup = other.GetComponent<IPickup>();
-
-    //        if(pickup != null && type == pickupType.healthPack)
-    //        {
-    //            if (gameManager.instance.playerScript.getOrigHP() > gameManager.instance.playerScript.getCurHP())
-    //            {
-    //                pickup.pickupHealth(healthAmount);
-    //                Destroy(gameObject);
-    //            }
-    //        }
-
-    //        if(pickup != null && type == pickupType.ammoPack)
-    //        {
-    //            pickup.pickupAmmo(ammoAmount);
-    //            Destroy(gameObject);
-    //        }
-    //    }
-
     private void OnTriggerEnter(Collider other)
     {
         PlayerScript player = other.GetComponent<PlayerScript>();
