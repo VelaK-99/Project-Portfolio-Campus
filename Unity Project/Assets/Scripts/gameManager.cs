@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class gameManager : MonoBehaviour
 {
@@ -9,6 +11,11 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+
+    [SerializeField] GameObject menuBAR;
+
+    public GameObject[] InventorySLOTS;
+
     public GameObject textActive;
 
     public GameObject player;
@@ -31,6 +38,23 @@ public class gameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetButtonDown("num1"))
+        {
+            EventSystem.current.SetSelectedGameObject(InventorySLOTS[0]);
+        }       
+        
+        if (Input.GetButtonDown("num2"))
+        {
+            EventSystem.current.SetSelectedGameObject(InventorySLOTS[1]);
+        }
+
+        if (Input.GetButtonDown("num3"))
+        {
+            EventSystem.current.SetSelectedGameObject(InventorySLOTS[2]);
+        }
+
+
         if (Input.GetButtonDown("Cancel"))
         {
             if (menuActive == null)
@@ -42,6 +66,20 @@ public class gameManager : MonoBehaviour
             else if (menuActive == menuPause)
             {
                 stateUnpause();
+            }
+        }
+
+        if (Input.GetButtonDown("TAB"))
+        {
+            if (menuActive == null)
+            {
+                menuActive = menuBAR;
+                menuActive.SetActive(true);
+            }
+            else if (menuActive == menuBAR)
+            {
+                menuActive.SetActive(false);
+                menuActive = null;
             }
         }
     }
