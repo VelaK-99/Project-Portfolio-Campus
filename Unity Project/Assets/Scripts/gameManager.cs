@@ -16,7 +16,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
 
 
-    [SerializeField] GameObject InventoryMENU;
+    //[SerializeField] GameObject InventoryMENU;
 
 
     public Image playerHPbar;
@@ -56,6 +56,8 @@ public class gameManager : MonoBehaviour
             }
         }
 
+        //TAB inventory code commented out below
+        /*
         if (Input.GetButtonDown("TAB"))
         {
             if (menuActive == null) 
@@ -69,6 +71,7 @@ public class gameManager : MonoBehaviour
                 stateUnpause();
             }
         }
+        */
     }
 
     public void statePause()
