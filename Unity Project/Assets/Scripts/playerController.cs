@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract
@@ -15,14 +16,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] int jetForce;
     [SerializeField] int jetMax;
     [SerializeField] int gravity;
+    [SerializeField] int interactDist;
 
     [SerializeField] int shootDamage = 1;
-    [SerializeField] int interactDist;
     [SerializeField] int shootDist = 25;
     [SerializeField] float shootRate = 0.5f;
     [SerializeField] int TotalAmmo = 70;
     [SerializeField] float reloadTime = 1.2f;
     [SerializeField] int AmmoCapacity = 7;
+    [SerializeField] public bool isShotgun;
 
     int bulletsInGun;
     int MaxAmmo = 100;
@@ -42,6 +44,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     void Start()
     {
         HPOrig = HP;
+        bulletsInGun = AmmoCapacity;
     }
 
     // Update is called once per frame
@@ -82,12 +85,21 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused)
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && !isShotgun)
         {
             Shoot();
         }
 
-        Interact();
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && isShotgun)
+        {
+            ShootShotgun();
+        }
+
+
+        if (Input.GetButton("Interact"))
+        {
+            Interact();
+        }
     }
 
     void Jump()
@@ -128,6 +140,39 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         bulletsInGun--;
     }
 
+    void ShootShotgun()
+    {
+        shootTimer = 0;
+        int pellets = 10;
+        float spreadAngle = 15f;
+
+
+        for (int i = 0; i < pellets; i++)
+        {
+            Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
+
+            if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+            {
+                Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
+                Debug.Log(hit.collider.name);
+
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+                if (dmg != null)
+                    dmg.TakeDamage(shootDamage / pellets);
+            }
+        }
+    }
+
+
+    Vector3 GetSpreadDirection(Vector3 forward, float angle)
+    {
+        float spreadRadius = Mathf.Tan(angle * Mathf.Deg2Rad);
+        Vector2 spread = Random.insideUnitCircle * spreadRadius;
+
+        Vector3 direction = forward + Camera.main.transform.right * spread.x + Camera.main.transform.up * spread.y;
+        return direction.normalized;
+    } //Helper Function for shotgun spread
+
     IEnumerator Reload()
     {
         isReloading = true;
@@ -152,13 +197,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         TotalAmmo += amount;
 
         if(TotalAmmo > MaxAmmo) { TotalAmmo = MaxAmmo; }
-    }
+    } // Adds ammo; Called in pickups
 
     public void AddHealth(int amount)
     {
         HP += amount;
         if(HP > HPOrig) HP = HPOrig;
-    }
+    } //Adds health; Called in pickups
 
     public void Interact()
     {
@@ -195,13 +240,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public int getOrigHP()
     {
         return HPOrig;
-    }
+    } // Getter for Player's max health
 
     public int getCurHP()
     {
         return HP;
-    }
+    } // Getter for Player's cuurent health
 
+    //Called in pickups. updates the shooting stats to the picked up weapon's
     public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
     {
         shootDamage = damage;
@@ -209,12 +255,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         shootRate = fireRate;
         reloadTime = ReloadTime;
         AmmoCapacity = ammoCapacity;
+        bulletsInGun = ammoCapacity;
     }
 
     public int GetMaxAmmo()
     {
         return MaxAmmo;
-    }
+    }  //Getter for Player's max ammo
 }
 
 
