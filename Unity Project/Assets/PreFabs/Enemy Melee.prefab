@@ -621,6 +621,7 @@ GameObject:
   - component: {fileID: 5008763777265189049}
   - component: {fileID: 3254114589505309126}
   - component: {fileID: 3860467930175313059}
+  - component: {fileID: -1412698986769567967}
   m_Layer: 7
   m_Name: Enemy Melee
   m_TagString: Untagged
@@ -731,6 +732,27 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!135 &-1412698986769567967
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6134072893057945072}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6404133986104496286
 GameObject:
   m_ObjectHideFlags: 0

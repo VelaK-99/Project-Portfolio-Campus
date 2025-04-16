@@ -19,6 +19,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] RoomManager room;
 
     float shootTimer;
+    bool playerInRange;
 
     Color colorOriginal;
 
@@ -33,26 +34,45 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void Update()
     {
-        playerDir = (gameManager.instance.player.transform.position - transform.position);
-
-        agent.SetDestination(gameManager.instance.player.transform.position);
-
-        if(agent.remainingDistance <= agent.stoppingDistance)
+        if (playerInRange)
         {
-            faceTarget();
+            playerDir = (gameManager.instance.player.transform.position - transform.position);
+
+            agent.SetDestination(gameManager.instance.player.transform.position);
+
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                faceTarget();
+            }
+
+            shootTimer += Time.deltaTime;
+
+            if (shootTimer >= shootRate)
+            {
+                shoot();
+            }
         }
+    }
 
-        shootTimer += Time.deltaTime;
-
-        if(shootTimer >= shootRate)
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
         {
-            shoot();
+            playerInRange = true;
+        }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
         }
     }
     public void TakeDamage(int amount)
     {
         HP -= amount;
         StartCoroutine(flashRed());
+        agent.SetDestination(gameManager.instance.player.transform.position);
 
         if (HP <= 0)
         {

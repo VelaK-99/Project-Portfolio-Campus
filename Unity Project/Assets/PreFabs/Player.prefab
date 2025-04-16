@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3381017495749869461}
   - component: {fileID: 4062696599746798485}
   - component: {fileID: 5859224071797334315}
+  - component: {fileID: 3381017495749869461}
   - component: {fileID: 115092001376261301}
   m_Layer: 6
   m_Name: Player
@@ -121,6 +122,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3381017495749869461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622510293969854199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9bbf727120ee142b82288c866ee6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  controller: {fileID: 115092001376261301}
+  HP: 20
+  speed: 5
+  sprintMod: 3
+  jumpSpeed: 12
+  jumpMax: 2
+  jetForce: 0
+  jetMax: 0
+  gravity: 35
+  interactDist: 2
+  shootDamage: 1
+  shootDist: 25
+  shootRate: 0.5
+  TotalAmmo: 70
+  reloadTime: 1.2
+  AmmoCapacity: 7
+  isShotgun: 0
 --- !u!143 &115092001376261301
 CharacterController:
   m_ObjectHideFlags: 0

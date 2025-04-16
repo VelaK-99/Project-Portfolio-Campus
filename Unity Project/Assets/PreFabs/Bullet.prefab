@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7708805964047479505}
   - component: {fileID: 136712771494931596}
   - component: {fileID: 2778486063238554784}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,10 +49,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rb: {fileID: 2778486063238554784}
+  explosionRad: 0
+  fuseTime: 0
+  explosionEffect: {fileID: 0}
   damageAmount: 1
   damageRate: 0
   speed: 25
   destroyTime: 1
+  meleeTimer: 0
 --- !u!135 &7708805964047479505
 SphereCollider:
   m_ObjectHideFlags: 0
