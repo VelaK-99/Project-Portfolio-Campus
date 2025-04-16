@@ -24,6 +24,8 @@ public class gameManager : MonoBehaviour
 
     public static gameManager instance;
 
+    public int currentRoom = 0;
+
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
@@ -57,7 +59,7 @@ public class gameManager : MonoBehaviour
 
     float timeScaleOrig;
 
-    float gameGoalCount;
+    public float gameGoalCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {

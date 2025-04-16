@@ -23,7 +23,7 @@ public class damage : MonoBehaviour
     {
         if (type == damageType.melee)
         {
-
+            rb.linearVelocity = transform.forward * speed;
         }
         if (type == damageType.moving || type == damageType.homing || type == damageType.AOE)
         {
@@ -87,10 +87,10 @@ public class damage : MonoBehaviour
 
         if(type == damageType.melee)
         {
-            if(Time.deltaTime >= meleeTimer + damageRate)
+            if(Time.time >= meleeTimer + damageRate)
             {
                 dmg.TakeDamage(damageAmount);
-                meleeTimer = Time.deltaTime;
+                meleeTimer = Time.time;
             }
         }
     }
