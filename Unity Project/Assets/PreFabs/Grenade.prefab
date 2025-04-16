@@ -127,7 +127,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -145,8 +145,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9496855, g: 0.02687773, b: 0.02687773, a: 1}
-      key1: {r: 0.9496855, g: 0.02687773, b: 0.02687773, a: 1}
+      key0: {r: 0.1896466, g: 0.9490196, b: 0.02745096, a: 1}
+      key1: {r: 0.1896466, g: 0.9490196, b: 0.02745096, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -204,7 +204,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1

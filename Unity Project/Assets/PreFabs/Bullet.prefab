@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7708805964047479505}
   - component: {fileID: 136712771494931596}
   - component: {fileID: 2778486063238554784}
-  m_Layer: 8
+  m_Layer: 3
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
   damageAmount: 1
   damageRate: 0
   speed: 25
-  destroyTime: 1
+  destroyTime: 3
   meleeTimer: 0
 --- !u!135 &7708805964047479505
 SphereCollider:
@@ -70,7 +70,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -204,7 +204,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
