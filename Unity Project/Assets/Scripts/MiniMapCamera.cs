@@ -3,6 +3,7 @@ using UnityEngine;
 public class MiniMapCamera : MonoBehaviour
 {
     [SerializeField] GameObject Player;
+    
 
     private void LateUpdate()
     {
