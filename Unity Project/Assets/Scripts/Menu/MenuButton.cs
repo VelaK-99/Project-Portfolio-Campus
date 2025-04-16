@@ -8,6 +8,14 @@ public class MenuButton : MonoBehaviour
     [SerializeField] private GameObject painelSettings;
 
 
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true;
+    }
+
+
     public void Play()
     {
         SceneManager.LoadScene(sceneName);
