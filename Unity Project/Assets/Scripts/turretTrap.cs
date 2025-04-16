@@ -1,49 +1,56 @@
 using UnityEngine;
+using System.Collections;
 
-public class turretTrap : MonoBehaviour
+public class  turretTrap : MonoBehaviour
 {
-    public Transform head; 
-    public GameObject projectilePrefab;
-    public Transform firePoint;
-    public float fireRate; 
-    public float detectionRange;
-    public float rotationSpeed;
+  
+    [SerializeField] int faceTargetSpeed;
 
-    private Transform player;
-    private float fireCooldown;
+    [SerializeField] Transform shootPos;
+    [SerializeField] GameObject bullet;
+    [SerializeField] float shootRate;
+    [SerializeField] float detectionRange;
+
+    float shootTimer;
+    Vector3 playerDir;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        fireCooldown = 0f;
+        
     }
 
     void Update()
     {
-        if (player == null) return;
+        float distanceToPlayer = Vector3.Distance(transform.position, gameManager.instance.player.transform.position);
 
-        float distance = Vector3.Distance(transform.position, player.position);
-        if (distance <= detectionRange)
+        if (distanceToPlayer <= detectionRange)
         {
-            AimAtPlayer();
+            playerDir = (gameManager.instance.player.transform.position - transform.position);
+            faceTarget();
 
-           
-                Shoot();
-                fireCooldown = 1f / fireRate;
-            
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootRate)
+            {
+                shoot();
+            }
         }
     }
 
-    void AimAtPlayer()
+   
+
+    void shoot()
     {
-        Vector3 direction = (player.position - head.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        head.rotation = Quaternion.Slerp(head.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        shootTimer = 0;
+
+        Vector3 dirToPlayer = (gameManager.instance.player.transform.position - shootPos.position).normalized;
+        Quaternion bulletRot = Quaternion.LookRotation(dirToPlayer);
+
+        Instantiate(bullet, shootPos.position, bulletRot);
     }
 
-    void Shoot()
+    void faceTarget()
     {
-        fireCooldown = 0;
-        Instantiate(projectilePrefab, firePoint.position, transform.rotation);
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, 0, playerDir.z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
     }
 }
