@@ -17,7 +17,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuBAR;
 
     public GameObject[] InventorySLOTS;
-    public int Current_slotINDEX = -1;
+    public int slotINDEX = -1;
 
     public GameObject textActive;
 
@@ -87,11 +87,11 @@ public class gameManager : MonoBehaviour
         }
 
         //Preventing deselection from mouse clicks by reapplying selection
-        if (Current_slotINDEX >= 0)
+        if (slotINDEX >= 0)
         {
-            if (EventSystem.current.currentSelectedGameObject != InventorySLOTS[Current_slotINDEX])
+            if (EventSystem.current.currentSelectedGameObject != InventorySLOTS[slotINDEX])
             {
-                EventSystem.current.SetSelectedGameObject(InventorySLOTS[Current_slotINDEX]);
+                EventSystem.current.SetSelectedGameObject(InventorySLOTS[slotINDEX]);
             }
         }
 
@@ -103,16 +103,16 @@ public class gameManager : MonoBehaviour
     /// <param name="index"></param>
     void ToggleSlot(int index)
     {
-        if (Current_slotINDEX == index)
+        if (slotINDEX == index)
         {
             //Deselect if some key is pressed again
             EventSystem.current.SetSelectedGameObject(null);
-            Current_slotINDEX = -1;
+            slotINDEX = -1;
         }
         else
         {
             EventSystem.current.SetSelectedGameObject(InventorySLOTS[index]);
-            Current_slotINDEX = index;
+            slotINDEX = index;
         }
     }
 
