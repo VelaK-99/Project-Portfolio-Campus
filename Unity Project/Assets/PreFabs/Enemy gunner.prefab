@@ -208,7 +208,8 @@ GameObject:
   - component: {fileID: 6158415743423404558}
   - component: {fileID: 3604038115171440814}
   - component: {fileID: 8532669095066057020}
-  m_Layer: 0
+  - component: {fileID: 5346414806826963349}
+  m_Layer: 7
   m_Name: Enemy gunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,8 +250,13 @@ MonoBehaviour:
   HP: 20
   faceTargetSpeed: 8
   shootPos: {fileID: 304202209342690472}
+<<<<<<< Updated upstream
   bullet: {fileID: 1084385584208275833, guid: 90712495c659bb448bafc725a5c0ade8, type: 3}
   shootRate: 5
+=======
+  bullet: {fileID: 1084385584208275833, guid: a19226d1cd1d2314aa8d44961c0f106e, type: 3}
+  shootRate: 1
+>>>>>>> Stashed changes
 --- !u!95 &6158415743423404558
 Animator:
   serializedVersion: 7
@@ -318,6 +324,27 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!135 &5346414806826963349
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2597403089595271390}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2951593502771807732
 GameObject:
   m_ObjectHideFlags: 0

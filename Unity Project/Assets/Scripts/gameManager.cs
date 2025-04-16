@@ -2,7 +2,12 @@ using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+<<<<<<< Updated upstream
 using UnityEngine.EventSystems;
+=======
+using UnityEngine.UI;
+using TMPro;
+>>>>>>> Stashed changes
 
 public class gameManager : MonoBehaviour
 {
@@ -13,16 +18,22 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+<<<<<<< Updated upstream
 
     [SerializeField] GameObject menuBAR;
 
     public GameObject[] InventorySLOTS;
     public int slotINDEX = -1;
 
+=======
+    [SerializeField] TMP_Text enemyGoalCountText;
+>>>>>>> Stashed changes
     public GameObject textActive;
 
     public GameObject player;
     public PlayerScript playerScript;
+    public GameObject playerDamageScreen;
+    public Image playerHPBar;
 
     public bool isPaused;
 
@@ -137,6 +148,7 @@ public class gameManager : MonoBehaviour
     public void UpdateGameGoal(int amount)
     {
         gameGoalCount += amount;
+        enemyGoalCountText.text = gameGoalCount.ToString("F0");
 
         if(gameGoalCount <= 0)
         {
