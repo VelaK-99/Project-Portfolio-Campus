@@ -1,3 +1,5 @@
+using Unity.PlasticSCM.Editor.WebApi;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +17,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuBAR;
 
     public GameObject[] InventorySLOTS;
+    public int Current_slotINDEX = -1;
 
     public GameObject textActive;
 
@@ -41,17 +44,17 @@ public class gameManager : MonoBehaviour
 
         if (Input.GetButtonDown("num1"))
         {
-            EventSystem.current.SetSelectedGameObject(InventorySLOTS[0]);
+            ToggleSlot(0);
         }       
         
         if (Input.GetButtonDown("num2"))
         {
-            EventSystem.current.SetSelectedGameObject(InventorySLOTS[1]);
+            ToggleSlot(1);
         }
 
         if (Input.GetButtonDown("num3"))
         {
-            EventSystem.current.SetSelectedGameObject(InventorySLOTS[2]);
+            ToggleSlot(2);
         }
 
 
@@ -81,6 +84,35 @@ public class gameManager : MonoBehaviour
                 menuActive.SetActive(false);
                 menuActive = null;
             }
+        }
+
+        //Preventing deselection from mouse clicks by reapplying selection
+        if (Current_slotINDEX >= 0)
+        {
+            if (EventSystem.current.currentSelectedGameObject != InventorySLOTS[Current_slotINDEX])
+            {
+                EventSystem.current.SetSelectedGameObject(InventorySLOTS[Current_slotINDEX]);
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// Function for deselecting(unequipping) selected object
+    /// </summary>
+    /// <param name="index"></param>
+    void ToggleSlot(int index)
+    {
+        if (Current_slotINDEX == index)
+        {
+            //Deselect if some key is pressed again
+            EventSystem.current.SetSelectedGameObject(null);
+            Current_slotINDEX = -1;
+        }
+        else
+        {
+            EventSystem.current.SetSelectedGameObject(InventorySLOTS[index]);
+            Current_slotINDEX = index;
         }
     }
 
