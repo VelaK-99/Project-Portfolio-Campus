@@ -108,17 +108,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         {
             jumpCount++;
             playerVel.y = jumpSpeed;
-        }
-
-        if (jumpCount == 2 && Input.GetButton("Jump"))
-        {
-            playerVel.y = jetForce * Time.deltaTime;
-
-            if (playerVel.y > jetMax)
-            {
-                playerVel.y = jetMax;
-            }
-        }
+        }      
     }
 
     void Sprint()
@@ -227,6 +217,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
             if (interaction != null) interaction.Interact();
+
+        }
+        else if(gameManager.instance.textActive != null) // If the raycast does not detect the object it resets and clears the text.
+        {
+                gameManager.instance.textActive.SetActive(false);
+                gameManager.instance.textActive = null; 
         }
 
     }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class RefillStash : MonoBehaviour, IInteract
 {
+    [SerializeField] GameObject refillText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,7 +19,14 @@ public class RefillStash : MonoBehaviour, IInteract
     // Interact method uses the gameManager to change the HP, ammo, or whatever else is needed.
     public void Interact()
     {
-        gameManager.instance.playerScript.AddHealth(gameManager.instance.playerScript.getOrigHP());
-        gameManager.instance.playerScript.AddAmmo(gameManager.instance.playerScript.GetMaxAmmo());
+        gameManager.instance.textActive = refillText; // Sets the gameManager current text to what the object is linked to.
+        gameManager.instance.textActive.SetActive(true);
+        if(Input.GetButtonDown("Interact")) // if the player interacts with the object using the E key it does this function
+        {
+            gameManager.instance.playerScript.AddHealth(gameManager.instance.playerScript.getOrigHP());
+            gameManager.instance.playerScript.AddAmmo(gameManager.instance.playerScript.GetMaxAmmo());
+
+        }
     }
+
 }
