@@ -46,7 +46,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         HPOrig = HP;
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         bulletsInGun = AmmoCapacity;
+=======
+        UpdatePlayerUI();
+>>>>>>> Stashed changes
 =======
         UpdatePlayerUI();
 >>>>>>> Stashed changes
@@ -288,6 +292,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
