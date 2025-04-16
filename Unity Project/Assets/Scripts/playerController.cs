@@ -44,15 +44,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     void Start()
     {
         HPOrig = HP;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         bulletsInGun = AmmoCapacity;
-=======
-        UpdatePlayerUI();
->>>>>>> Stashed changes
-=======
-        UpdatePlayerUI();
->>>>>>> Stashed changes
     }
 
     // Update is called once per frame
@@ -238,8 +230,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public void TakeDamage(int amount)
     {
         HP -= amount;
-        StartCoroutine(FlashDamageScreen());
-        UpdatePlayerUI();
 
         if (HP <= 0)
         {
@@ -271,26 +261,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public int GetMaxAmmo()
     {
         return MaxAmmo;
-<<<<<<< Updated upstream
     }  //Getter for Player's max ammo
-=======
-    }
-
-    IEnumerator FlashDamageScreen()
-    {
-        gameManager.instance.playerDamageScreen.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
-        gameManager.instance.playerDamageScreen.SetActive(false);
-    }
-
-    public void UpdatePlayerUI()
-    {
-        gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;
-    }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
 
 

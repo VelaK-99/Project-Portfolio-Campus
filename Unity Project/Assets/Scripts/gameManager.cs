@@ -2,55 +2,33 @@ using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 using UnityEngine.EventSystems;
-=======
-using UnityEngine.UI;
-using TMPro;
->>>>>>> Stashed changes
-=======
-using UnityEngine.UI;
-using TMPro;
->>>>>>> Stashed changes
 
 public class gameManager : MonoBehaviour
 {
 
     public static gameManager instance;
 
-    public int currentRoom = 0;
-
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
     [SerializeField] GameObject menuBAR;
 
     public GameObject[] InventorySLOTS;
     public int slotINDEX = -1;
 
-=======
-    [SerializeField] TMP_Text enemyGoalCountText;
->>>>>>> Stashed changes
-=======
-    [SerializeField] TMP_Text enemyGoalCountText;
->>>>>>> Stashed changes
     public GameObject textActive;
 
     public GameObject player;
     public PlayerScript playerScript;
-    public GameObject playerDamageScreen;
-    public Image playerHPBar;
 
     public bool isPaused;
 
     float timeScaleOrig;
 
-    public float gameGoalCount;
+    float gameGoalCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -159,7 +137,6 @@ public class gameManager : MonoBehaviour
     public void UpdateGameGoal(int amount)
     {
         gameGoalCount += amount;
-        enemyGoalCountText.text = gameGoalCount.ToString("F0");
 
         if(gameGoalCount <= 0)
         {

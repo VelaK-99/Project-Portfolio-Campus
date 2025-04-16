@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1905080321847982198}
   - component: {fileID: 4062696599746798485}
   - component: {fileID: 5859224071797334315}
+  - component: {fileID: 5113995323487111207}
   - component: {fileID: 3381017495749869461}
   - component: {fileID: 115092001376261301}
   m_Layer: 6
@@ -89,6 +90,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &5113995323487111207
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622510293969854199}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3381017495749869461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,7 +129,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   controller: {fileID: 115092001376261301}
-  HP: 15
+  HP: 5
   speed: 5
   sprintMod: 3
   jumpSpeed: 12
