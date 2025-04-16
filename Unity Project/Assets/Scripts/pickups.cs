@@ -61,7 +61,8 @@ public class pickups : MonoBehaviour
 
             if (player != null && type == pickupType.Shotgun)
             {
-                player.UpdateWeapon(15, 10, 1.2f, 3.8f, 8);
+                player.UpdateWeapon(15, 15, 1.2f, 3.8f, 8);
+                player.isShotgun = true;
                 Destroy(gameObject);
             }
 

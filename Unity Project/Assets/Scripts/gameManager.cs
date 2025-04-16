@@ -51,7 +51,7 @@ public class gameManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-    }
+    } //State of the game when paused
 
     public void stateUnpause()
     {
@@ -61,7 +61,7 @@ public class gameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         menuActive.SetActive(false);
         menuActive = null;
-    }
+    } // Returns game to default state when unpaused
 
     public void UpdateGameGoal(int amount)
     {
@@ -73,13 +73,13 @@ public class gameManager : MonoBehaviour
             menuActive = menuWin;
             menuActive.SetActive(true);
         }
-    }
+    } //Updates the game goal count when an enemy is spawned/killed
 
     public void youLose()
     {
         statePause();
         menuActive = menuLose;
         menuActive.SetActive(true);
-    }
+    } //Brings up the lose menu
 
 }
