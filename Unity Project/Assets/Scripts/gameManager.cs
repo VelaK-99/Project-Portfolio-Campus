@@ -3,7 +3,12 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 using UnityEngine.EventSystems;
+=======
+using UnityEngine.UI;
+using TMPro;
+>>>>>>> Stashed changes
 =======
 using UnityEngine.UI;
 using TMPro;
@@ -19,12 +24,16 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     [SerializeField] GameObject menuBAR;
 
     public GameObject[] InventorySLOTS;
     public int slotINDEX = -1;
 
+=======
+    [SerializeField] TMP_Text enemyGoalCountText;
+>>>>>>> Stashed changes
 =======
     [SerializeField] TMP_Text enemyGoalCountText;
 >>>>>>> Stashed changes
