@@ -1,4 +1,4 @@
-using Unity.PlasticSCM.Editor.WebApi;
+
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -28,7 +28,8 @@ public class gameManager : MonoBehaviour
 
     float timeScaleOrig;
 
-    float gameGoalCount;
+    public float gameGoalCount;
+    public int currentRoom = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
