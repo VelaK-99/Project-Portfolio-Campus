@@ -29,7 +29,7 @@ public class RoomManager : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (roomActivated || other.CompareTag("Player"))
+        if (roomActivated || !other.CompareTag("Player"))
         {
             return;
         }

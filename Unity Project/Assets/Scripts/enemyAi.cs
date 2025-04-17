@@ -16,7 +16,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
-    [SerializeField] RoomManager room;
+    [SerializeField] private RoomManager room;
 
     float shootTimer;
     bool playerInRange;
