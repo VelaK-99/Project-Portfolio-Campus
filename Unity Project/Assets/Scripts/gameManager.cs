@@ -28,6 +28,8 @@ public class gameManager : MonoBehaviour
 
     float timeScaleOrig;
 
+    public int currentRoom = 1;
+
     float gameGoalCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
