@@ -85,9 +85,9 @@ public class damage : MonoBehaviour
             }
         }
 
-        if(type == damageType.melee)
+        if (type == damageType.melee)
         {
-            if(Time.deltaTime >= meleeTimer + damageRate)
+            if (Time.deltaTime >= meleeTimer + damageRate)
             {
                 dmg.TakeDamage(damageAmount);
                 meleeTimer = Time.deltaTime;
@@ -116,13 +116,13 @@ public class damage : MonoBehaviour
         }
     }
 
-            IEnumerator damageOther(IDamage d)
-            {
-                isDamaging = true;
-                d.TakeDamage(damageAmount);
-                yield return new WaitForSeconds(damageRate);
-                isDamaging = false;
-            }
-        }
-    
+    IEnumerator damageOther(IDamage d)
+    {
+        isDamaging = true;
+        d.TakeDamage(damageAmount);
+        yield return new WaitForSeconds(damageRate);
+        isDamaging = false;
+    }
+}
+
 
