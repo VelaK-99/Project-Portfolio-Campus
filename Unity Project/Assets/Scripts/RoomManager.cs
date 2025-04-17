@@ -8,9 +8,13 @@ public class RoomManager : MonoBehaviour
     public List<GameObject> enemies;
     public GameObject wallToDestroy;
 
+    private int remainingEnemies;
+
     private bool roomActivated = false;
     void Start()
     {
+        remainingEnemies = enemies.Count;
+
         foreach (var enemy in enemies)
         {
             enemy.SetActive(false);
@@ -34,15 +38,16 @@ public class RoomManager : MonoBehaviour
         foreach (var enemy in enemies)
         {
             enemy.SetActive(true);
-        }
-
-        gameManager.instance.UpdateGameGoal(enemies.Count);
+        }        
 
         GetComponent<Collider>().enabled = false;
     }
 
     public void OnEnemyKilled()
     {
+
+        remainingEnemies--;
+
         if(gameManager.instance.gameGoalCount <= 0)
         {
             wallToDestroy.SetActive(false);

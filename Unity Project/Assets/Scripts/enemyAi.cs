@@ -76,7 +76,6 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            gameManager.instance.UpdateGameGoal(-1);
 
             if(room != null)
             {
