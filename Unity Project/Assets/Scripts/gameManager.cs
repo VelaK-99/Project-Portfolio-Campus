@@ -1,9 +1,8 @@
+using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using TMPro;
 
 public class gameManager : MonoBehaviour
 {
@@ -15,8 +14,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
 
-    [SerializeField] GameObject menuBAR;
-    [SerializeField] TMP_Text enemyCountText;
+    [SerializeField] GameObject hotkeyBAR;
 
     public GameObject[] InventorySLOTS;
     public int slotINDEX = -1;
@@ -25,8 +23,6 @@ public class gameManager : MonoBehaviour
 
     public GameObject player;
     public PlayerScript playerScript;
-    public Image playerHPBar;
-    public GameObject playerDamageScreen;
 
     public bool isPaused;
 
@@ -80,10 +76,10 @@ public class gameManager : MonoBehaviour
         {
             if (menuActive == null)
             {
-                menuActive = menuBAR;
+                menuActive = hotkeyBAR;
                 menuActive.SetActive(true);
             }
-            else if (menuActive == menuBAR)
+            else if (menuActive == hotkeyBAR)
             {
                 menuActive.SetActive(false);
                 menuActive = null;
@@ -141,7 +137,6 @@ public class gameManager : MonoBehaviour
     public void UpdateGameGoal(int amount)
     {
         gameGoalCount += amount;
-        enemyCountText.text = gameGoalCount.ToString("F0");
 
         if(gameGoalCount <= 0)
         {

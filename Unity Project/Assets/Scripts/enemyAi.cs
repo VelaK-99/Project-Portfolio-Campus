@@ -16,6 +16,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
+    [SerializeField] RoomManager room;
+
     float shootTimer;
     bool playerInRange;
 
@@ -74,7 +76,12 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            gameManager.instance.UpdateGameGoal(-1);
+
+            if(room != null)
+            {
+                room.OnEnemyKilled();
+            }
+
             Destroy(gameObject);
         }
     }

@@ -36,7 +36,7 @@ public class damage : MonoBehaviour
 
         if (type == damageType.AOE)
         {
-            StartCoroutine(ExplodeAfterDelay());
+            Destroy(gameObject, destroyTime);
         }
     }
 
@@ -55,14 +55,19 @@ public class damage : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        if(type == damageType.AOE)
+        {
+            Explode();
+        }
         IDamage dmg = other.GetComponent<IDamage>();
 
-        if (dmg != null && (type == damageType.stationary || type == damageType.homing || type == damageType.moving))
+        if (dmg != null && (type == damageType.stationary || type == damageType.homing || type == damageType.moving || type == damageType.melee))
         {
             dmg.TakeDamage(damageAmount);
         }
 
-        if (type == damageType.moving || type == damageType.homing)
+        if (type == damageType.moving || type == damageType.homing || type == damageType.melee)
         {
             Destroy(gameObject);
         }
@@ -85,35 +90,34 @@ public class damage : MonoBehaviour
             }
         }
 
-        if (type == damageType.melee)
-        {
-            if (Time.deltaTime >= meleeTimer + damageRate)
-            {
-                dmg.TakeDamage(damageAmount);
-                meleeTimer = Time.deltaTime;
-            }
-        }
+        //if(type == damageType.melee)
+        //{
+        //    if(Time.time >= meleeTimer + damageRate)
+        //    {
+        //        dmg.TakeDamage(damageAmount);
+        //        meleeTimer = Time.time;
+        //    }
+        //}
     }
 
-    IEnumerator ExplodeAfterDelay()
+    void Explode()
     {
-        yield return new WaitForSeconds(fuseTime);
-
         if (explosionEffect != null)
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
 
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRad);
-
-            foreach (var hit in hitColliders)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRad);
+        foreach(var hit in hitColliders)
+        {
+            IDamage dmg = hit.GetComponent<IDamage>();
+            if(dmg != null)
             {
-                IDamage dmg = hit.GetComponent<IDamage>();
-                if (dmg != null)
-                {
-                    dmg.TakeDamage(damageAmount);
-                }
+                dmg.TakeDamage(damageAmount);
             }
         }
+
+        Destroy(gameObject);
     }
 
     IEnumerator damageOther(IDamage d)

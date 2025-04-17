@@ -209,9 +209,9 @@ GameObject:
   - component: {fileID: 3604038115171440814}
   - component: {fileID: 8532669095066057020}
   - component: {fileID: 8418689770584968926}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Enemy gunner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247,11 +247,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 5422307608469253352}
   agent: {fileID: 3604038115171440814}
-  HP: 20
+  HP: 5
   faceTargetSpeed: 8
   shootPos: {fileID: 304202209342690472}
   bullet: {fileID: 1084385584208275833, guid: a19226d1cd1d2314aa8d44961c0f106e, type: 3}
-  shootRate: 5
+  shootRate: 1
+  room: {fileID: 0}
 --- !u!95 &6158415743423404558
 Animator:
   serializedVersion: 7
