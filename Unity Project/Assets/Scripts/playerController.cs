@@ -30,6 +30,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] float crouchSpeedMod;
     [SerializeField] Transform cam;
 
+    [SerializeField] float slideSpeed;
+    [SerializeField] float slideDuration;
+
+    [SerializeField] GameObject grenadePrefab;
+    [SerializeField] Transform grenadeSpawnPoint;
+    [SerializeField] float grenadeThrowForce;
+
     int bulletsInGun;
     int MaxAmmo = 100;
 
@@ -50,6 +57,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     Vector3 originalCenter;
     Vector3 camOriginalPos;
     Vector3 camCrouchPos;
+
+    bool isSliding;
+    float slideTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -76,6 +86,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         Sprint();
 
         Crouch();
+
+        Slide();
+
+        ThrowGrenade();
 
         if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
         {
@@ -368,6 +382,60 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             }
         }
     }
+
+    void Slide()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting && controller.isGrounded && !isSliding)
+        {
+            isSliding = true;
+            isCrouching = true;
+
+            slideTimer = slideDuration;
+
+            controller.height = crouchHeight;
+            controller.center = new Vector3(0, crouchHeight / 2, 0);
+            speed = (int)slideSpeed;
+
+            if (cam != null)
+                cam.localPosition = camCrouchPos;
+        }
+
+        if (isSliding)
+        {
+            slideTimer -= Time.deltaTime;
+
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+
+            if (slideTimer <= 0)
+            {
+                isSliding = false;
+                isCrouching = false;
+
+                controller.height = originalHeight;
+                controller.center = originalCenter;
+                speed = isSprinting ? speed / (int)crouchSpeedMod : speed / (int)(crouchSpeedMod * sprintMod); // Reset to normal or sprint speed
+
+                if (cam != null)
+                    cam.localPosition = camOriginalPos;
+            }
+        }
+    }
+
+    void ThrowGrenade()
+    {
+        if (Input.GetKeyDown(KeyCode.G) && grenadePrefab != null && grenadeSpawnPoint != null)
+        {
+            GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
+
+            Rigidbody rb = grenade.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(grenadeSpawnPoint.forward * grenadeThrowForce, ForceMode.VelocityChange);
+            }
+        }
+    }
+
+
 }
 
 
