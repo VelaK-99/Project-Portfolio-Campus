@@ -37,6 +37,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] Transform grenadeSpawnPoint;
     [SerializeField] float grenadeThrowForce;
 
+    [SerializeField] Vector3 adsCamPos;
+    [SerializeField] float adsSpeed;
+
+    [SerializeField] int meleeDamage;
+    [SerializeField] float meleeRate;
+    [SerializeField] float meleeDist;
+
     int bulletsInGun;
     int MaxAmmo = 100;
 
@@ -61,6 +68,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     bool isSliding;
     float slideTimer;
 
+    Vector3 camDefaultPos;
+    bool isAiming;
+
+    float meleeTimer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -74,6 +86,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         if (cam != null)
         {
             camOriginalPos = cam.localPosition;
+            camDefaultPos = camOriginalPos;
             camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
         }
     }
@@ -90,6 +103,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         Slide();
 
         ThrowGrenade();
+
+        AimDownSights();
+
+        Melee();
 
         if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
         {
@@ -434,6 +451,51 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             }
         }
     }
+
+    void AimDownSights()
+    {
+        if (Input.GetMouseButton(1)) //hold right click to aim
+        {
+            isAiming = true;
+        }
+        else
+        {
+            isAiming = false;
+        }
+
+        if (cam != null)
+        {
+            Vector3 targetPos = isAiming ? adsCamPos : (isCrouching ? camCrouchPos : camDefaultPos);
+            cam.localPosition = Vector3.Lerp(cam.localPosition, targetPos, Time.deltaTime * adsSpeed);
+        }
+    }
+
+    void Melee()
+    {
+        meleeTimer += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+        {
+            meleeTimer = 0;
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+            {
+                Debug.Log("Melee hit: " + hit.collider.name);
+
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+                if (dmg != null)
+                    dmg.TakeDamage(meleeDamage);
+            }
+        }
+    }
+
+    //meleeDamage set to 2
+
+    //melleRate set to 0.8
+
+    // meleeDist set to 2.5
 
 
 }
