@@ -104,6 +104,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5964002217944893689}
     m_Modifications:
+    - target: {fileID: 3790828624578208045, guid: c22743bc1c84274459c3760bb9ec8701, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3790828624578208045, guid: c22743bc1c84274459c3760bb9ec8701, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3790828624578208045, guid: c22743bc1c84274459c3760bb9ec8701, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4106014056583705669, guid: c22743bc1c84274459c3760bb9ec8701, type: 3}
       propertyPath: m_Name
       value: Room 1 Enemies
