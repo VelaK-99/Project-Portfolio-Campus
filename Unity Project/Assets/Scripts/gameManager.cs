@@ -1,8 +1,9 @@
-using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
 
 public class gameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    public GameObject enemyCountTextObject;
 
     [SerializeField] GameObject hotkeyBAR;
 
@@ -23,6 +25,9 @@ public class gameManager : MonoBehaviour
 
     public GameObject player;
     public PlayerScript playerScript;
+    public Image playerHPBar;
+    public GameObject playerDamageScreen;
+    
 
     public bool isPaused;
 

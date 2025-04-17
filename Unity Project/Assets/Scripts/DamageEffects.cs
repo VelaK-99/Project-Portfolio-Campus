@@ -120,13 +120,13 @@ public class damage : MonoBehaviour
         Destroy(gameObject);
     }
 
-            IEnumerator damageOther(IDamage d)
-            {
-                isDamaging = true;
-                d.TakeDamage(damageAmount);
-                yield return new WaitForSeconds(damageRate);
-                isDamaging = false;
-            }
-        }
-    
+    IEnumerator damageOther(IDamage d)
+    {
+        isDamaging = true;
+        d.TakeDamage(damageAmount);
+        yield return new WaitForSeconds(damageRate);
+        isDamaging = false;
+    }
+}
+
 
