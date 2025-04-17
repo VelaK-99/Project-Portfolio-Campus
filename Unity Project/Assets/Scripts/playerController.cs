@@ -251,6 +251,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     } // Getter for Player's cuurent health
 
     //Called in pickups. updates the shooting stats to the picked up weapon's
+
+    
     public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
     {
         shootDamage = damage;
@@ -260,6 +262,35 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         AmmoCapacity = ammoCapacity;
         bulletsInGun = ammoCapacity;
     }
+
+    
+    /*
+    /// <summary>
+    /// Test code for Hotkey bar to pick up weapons using an updated void UpdateWeapon method.
+    /// Currently causes issues in pickups.cs
+    /// </summary>
+    /// <param name="thatWEAPON"></param>
+    public void UpdateWeapon(Weapons thatWEAPON)
+    {
+
+        this.shootDamage = thatWEAPON.damage;
+        this.shootDist = thatWEAPON.range;
+        this.shootRate = thatWEAPON.fireRate;
+        this.reloadTime = thatWEAPON.reloadTime;
+        this.MaxAmmo = thatWEAPON.maxAmmo;
+    
+
+        //A test for the Hotkey system
+        Weapons TESTweapon = new Weapons("TESTweapon", shootDamage, shootDist,
+            shootRate, reloadTime, MaxAmmo, MaxAmmo);
+
+        Hotkey_Bar hotkeyBAR = FindObjectOfType<Hotkey_Bar>();
+        if (hotkeyBAR != null)
+        {
+            hotkeyBAR.AssignAvailableSLOT(TESTweapon);
+        }
+    }  
+    */
 
     public int GetMaxAmmo()
     {
