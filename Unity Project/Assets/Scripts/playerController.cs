@@ -26,6 +26,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] int AmmoCapacity = 7;
     [SerializeField] public bool isShotgun;
 
+    [SerializeField] float crouchHeight;
+    [SerializeField] float crouchSpeedMod;
+    [SerializeField] Transform cam;
+
     int bulletsInGun;
     int MaxAmmo = 100;
 
@@ -40,12 +44,28 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     bool isSprinting;
     bool isReloading;
 
+    bool isCrouching;
+
+    float originalHeight;
+    Vector3 originalCenter;
+    Vector3 camOriginalPos;
+    Vector3 camCrouchPos;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
+
+        originalHeight = controller.height;
+        originalCenter = controller.center;
+
+        if (cam != null)
+        {
+            camOriginalPos = cam.localPosition;
+            camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
+        }
     }
 
     // Update is called once per frame
@@ -54,6 +74,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         Movement();
 
         Sprint();
+
+        Crouch();
 
         if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
         {
@@ -318,6 +340,33 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         gameManager.instance.playerDamageScreen.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         gameManager.instance.playerDamageScreen.SetActive(false);
+    }
+
+    void Crouch()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            isCrouching = !isCrouching;
+
+            if (isCrouching)
+            {
+                controller.height = crouchHeight;
+                controller.center = new Vector3(0, crouchHeight / 2, 0);
+                speed /= (int)crouchSpeedMod;
+
+                if (cam != null)
+                    cam.localPosition = camCrouchPos;
+            }
+            else
+            {
+                controller.height = originalHeight;
+                controller.center = originalCenter;
+                speed *= (int)crouchSpeedMod;
+
+                if (cam != null)
+                    cam.localPosition = camOriginalPos;
+            }
+        }
     }
 }
 
