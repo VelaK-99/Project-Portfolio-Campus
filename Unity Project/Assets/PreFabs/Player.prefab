@@ -214,7 +214,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   controller: {fileID: 5688579929998117802}
-  HP: 5
+  HP: 20
   speed: 5
   sprintMod: 3
   jumpSpeed: 12
@@ -222,7 +222,7 @@ MonoBehaviour:
   jetForce: 0
   jetMax: 0
   gravity: 35
-  interactDist: 0
+  interactDist: 3
   shootDamage: 1
   shootDist: 25
   shootRate: 0.5
