@@ -48,7 +48,7 @@ public class RoomManager : MonoBehaviour
 
         remainingEnemies--;
 
-        if(gameManager.instance.gameGoalCount <= 0)
+        if(remainingEnemies <= 0)
         {
             wallToDestroy.SetActive(false);
             gameManager.instance.currentRoom++;
