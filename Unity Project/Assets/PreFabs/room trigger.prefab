@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6670888960211961371}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.3826837, z: -0, w: 0.9238795}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: -67.38207, y: 0.6888728, z: -72.25203}
   m_LocalScale: {x: 10, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47,9 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54fa9aa18e4cdc14caeb4fa635d82ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsFinalRoom: 1
   enemies:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 0}
   wallToDestroy: {fileID: 0}
 --- !u!33 &4251123472787566213
@@ -83,7 +82,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 20bfccc45def21347af029acb202db2f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

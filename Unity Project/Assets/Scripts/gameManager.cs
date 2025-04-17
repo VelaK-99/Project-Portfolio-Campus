@@ -160,4 +160,10 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     } //Brings up the lose menu
 
+    public void youWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
+    }
 }
