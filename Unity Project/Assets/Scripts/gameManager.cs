@@ -15,6 +15,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     public GameObject enemyCountTextObject;
+    public GameObject reloadGunText;
+    public GameObject reloadingGun;
 
     [SerializeField] GameObject hotkeyBAR;
 
@@ -48,7 +50,6 @@ public class gameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetButtonDown("num1"))
         {
             ToggleSlot(0);

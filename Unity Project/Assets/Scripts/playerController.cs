@@ -60,6 +60,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             StartCoroutine(Reload());
         }
 
+        if (bulletsInGun <= 0 && !isReloading && TotalAmmo > 0)
+        {
+            if (gameManager.instance.reloadGunText != null)
+                gameManager.instance.reloadGunText.SetActive(true);
+        }
+        else
+        {
+            if (gameManager.instance.reloadGunText != null)
+                gameManager.instance.reloadGunText.SetActive(false);
+        }
+
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
     }
@@ -177,6 +188,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     IEnumerator Reload()
     {
         isReloading = true;
+        gameManager.instance.reloadingGun.SetActive(true);
 
         yield return new WaitForSeconds(reloadTime);
 
@@ -191,6 +203,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             TotalAmmo = 0;
         }
         isReloading = false;
+        gameManager.instance.reloadingGun.SetActive(false);
     }
 
     public void AddAmmo(int amount)
@@ -251,8 +264,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     } // Getter for Player's cuurent health
 
     //Called in pickups. updates the shooting stats to the picked up weapon's
-
-    
     public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
     {
         shootDamage = damage;

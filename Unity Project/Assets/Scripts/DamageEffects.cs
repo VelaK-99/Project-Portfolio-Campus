@@ -89,15 +89,6 @@ public class damage : MonoBehaviour
                 StartCoroutine(damageOther(dmg));
             }
         }
-
-        //if(type == damageType.melee)
-        //{
-        //    if(Time.time >= meleeTimer + damageRate)
-        //    {
-        //        dmg.TakeDamage(damageAmount);
-        //        meleeTimer = Time.time;
-        //    }
-        //}
     }
 
     void Explode()
