@@ -212,11 +212,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   controller: {fileID: 5688579929998117802}
   HP: 5
   speed: 5
-  sprintMod: 5
+  sprintMod: 3
   jumpSpeed: 12
   jumpMax: 2
   jetForce: 0
