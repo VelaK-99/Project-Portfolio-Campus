@@ -270,6 +270,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     {
         HP += amount;
         if(HP > HPOrig) HP = HPOrig;
+        UpdatePlayerUI();
     } //Adds health; Called in pickups
 
     public void Interact()
