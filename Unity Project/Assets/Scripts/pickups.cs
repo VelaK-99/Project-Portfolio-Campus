@@ -14,16 +14,16 @@ public class pickups : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (type == pickupType.healthPack || type == pickupType.ammoPack)
-        {
-            Destroy(gameObject, destroyTime);
-        }
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-
+         if (type == pickupType.healthPack || type == pickupType.ammoPack)
+                {
+                    Destroy(gameObject, destroyTime);
+                }
     }
 
     private void OnTriggerEnter(Collider other)
