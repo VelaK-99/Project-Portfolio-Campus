@@ -38,6 +38,7 @@ public class pickups : MonoBehaviour
                 {
                     player.AddHealth(healthAmount);
                     Destroy(gameObject);
+                    gameManager.instance.playerScript.UpdatePlayerUI();
                 }
             }
 
