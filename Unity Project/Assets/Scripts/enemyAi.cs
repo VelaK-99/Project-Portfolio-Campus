@@ -7,15 +7,12 @@ public class EnemyAI : MonoBehaviour, IDamage
 {
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Transform headPos;
-
-    public Spawner whereICameFrom;
+    [SerializeField] Animator animator;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
-    [SerializeField] int fov;
-    [SerializeField] int roamDist;
-    [SerializeField] int roamPauseTime;
+    [SerializeField] int animTranSpeed;
+
 
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
@@ -46,10 +43,8 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void Update()
     {
-        if (agent.remainingDistance < 0.01f)
-            roamTimer += Time.deltaTime;
-
-        if (playerInRange && !CanSeePlayer())
+        onAnimLomotion();
+        if (playerInRange)
         {
             checkRoam();
         }
@@ -58,7 +53,13 @@ public class EnemyAI : MonoBehaviour, IDamage
             checkRoam();
         }
     }
+    void onAnimLomotion()
+    {
+        float agentSpeedCur = agent.velocity.normalized.magnitude;
+        float animSpeedCur = animator.GetFloat("speed");
 
+        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur,agentSpeedCur,Time.deltaTime*animTranSpeed));
+    }
     public void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -99,7 +100,12 @@ public class EnemyAI : MonoBehaviour, IDamage
     void shoot()
     {
         shootTimer = 0;
-        Instantiate(bullet, shootPos.position, transform.rotation);
+        animator.SetTrigger("shoot");
+    }
+    public void createBullet()
+    {
+            Instantiate(bullet, shootPos.position, transform.rotation);
+        
     }
 
     void faceTarget()

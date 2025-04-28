@@ -163,10 +163,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         }
 
 
-        if (Input.GetButton("Interact"))
-        {
+        
             Interact();
-        }
+        
     }
 
     void Jump()
@@ -289,10 +288,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             if (interaction != null) interaction.Interact();
 
         }
-        else if(gameManager.instance.textActive != null) // If the raycast does not detect the object it resets and clears the text.
+        else if(gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
         {
-                gameManager.instance.textActive.SetActive(false);
-                gameManager.instance.textActive = null; 
+                gameManager.instance.interactUI.SetActive(false);
         }
 
     }
