@@ -49,6 +49,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     int jumpCount;
     int HPOrig;
+    public GameObject playerSpawnPos;
 
     float shootTimer;
 
@@ -77,7 +78,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     void Start()
     {
         HPOrig = HP;
-        bulletsInGun = AmmoCapacity;
+        spawnPlayer();
+        bulletsInGun = AmmoCapacity;        
         UpdatePlayerUI();
 
         originalHeight = controller.height;
@@ -490,6 +492,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
                     dmg.TakeDamage(meleeDamage);
             }
         }
+    }
+
+    public void spawnPlayer()
+    {
+        controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
+
+        HP = HPOrig;
+        UpdatePlayerUI();
     }
 
     //meleeDamage set to 2

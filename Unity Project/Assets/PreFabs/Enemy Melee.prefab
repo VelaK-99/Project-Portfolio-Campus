@@ -660,12 +660,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 7106522082794519899}
   agent: {fileID: 3254114589505309126}
+  headPos: {fileID: 6297487563788713834}
+  whereICameFrom: {fileID: 0}
   HP: 5
   faceTargetSpeed: 8
+  fov: 0
+  roamDist: 0
+  roamPauseTime: 0
   shootPos: {fileID: 5679668502662178358}
   bullet: {fileID: 1084385584208275833, guid: 3d0d91f22f257a44e8e99e847dc46668, type: 3}
   shootRate: 1
-  room: {fileID: 0}
+  shootFOV: 0
 --- !u!95 &5008763777265189049
 Animator:
   serializedVersion: 7

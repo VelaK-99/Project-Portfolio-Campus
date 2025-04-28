@@ -14,6 +14,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    public GameObject playerSpawnPos;
+    public GameObject checkpointPopup;
     public GameObject enemyCountTextObject;
     public GameObject reloadGunText;
     public GameObject reloadingGun;
@@ -45,6 +47,7 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
+        playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
     // Update is called once per frame

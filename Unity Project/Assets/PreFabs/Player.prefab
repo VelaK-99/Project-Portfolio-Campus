@@ -212,9 +212,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   controller: {fileID: 5688579929998117802}
-  HP: 20
+  HP: 100
   speed: 5
   sprintMod: 3
   jumpSpeed: 12
@@ -223,13 +223,27 @@ MonoBehaviour:
   jetMax: 0
   gravity: 35
   interactDist: 3
-  shootDamage: 1
+  shootDamage: 2
   shootDist: 25
   shootRate: 0.5
-  TotalAmmo: 70
+  TotalAmmo: 200
   reloadTime: 1.2
   AmmoCapacity: 7
   isShotgun: 0
+  crouchHeight: 2
+  crouchSpeedMod: 2
+  cam: {fileID: 7491251138447997815}
+  slideSpeed: 6
+  slideDuration: 2
+  grenadePrefab: {fileID: 0}
+  grenadeSpawnPoint: {fileID: 0}
+  grenadeThrowForce: 20
+  adsCamPos: {x: 0, y: 0, z: 0}
+  adsSpeed: 0
+  meleeDamage: 0
+  meleeRate: 0
+  meleeDist: 0
+  playerSpawnPos: {fileID: 0}
 --- !u!143 &5688579929998117802
 CharacterController:
   m_ObjectHideFlags: 0
