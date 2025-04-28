@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Hotkey_Bar : MonoBehaviour
 {
-    public Weapons[] weaponSLOTS = new Weapons[3];
+    public gunStats[] weaponSLOTS = new gunStats[3];
     public int activeSLOT = -1;
 
 
-    public void AssignAvailableSLOT(Weapons pickedWEAPON)
+    public void AssignAvailableSLOT(gunStats pickedWEAPON)
     {
         for (int i = 0; i < weaponSLOTS.Length; i++)
         {

@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IDamage, IInteract
+public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
+    [Header("===== Controls =====")]
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
 
+    [Header("===== Stats =====")]
     [SerializeField] int HP;
     [SerializeField] int speed;
     [SerializeField] int sprintMod;
@@ -18,15 +20,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] int gravity;
     [SerializeField] int interactDist;
 
-    [SerializeField] int shootDamage = 3;
-    [SerializeField] int shootDist = 35;
-    [SerializeField] int mshootDamage = 1;
-    //[SerializeField] float mshootDist = 25;
-    [SerializeField] float shootRate = 0.5f;
-    [SerializeField] int TotalAmmo = 70;
-    [SerializeField] float reloadTime = 1.2f;
-    [SerializeField] int AmmoCapacity = 7;
-    [SerializeField] public bool isShotgun;
+    [Header("===== Weapons =====")]
+    [SerializeField] List<gunStats> arsenal = new List<gunStats>();
+    [SerializeField] GameObject gunModel;
+    [SerializeField] int shootDamage;
+    [SerializeField] int shootDist;
+    [SerializeField] float shootRate;
+    [SerializeField] int TotalAmmo;
+    [SerializeField] float reloadTime;
+    [SerializeField] int AmmoCapacity;
+    [SerializeField] gunStats startingWeapon;
 
     [SerializeField] float crouchHeight;
     [SerializeField] float crouchSpeedMod;
@@ -42,21 +45,25 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
+    /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
     [SerializeField] float meleeDist;
+    */
 
-    int bulletsInGun;
-    int MaxAmmo = 100;
+    int MaxAmmo;
 
     int jumpCount;
     int HPOrig;
+    int gunListPos;
+    public GameObject playerSpawnPos;
 
     float shootTimer;
 
     Vector3 moveDir;
     Vector3 playerVel;
 
+    bool isShotgun;
     bool isSprinting;
     bool isReloading;
 
@@ -69,20 +76,24 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     bool isSliding;
     float slideTimer;
-    Vector3 slideDirection;
-    float currentSlideSpeed;
 
     Vector3 camDefaultPos;
     bool isAiming;
 
-    float meleeTimer;
+    int bulletsInGun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
-        bulletsInGun = AmmoCapacity;
+        spawnPlayer();
+        bulletsInGun = AmmoCapacity;        
         UpdatePlayerUI();
+
+        arsenal.Add(startingWeapon);
+        gunListPos = 0;
+        startingWeapon.currentAmmo = startingWeapon.ammoCapacity;
+        ChangeGun();
 
         originalHeight = controller.height;
         originalCenter = controller.center;
@@ -99,22 +110,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     void Update()
     {
         Movement();
-
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
-        {
-            StartCoroutine(Reload());
-        }
-
-        if (bulletsInGun <= 0 && !isReloading && TotalAmmo > 0)
-        {
-            if (gameManager.instance.reloadGunText != null)
-                gameManager.instance.reloadGunText.SetActive(true);
-        }
-        else
-        {
-            if (gameManager.instance.reloadGunText != null)
-                gameManager.instance.reloadGunText.SetActive(false);
-        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
@@ -142,33 +137,55 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         shootTimer += Time.deltaTime;
 
+        //Shooting
         if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && !isShotgun)
         {
             Shoot();
         }
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && isShotgun)
+        //Shooting Shotgun
+        else if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && isShotgun)
         {
             ShootShotgun();
         }
 
-
-        if (Input.GetButton("Interact"))
+        //Reload
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity && TotalAmmo != 0)
         {
-            Interact();
+            StartCoroutine(Reload());
         }
 
+        //Displaying Reload Text
+        if (bulletsInGun <= 0 && !isReloading && TotalAmmo > 0)
+        {
+            if (gameManager.instance.reloadGunText != null)
+                gameManager.instance.reloadGunText.SetActive(true);
+        }
+
+        //Displaying Empty Gun Text
+        else if (arsenal.Count > 0 && bulletsInGun <= 0 && !isReloading && TotalAmmo == 0)
+        {
+            if (gameManager.instance.emptyGunText != null)
+                gameManager.instance.emptyGunText.SetActive(true);
+        }
+
+        //Disabling Texts
+        else
+        {
+            gameManager.instance.reloadGunText.SetActive(false);
+            gameManager.instance.emptyGunText.SetActive(false);
+        }
+
+        Interact();
+        
+
+        SelectGun();
         Sprint();
-
         Crouch();
-
         Slide();
-
         ThrowGrenade();
-
         AimDownSights();
-
-        Melee();
+        //Melee();
     }
 
     void Jump()
@@ -177,7 +194,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         {
             jumpCount++;
             playerVel.y = jumpSpeed;
-        }      
+        }
     }
 
     void Sprint()
@@ -200,36 +217,48 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
         {
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
+
+            Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
-        bulletsInGun--;
+        arsenal[gunListPos].currentAmmo--;
+        bulletsInGun = arsenal[gunListPos].currentAmmo;
+        UpdatePlayerUI();
     }
 
     void ShootShotgun()
     {
         shootTimer = 0;
         int pellets = 10;
-        float spreadAngle = 15f;
+        float spreadAngle = 10f;
 
-
-        for (int i = 0; i < pellets; i++)
+        if (isShotgun)
         {
-            Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
-
-            if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+            for (int i = 0; i < pellets; i++)
             {
-                Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
-                Debug.Log(hit.collider.name);
 
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
-                if (dmg != null)
-                    dmg.TakeDamage(shootDamage / pellets);
+                Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
+
+                if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+                {
+                    Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+
+                    Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
+                    Debug.Log(hit.collider.name);
+
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(shootDamage / pellets);
+                }
             }
         }
+        arsenal[gunListPos].currentAmmo--;
+        bulletsInGun = arsenal[gunListPos].currentAmmo;
+        UpdatePlayerUI();
     }
 
 
@@ -245,14 +274,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     IEnumerator Reload()
     {
         isReloading = true;
-        gameManager.instance.reloadingGun.SetActive(true);
+        gameManager.instance.reloadingGunText.SetActive(true);
 
         yield return new WaitForSeconds(reloadTime);
 
-        if(TotalAmmo >= AmmoCapacity)
+        if (TotalAmmo >= AmmoCapacity)
         {
-            TotalAmmo -= AmmoCapacity;
-            bulletsInGun = AmmoCapacity;
+            int reloadAmt = AmmoCapacity - bulletsInGun;
+            TotalAmmo -= reloadAmt;
+            bulletsInGun += reloadAmt;
         }
         else
         {
@@ -260,22 +290,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             TotalAmmo = 0;
         }
         isReloading = false;
-        gameManager.instance.reloadingGun.SetActive(false);
-    }
+        arsenal[gunListPos].currentAmmo = bulletsInGun;
+        arsenal[gunListPos].totalAmmo = TotalAmmo;
+        gameManager.instance.reloadingGunText.SetActive(false);
 
-    public void AddAmmo(int amount)
-    {
-        TotalAmmo += amount;
-
-        if(TotalAmmo > MaxAmmo) { TotalAmmo = MaxAmmo; }
-    } // Adds ammo; Called in pickups
-
-    public void AddHealth(int amount)
-    {
-        HP += amount;
-        if(HP > HPOrig) HP = HPOrig;
         UpdatePlayerUI();
-    } //Adds health; Called in pickups
+    }
 
     public void Interact()
     {
@@ -288,13 +308,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
-            if (interaction != null) interaction.Interact();
+            if (interaction != null)
+            { 
+                interaction.Interact(); 
+            }
 
         }
-        else if(gameManager.instance.textActive != null) // If the raycast does not detect the object it resets and clears the text.
+        else if(gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
         {
-                gameManager.instance.textActive.SetActive(false);
-                gameManager.instance.textActive = null; 
+                gameManager.instance.interactUI.SetActive(false);
         }
 
     }
@@ -319,47 +341,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public int getCurHP()
     {
         return HP;
-    } // Getter for Player's cuurent health
+    } // Getter for Player's current health
 
-    //Called in pickups. updates the shooting stats to the picked up weapon's
-    public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
-    {
-        shootDamage = damage;
-        shootDist = range;
-        shootRate = fireRate;
-        reloadTime = ReloadTime;
-        AmmoCapacity = ammoCapacity;
-        bulletsInGun = ammoCapacity;
-    }
-
-    
-    /*
-    /// <summary>
-    /// Test code for Hotkey bar to pick up weapons using an updated void UpdateWeapon method.
-    /// Currently causes issues in pickups.cs
-    /// </summary>
-    /// <param name="thatWEAPON"></param>
-    public void UpdateWeapon(Weapons thatWEAPON)
-    {
-
-        this.shootDamage = thatWEAPON.damage;
-        this.shootDist = thatWEAPON.range;
-        this.shootRate = thatWEAPON.fireRate;
-        this.reloadTime = thatWEAPON.reloadTime;
-        this.MaxAmmo = thatWEAPON.maxAmmo;
-    
-
-        //A test for the Hotkey system
-        Weapons TESTweapon = new Weapons("TESTweapon", shootDamage, shootDist,
-            shootRate, reloadTime, MaxAmmo, MaxAmmo);
-
-        Hotkey_Bar hotkeyBAR = FindObjectOfType<Hotkey_Bar>();
-        if (hotkeyBAR != null)
-        {
-            hotkeyBAR.AssignAvailableSLOT(TESTweapon);
-        }
-    }  
-    */
 
     public int GetMaxAmmo()
     {
@@ -369,6 +352,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public void UpdatePlayerUI()
     {
         gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;
+        if (arsenal.Count > 0)
+        {
+            gameManager.instance.CurrentAmmo.text = arsenal[gunListPos].currentAmmo.ToString("F0");
+            gameManager.instance.TotalAmmo.text = arsenal[gunListPos].totalAmmo.ToString("F0");
+        }
     }
 
     IEnumerator FlashDamageScreen()
@@ -378,9 +366,65 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         gameManager.instance.playerDamageScreen.SetActive(false);
     }
 
+    public void GetGunStats(gunStats gun)
+    {
+        arsenal.Add(gun);
+        gunListPos = arsenal.Count - 1;
+        ChangeGun();
+    }
+
+    public void HealthPickup(int amount)
+    {
+        HP += amount;
+        if (HP > HPOrig) { HP = HPOrig; }
+
+        UpdatePlayerUI();
+    } //When picking up Health
+
+    public void AmmoPickup(int amount)
+    {
+        arsenal[gunListPos].totalAmmo += amount;
+        if (arsenal[gunListPos].totalAmmo > MaxAmmo) { arsenal[gunListPos].totalAmmo = MaxAmmo; }
+
+        UpdatePlayerUI();
+    } //When picking up Ammo
+
+    void SelectGun()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < arsenal.Count - 1)
+        {
+            gunListPos++;
+            ChangeGun();
+        }
+
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && gunListPos > 0)
+        {
+            gunListPos--;
+            ChangeGun();
+        }
+    }
+
+    void ChangeGun()
+    {
+        shootDamage = arsenal[gunListPos].shootDmg;
+        shootDist = arsenal[gunListPos].shootDist;
+        shootRate = arsenal[gunListPos].shootRate;
+        reloadTime = arsenal[gunListPos].reloadSpeed;
+        AmmoCapacity = arsenal[gunListPos].ammoCapacity;
+        bulletsInGun = arsenal[gunListPos].currentAmmo;
+        TotalAmmo = arsenal[gunListPos].totalAmmo;
+        MaxAmmo = arsenal[gunListPos].maxAmmo;
+        isShotgun = arsenal[gunListPos].isShotgun;
+
+        gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
+        gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
+
+        UpdatePlayerUI();
+    }
+
     void Crouch()
     {
-        if (Input.GetButtonDown("Crouch"))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             isCrouching = !isCrouching;
 
@@ -407,7 +451,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void Slide()
     {
-        if (Input.GetButtonDown("Crouch") && isSprinting && controller.isGrounded && !isSliding)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting && controller.isGrounded && !isSliding)
         {
             isSliding = true;
             isCrouching = true;
@@ -418,9 +462,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             controller.center = new Vector3(0, crouchHeight / 2, 0);
             speed = (int)slideSpeed;
 
-            slideDirection = moveDir.normalized; //this is so slide thrusts the player forward
-            currentSlideSpeed = slideSpeed;
-
             if (cam != null)
                 cam.localPosition = camCrouchPos;
         }
@@ -429,11 +470,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         {
             slideTimer -= Time.deltaTime;
 
-            controller.Move(slideDirection * currentSlideSpeed * Time.deltaTime);
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
 
-            currentSlideSpeed = Mathf.Lerp(currentSlideSpeed, 0, Time.deltaTime * 2f);
-
-            if (slideTimer <= 0 || currentSlideSpeed <= 0.1f)
+            if (slideTimer <= 0)
             {
                 isSliding = false;
                 isCrouching = false;
@@ -450,7 +489,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void ThrowGrenade()
     {
-        if (Input.GetButtonDown("ThrowGrenade") && grenadePrefab != null && grenadeSpawnPoint != null)
+        if (Input.GetKeyDown(KeyCode.G) && grenadePrefab != null && grenadeSpawnPoint != null)
         {
             GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
 
@@ -464,7 +503,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void AimDownSights()
     {
-        if (Input.GetButton("AimDownSights")) //hold right click to aim
+        if (Input.GetMouseButton(1)) //hold right click to aim
         {
             isAiming = true;
         }
@@ -480,34 +519,37 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         }
     }
 
-    void Melee()
+    //void Melee()
+    //{
+    //    if (isMELEE)
+    //    {
+    //        meleeTimer += Time.deltaTime;
+
+    //        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+    //        {
+    //            meleeTimer = 0;
+
+    //            RaycastHit hit;
+
+    //            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+    //            {
+    //                Debug.Log("Melee hit: " + hit.collider.name);
+
+    //                IDamage dmg = hit.collider.GetComponent<IDamage>();
+    //                if (dmg != null)
+    //                    dmg.TakeDamage(meleeDamage);
+    //            }
+    //        }
+    //    }
+    //}
+
+    public void spawnPlayer()
     {
-        meleeTimer += Time.deltaTime;
+        controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
 
-        if (Input.GetButtonDown("Melee") && meleeTimer >= meleeRate)
-        {
-            meleeTimer = 0;
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
-            {
-                Debug.Log("Melee hit: " + hit.collider.name);
-
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
-                if (dmg != null)
-                    dmg.TakeDamage(meleeDamage);
-            }
-        }
+        HP = HPOrig;
+        UpdatePlayerUI();
     }
-
-    //meleeDamage set to 2
-
-    //melleRate set to 0.8
-
-    // meleeDist set to 2.5
-
-
 }
 
 
