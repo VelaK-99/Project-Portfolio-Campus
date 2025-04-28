@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 public class gameManager : MonoBehaviour
 {
@@ -15,12 +16,11 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
-    public TMP_Text CurrentAmmo, TotalAmmo;
-
+    public GameObject playerSpawnPos;
+    public GameObject checkpointPopup;
     public GameObject enemyCountTextObject;
     public GameObject reloadGunText;
-    public GameObject reloadingGunText;
-    public GameObject emptyGuntext;
+    public GameObject reloadingGun;
 
     [SerializeField] GameObject hotkeyBAR;
 
@@ -34,6 +34,11 @@ public class gameManager : MonoBehaviour
     public PlayerScript playerScript;
     public Image playerHPBar;
     public GameObject playerDamageScreen;
+
+    public int totalSpawners;
+    private int clearedSpawners;
+
+    public List<GameObject> totalEnemies = new List<GameObject> ();
     
 
     public bool isPaused;
@@ -50,6 +55,7 @@ public class gameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
+        playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
     // Update is called once per frame
@@ -151,12 +157,12 @@ public class gameManager : MonoBehaviour
     {
         gameGoalCount += amount;
 
-        if(gameGoalCount <= 0)
-        {
-            statePause();
-            menuActive = menuWin;
-            menuActive.SetActive(true);
-        }
+        //if(gameGoalCount <= 0)
+        //{
+        //    statePause();
+        //    menuActive = menuWin;
+        //    menuActive.SetActive(true);
+        //}
     } //Updates the game goal count when an enemy is spawned/killed
 
     public void youLose()
@@ -176,5 +182,36 @@ public class gameManager : MonoBehaviour
     public void InteractTextUpdate(string text) // Use to update the interaction text
     {
         interactionText.text = text;
+    }
+
+    public void CountSpawner()
+    {
+        totalSpawners++;
+    }
+
+    public void ClearSpawners()
+    {
+        clearedSpawners++;
+        CheckIfWin();
+    }
+
+    public void AddEnemy(GameObject enemy)
+    {
+        totalEnemies.Add(enemy);
+    }
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        totalEnemies.Remove(enemy);
+        totalEnemies.RemoveAll(item => item == null);
+        CheckIfWin();
+    }
+
+    public void CheckIfWin()
+    {
+        if(clearedSpawners >= totalSpawners && totalEnemies.Count <= 0)
+        {
+            youWin();
+        }
     }
 }

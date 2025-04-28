@@ -339,12 +339,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 4465772889346421708}
   agent: {fileID: 9145273030685955255}
-  HP: 5
+  animator: {fileID: 1131864792578107568}
+  headPos: {fileID: 5186763443098539780}
+  HP: 10
   faceTargetSpeed: 2
+  fov: 90
+  animTranSpeed: 6
+  roamDist: 0
+  roamPauseTime: 0
   shootPos: {fileID: 3523957986135192304}
   bullet: {fileID: 1084385584208275833, guid: 90712495c659bb448bafc725a5c0ade8, type: 3}
   shootRate: 5
-  room: {fileID: 0}
+  shootFOV: 15
+  whereICameFrom: {fileID: 0}
 --- !u!95 &1131864792578107568
 Animator:
   serializedVersion: 7

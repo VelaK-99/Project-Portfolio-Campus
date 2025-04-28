@@ -45,17 +45,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
+    /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
     [SerializeField] float meleeDist;
-
-    int bulletsInGun;
-    int MaxAmmo = 100;
+    */
 
 
     int jumpCount;
     int HPOrig;
     int gunListPos;
+    public GameObject playerSpawnPos;
 
     float shootTimer;
 
@@ -79,13 +79,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     Vector3 camDefaultPos;
     bool isAiming;
 
-    float meleeTimer;
+ 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
-        bulletsInGun = AmmoCapacity;
+        spawnPlayer();
+        bulletsInGun = AmmoCapacity;        
         UpdatePlayerUI();
 
         arsenal.Add(startingWeapon);
@@ -235,6 +236,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         shootTimer = 0;
 
+        weaponLIST[weaponLIST_INDEX].mag_curAmmo--;
+
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
@@ -242,6 +245,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             //Debug.Log(hit.collider.name);
 
             Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+
+            Instantiate(weaponLIST[weaponLIST_INDEX].hitEFFECT, hit.point, Quaternion.identity);
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
@@ -258,20 +263,23 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         int pellets = 10;
         float spreadAngle = 10f;
 
-
-        for (int i = 0; i < pellets; i++)
+        if (isShotgun)
         {
-            Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
-
-            if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+            for (int i = 0; i < pellets; i++)
             {
                 Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
-                //Debug.Log(hit.collider.name);
                 Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+                Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
 
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
-                if (dmg != null)
-                    dmg.TakeDamage(shootDamage / pellets);
+                if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+                {
+                    Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
+                    Debug.Log(hit.collider.name);
+
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(shootDamage / pellets);
+                }
             }
         }
         arsenal[gunListPos].currentAmmo--;
@@ -356,35 +364,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public int getCurHP()
     {
         return HP;
-    } // Getter for Player's cuurent health
+    } // Getter for Player's current health
 
-    /*
-    /// <summary>
-    /// Test code for Hotkey bar to pick up weapons using an updated void UpdateWeapon method.
-    /// Currently causes issues in pickups.cs
-    /// </summary>
-    /// <param name="thatWEAPON"></param>
-    public void UpdateWeapon(Weapons thatWEAPON)
+    public void getWEAPON_STATS(Weapons weapon)
     {
+        weaponLIST.Add(weapon);
+        weaponLIST_INDEX = weaponLIST.Count - 1;
+    }
 
-        this.shootDamage = thatWEAPON.damage;
-        this.shootDist = thatWEAPON.range;
-        this.shootRate = thatWEAPON.fireRate;
-        this.reloadTime = thatWEAPON.reloadTime;
-        this.MaxAmmo = thatWEAPON.maxAmmo;
-    
-
-        //A test for the Hotkey system
-        Weapons TESTweapon = new Weapons("TESTweapon", shootDamage, shootDist,
-            shootRate, reloadTime, MaxAmmo, MaxAmmo);
-
-        Hotkey_Bar hotkeyBAR = FindObjectOfType<Hotkey_Bar>();
-        if (hotkeyBAR != null)
-        {
-            hotkeyBAR.AssignAvailableSLOT(TESTweapon);
-        }
-    }  
-    */
 
     public int GetMaxAmmo()
     {
@@ -563,23 +550,34 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Melee()
     {
-        meleeTimer += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+        if (isMELEE)
         {
-            meleeTimer = 0;
+            meleeTimer += Time.deltaTime;
 
-            RaycastHit hit;
-
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+            if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
             {
-                Debug.Log("Melee hit: " + hit.collider.name);
+                meleeTimer = 0;
 
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
-                if (dmg != null)
-                    dmg.TakeDamage(meleeDamage);
+                RaycastHit hit;
+
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+                {
+                    Debug.Log("Melee hit: " + hit.collider.name);
+
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(meleeDamage);
+                }
             }
         }
+    }
+
+    public void spawnPlayer()
+    {
+        controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
+
+        HP = HPOrig;
+        UpdatePlayerUI();
     }
 }
 

@@ -23,6 +23,7 @@ public class pickups : MonoBehaviour
                 Destroy(gameObject);
                 gameManager.instance.playerScript.UpdatePlayerUI();
             }
+            */
         }
 
         if (pickupable != null && type == pickupType.ammoPack)
