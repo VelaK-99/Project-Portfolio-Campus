@@ -339,8 +339,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 4465772889346421708}
   agent: {fileID: 9145273030685955255}
+  animator: {fileID: 1131864792578107568}
   HP: 10
   faceTargetSpeed: 2
+  animTranSpeed: 6
   shootPos: {fileID: 3523957986135192304}
   bullet: {fileID: 1084385584208275833, guid: 90712495c659bb448bafc725a5c0ade8, type: 3}
   shootRate: 5
