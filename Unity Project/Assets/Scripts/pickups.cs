@@ -11,12 +11,6 @@ public class pickups : MonoBehaviour
     [SerializeField] float destroyTime;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-       
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         IPickup pickupable = other.GetComponent<IPickup>();
