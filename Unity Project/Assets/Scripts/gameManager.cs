@@ -16,11 +16,15 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] public TMP_Text TotalAmmo;
+    [SerializeField] public TMP_Text CurrentAmmo;
+
+    public GameObject emptyGunText;
     public GameObject playerSpawnPos;
     public GameObject checkpointPopup;
     public GameObject enemyCountTextObject;
     public GameObject reloadGunText;
-    public GameObject reloadingGun;
+    public GameObject reloadingGunText;
 
     [SerializeField] GameObject hotkeyBAR;
 

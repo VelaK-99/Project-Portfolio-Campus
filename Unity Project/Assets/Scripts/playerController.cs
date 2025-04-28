@@ -51,6 +51,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] float meleeDist;
     */
 
+    int MaxAmmo;
 
     int jumpCount;
     int HPOrig;
@@ -79,7 +80,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     Vector3 camDefaultPos;
     bool isAiming;
 
- 
+    int bulletsInGun;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -109,34 +110,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     void Update()
     {
         Movement();
-
-        Sprint();
-
-        Crouch();
-
-        Slide();
-
-        ThrowGrenade();
-
-        AimDownSights();
-
-        Melee();
-
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
-        {
-            StartCoroutine(Reload());
-        }
-
-        if (bulletsInGun <= 0 && !isReloading && TotalAmmo > 0)
-        {
-            if (gameManager.instance.reloadGunText != null)
-                gameManager.instance.reloadGunText.SetActive(true);
-        }
-        else
-        {
-            if (gameManager.instance.reloadGunText != null)
-                gameManager.instance.reloadGunText.SetActive(false);
-        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
@@ -192,15 +165,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         //Displaying Empty Gun Text
         else if (arsenal.Count > 0 && bulletsInGun <= 0 && !isReloading && TotalAmmo == 0)
         {
-            if (gameManager.instance.emptyGuntext != null)
-                gameManager.instance.emptyGuntext.SetActive(true);
+            if (gameManager.instance.emptyGunText != null)
+                gameManager.instance.emptyGunText.SetActive(true);
         }
 
         //Disabling Texts
         else
         {
             gameManager.instance.reloadGunText.SetActive(false);
-            gameManager.instance.emptyGuntext.SetActive(false);
+            gameManager.instance.emptyGunText.SetActive(false);
         }
 
         if (Input.GetButton("Interact"))
@@ -209,6 +182,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         SelectGun();
+        Sprint();
+        Crouch();
+        Slide();
+        ThrowGrenade();
+        AimDownSights();
+        //Melee();
     }
 
     void Jump()
@@ -236,8 +215,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         shootTimer = 0;
 
-        weaponLIST[weaponLIST_INDEX].mag_curAmmo--;
-
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
@@ -245,8 +222,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             //Debug.Log(hit.collider.name);
 
             Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
-
-            Instantiate(weaponLIST[weaponLIST_INDEX].hitEFFECT, hit.point, Quaternion.identity);
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
@@ -267,12 +242,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             for (int i = 0; i < pellets; i++)
             {
-                Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
-                Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+
                 Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
 
                 if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
                 {
+                    Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+
                     Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
                     Debug.Log(hit.collider.name);
 
@@ -365,12 +341,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         return HP;
     } // Getter for Player's current health
-
-    public void getWEAPON_STATS(Weapons weapon)
-    {
-        weaponLIST.Add(weapon);
-        weaponLIST_INDEX = weaponLIST.Count - 1;
-    }
 
 
     public int GetMaxAmmo()
@@ -548,29 +518,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-    void Melee()
-    {
-        if (isMELEE)
-        {
-            meleeTimer += Time.deltaTime;
+    //void Melee()
+    //{
+    //    if (isMELEE)
+    //    {
+    //        meleeTimer += Time.deltaTime;
 
-            if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
-            {
-                meleeTimer = 0;
+    //        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+    //        {
+    //            meleeTimer = 0;
 
-                RaycastHit hit;
+    //            RaycastHit hit;
 
-                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
-                {
-                    Debug.Log("Melee hit: " + hit.collider.name);
+    //            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+    //            {
+    //                Debug.Log("Melee hit: " + hit.collider.name);
 
-                    IDamage dmg = hit.collider.GetComponent<IDamage>();
-                    if (dmg != null)
-                        dmg.TakeDamage(meleeDamage);
-                }
-            }
-        }
-    }
+    //                IDamage dmg = hit.collider.GetComponent<IDamage>();
+    //                if (dmg != null)
+    //                    dmg.TakeDamage(meleeDamage);
+    //            }
+    //        }
+    //    }
+    //}
 
     public void spawnPlayer()
     {
