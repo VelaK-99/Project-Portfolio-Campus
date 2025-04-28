@@ -176,10 +176,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gameManager.instance.emptyGunText.SetActive(false);
         }
 
-        if (Input.GetButton("Interact"))
-        {
-            Interact();
-        }
+        Interact();
+        
 
         SelectGun();
         Sprint();
@@ -310,7 +308,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
-            if (interaction != null) interaction.Interact();
+            if (interaction != null)
+            { 
+                interaction.Interact(); 
+            }
 
         }
         else if(gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
