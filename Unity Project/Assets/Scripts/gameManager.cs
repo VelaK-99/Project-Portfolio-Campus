@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Rendering;
 
 public class gameManager : MonoBehaviour
 {
@@ -26,7 +27,8 @@ public class gameManager : MonoBehaviour
     public GameObject[] InventorySLOTS;
     public int slotINDEX = -1;
 
-    public GameObject textActive;
+    public GameObject interactUI;
+    [SerializeField] TMP_Text interactionText; // Changeable text that you can use InteractTextUpdate()
 
     public GameObject player;
     public PlayerScript playerScript;
@@ -164,4 +166,15 @@ public class gameManager : MonoBehaviour
         menuActive.SetActive(true);
     } //Brings up the lose menu
 
+    public void youWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
+    }
+
+    public void InteractTextUpdate(string text) // Use to update the interaction text
+    {
+        interactionText.text = text;
+    }
 }

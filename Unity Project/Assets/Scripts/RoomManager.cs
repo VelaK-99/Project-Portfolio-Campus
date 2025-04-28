@@ -5,6 +5,8 @@ using JetBrains.Annotations;
 
 public class RoomManager : MonoBehaviour
 {
+
+    [SerializeField] bool IsFinalRoom;
     public List<GameObject> enemies;
     public GameObject wallToDestroy;
 
@@ -50,8 +52,15 @@ public class RoomManager : MonoBehaviour
 
         if(remainingEnemies <= 0)
         {
-            wallToDestroy.SetActive(false);
-            gameManager.instance.currentRoom++;
+            if(IsFinalRoom)
+            {
+                gameManager.instance.youWin();
+            }
+            else
+            {
+                Destroy(wallToDestroy);
+                gameManager.instance.currentRoom++;
+            }
         }
     }
 }

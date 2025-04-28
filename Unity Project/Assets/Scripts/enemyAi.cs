@@ -7,9 +7,11 @@ public class EnemyAI : MonoBehaviour, IDamage
 {
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Animator animator;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
+    [SerializeField] int animTranSpeed;
 
 
     [SerializeField] Transform shootPos;
@@ -34,6 +36,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void Update()
     {
+        onAnimLomotion();
         if (playerInRange)
         {
             playerDir = (gameManager.instance.player.transform.position - transform.position);
@@ -53,7 +56,13 @@ public class EnemyAI : MonoBehaviour, IDamage
             }
         }
     }
+    void onAnimLomotion()
+    {
+        float agentSpeedCur = agent.velocity.normalized.magnitude;
+        float animSpeedCur = animator.GetFloat("speed");
 
+        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur,agentSpeedCur,Time.deltaTime*animTranSpeed));
+    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -98,7 +107,12 @@ public class EnemyAI : MonoBehaviour, IDamage
     void shoot()
     {
         shootTimer = 0;
-        Instantiate(bullet, shootPos.position, transform.rotation);
+        animator.SetTrigger("shoot");
+    }
+    public void createBullet()
+    {
+            Instantiate(bullet, shootPos.position, transform.rotation);
+        
     }
 
     void faceTarget()

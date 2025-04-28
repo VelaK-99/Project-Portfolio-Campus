@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class cameraController : MonoBehaviour
 {
 
     [SerializeField] int sens;

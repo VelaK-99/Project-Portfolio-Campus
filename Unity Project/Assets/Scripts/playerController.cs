@@ -31,6 +31,24 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] int AmmoCapacity;
     [SerializeField] gunStats startingWeapon;
 
+    [SerializeField] float crouchHeight;
+    [SerializeField] float crouchSpeedMod;
+    [SerializeField] Transform cam;
+
+    [SerializeField] float slideSpeed;
+    [SerializeField] float slideDuration;
+
+    [SerializeField] GameObject grenadePrefab;
+    [SerializeField] Transform grenadeSpawnPoint;
+    [SerializeField] float grenadeThrowForce;
+
+    [SerializeField] Vector3 adsCamPos;
+    [SerializeField] float adsSpeed;
+
+    [SerializeField] int meleeDamage;
+    [SerializeField] float meleeRate;
+    [SerializeField] float meleeDist;
+
     int bulletsInGun;
     int MaxAmmo = 100;
 
@@ -48,6 +66,21 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     bool isSprinting;
     bool isReloading;
 
+    bool isCrouching;
+
+    float originalHeight;
+    Vector3 originalCenter;
+    Vector3 camOriginalPos;
+    Vector3 camCrouchPos;
+
+    bool isSliding;
+    float slideTimer;
+
+    Vector3 camDefaultPos;
+    bool isAiming;
+
+    float meleeTimer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -59,6 +92,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         gunListPos = 0;
         startingWeapon.currentAmmo = startingWeapon.ammoCapacity;
         ChangeGun();
+
+        originalHeight = controller.height;
+        originalCenter = controller.center;
+
+        if (cam != null)
+        {
+            camOriginalPos = cam.localPosition;
+            camDefaultPos = camOriginalPos;
+            camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
+        }
     }
 
     // Update is called once per frame
@@ -67,6 +110,32 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         Movement();
 
         Sprint();
+
+        Crouch();
+
+        Slide();
+
+        ThrowGrenade();
+
+        AimDownSights();
+
+        Melee();
+
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
+        {
+            StartCoroutine(Reload());
+        }
+
+        if (bulletsInGun <= 0 && !isReloading && TotalAmmo > 0)
+        {
+            if (gameManager.instance.reloadGunText != null)
+                gameManager.instance.reloadGunText.SetActive(true);
+        }
+        else
+        {
+            if (gameManager.instance.reloadGunText != null)
+                gameManager.instance.reloadGunText.SetActive(false);
+        }
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
@@ -260,10 +329,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             if (interaction != null) interaction.Interact();
 
         }
-        else if (gameManager.instance.textActive != null) // If the raycast does not detect the object it resets and clears the text.
+        else if(gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
         {
-            gameManager.instance.textActive.SetActive(false);
-            gameManager.instance.textActive = null;
+                gameManager.instance.interactUI.SetActive(false);
         }
 
     }
@@ -394,6 +462,124 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
         UpdatePlayerUI();
+    }
+
+    void Crouch()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            isCrouching = !isCrouching;
+
+            if (isCrouching)
+            {
+                controller.height = crouchHeight;
+                controller.center = new Vector3(0, crouchHeight / 2, 0);
+                speed /= (int)crouchSpeedMod;
+
+                if (cam != null)
+                    cam.localPosition = camCrouchPos;
+            }
+            else
+            {
+                controller.height = originalHeight;
+                controller.center = originalCenter;
+                speed *= (int)crouchSpeedMod;
+
+                if (cam != null)
+                    cam.localPosition = camOriginalPos;
+            }
+        }
+    }
+
+    void Slide()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting && controller.isGrounded && !isSliding)
+        {
+            isSliding = true;
+            isCrouching = true;
+
+            slideTimer = slideDuration;
+
+            controller.height = crouchHeight;
+            controller.center = new Vector3(0, crouchHeight / 2, 0);
+            speed = (int)slideSpeed;
+
+            if (cam != null)
+                cam.localPosition = camCrouchPos;
+        }
+
+        if (isSliding)
+        {
+            slideTimer -= Time.deltaTime;
+
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+
+            if (slideTimer <= 0)
+            {
+                isSliding = false;
+                isCrouching = false;
+
+                controller.height = originalHeight;
+                controller.center = originalCenter;
+                speed = isSprinting ? speed / (int)crouchSpeedMod : speed / (int)(crouchSpeedMod * sprintMod); // Reset to normal or sprint speed
+
+                if (cam != null)
+                    cam.localPosition = camOriginalPos;
+            }
+        }
+    }
+
+    void ThrowGrenade()
+    {
+        if (Input.GetKeyDown(KeyCode.G) && grenadePrefab != null && grenadeSpawnPoint != null)
+        {
+            GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
+
+            Rigidbody rb = grenade.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(grenadeSpawnPoint.forward * grenadeThrowForce, ForceMode.VelocityChange);
+            }
+        }
+    }
+
+    void AimDownSights()
+    {
+        if (Input.GetMouseButton(1)) //hold right click to aim
+        {
+            isAiming = true;
+        }
+        else
+        {
+            isAiming = false;
+        }
+
+        if (cam != null)
+        {
+            Vector3 targetPos = isAiming ? adsCamPos : (isCrouching ? camCrouchPos : camDefaultPos);
+            cam.localPosition = Vector3.Lerp(cam.localPosition, targetPos, Time.deltaTime * adsSpeed);
+        }
+    }
+
+    void Melee()
+    {
+        meleeTimer += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+        {
+            meleeTimer = 0;
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+            {
+                Debug.Log("Melee hit: " + hit.collider.name);
+
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+                if (dmg != null)
+                    dmg.TakeDamage(meleeDamage);
+            }
+        }
     }
 }
 

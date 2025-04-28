@@ -36,5 +36,9 @@ public class Hotkey_Bar : MonoBehaviour
                 //FindObjectOfType<PlayerScript>().UpdateWeapon(weaponSLOTS[index]);
             }
         }
+        else
+        {
+            index = activeSLOT;
+        }
     }
 }

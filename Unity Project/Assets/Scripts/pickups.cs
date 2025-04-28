@@ -14,10 +14,7 @@ public class pickups : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (type == pickupType.healthPack || type == pickupType.ammoPack)
-        {
-            Destroy(gameObject, destroyTime);
-        }
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,6 +27,7 @@ public class pickups : MonoBehaviour
             {
                 pickupable.HealthPickup(healthAmount);
                 Destroy(gameObject);
+                gameManager.instance.playerScript.UpdatePlayerUI();
             }
         }
 
