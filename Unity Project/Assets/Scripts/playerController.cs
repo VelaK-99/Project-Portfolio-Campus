@@ -18,8 +18,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] int gravity;
     [SerializeField] int interactDist;
 
-    [SerializeField] int shootDamage = 1;
-    [SerializeField] int shootDist = 25;
+    [SerializeField] int shootDamage = 3;
+    [SerializeField] int shootDist = 35;
+    [SerializeField] int mshootDamage = 1;
+    //[SerializeField] float mshootDist = 25;
     [SerializeField] float shootRate = 0.5f;
     [SerializeField] int TotalAmmo = 70;
     [SerializeField] float reloadTime = 1.2f;
@@ -67,6 +69,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     bool isSliding;
     float slideTimer;
+    Vector3 slideDirection;
+    float currentSlideSpeed;
 
     Vector3 camDefaultPos;
     bool isAiming;
@@ -95,18 +99,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     void Update()
     {
         Movement();
-
-        Sprint();
-
-        Crouch();
-
-        Slide();
-
-        ThrowGrenade();
-
-        AimDownSights();
-
-        Melee();
 
         if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
         {
@@ -165,6 +157,18 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         {
             Interact();
         }
+
+        Sprint();
+
+        Crouch();
+
+        Slide();
+
+        ThrowGrenade();
+
+        AimDownSights();
+
+        Melee();
     }
 
     void Jump()
@@ -376,7 +380,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void Crouch()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetButtonDown("Crouch"))
         {
             isCrouching = !isCrouching;
 
@@ -403,7 +407,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void Slide()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting && controller.isGrounded && !isSliding)
+        if (Input.GetButtonDown("Crouch") && isSprinting && controller.isGrounded && !isSliding)
         {
             isSliding = true;
             isCrouching = true;
@@ -414,6 +418,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             controller.center = new Vector3(0, crouchHeight / 2, 0);
             speed = (int)slideSpeed;
 
+            slideDirection = moveDir.normalized; //this is so slide thrusts the player forward
+            currentSlideSpeed = slideSpeed;
+
             if (cam != null)
                 cam.localPosition = camCrouchPos;
         }
@@ -422,9 +429,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         {
             slideTimer -= Time.deltaTime;
 
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            controller.Move(slideDirection * currentSlideSpeed * Time.deltaTime);
 
-            if (slideTimer <= 0)
+            currentSlideSpeed = Mathf.Lerp(currentSlideSpeed, 0, Time.deltaTime * 2f);
+
+            if (slideTimer <= 0 || currentSlideSpeed <= 0.1f)
             {
                 isSliding = false;
                 isCrouching = false;
@@ -441,7 +450,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void ThrowGrenade()
     {
-        if (Input.GetKeyDown(KeyCode.G) && grenadePrefab != null && grenadeSpawnPoint != null)
+        if (Input.GetButtonDown("ThrowGrenade") && grenadePrefab != null && grenadeSpawnPoint != null)
         {
             GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
 
@@ -455,7 +464,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void AimDownSights()
     {
-        if (Input.GetMouseButton(1)) //hold right click to aim
+        if (Input.GetButton("AimDownSights")) //hold right click to aim
         {
             isAiming = true;
         }
@@ -475,7 +484,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     {
         meleeTimer += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+        if (Input.GetButtonDown("Melee") && meleeTimer >= meleeRate)
         {
             meleeTimer = 0;
 
