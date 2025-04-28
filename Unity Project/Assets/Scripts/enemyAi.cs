@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
-    
+
 
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
@@ -56,7 +56,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     public void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             playerInRange = true;
         }
@@ -72,18 +72,20 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
         HP -= amount;
         StartCoroutine(flashRed());
-        agent.SetDestination(gameManager.instance.player.transform.position);
 
         if (HP <= 0)
         {
 
-            if(room != null)
+            if (room != null)
             {
                 room.OnEnemyKilled();
             }
 
             Destroy(gameObject);
         }
+
+        else
+            agent.SetDestination(gameManager.instance.player.transform.position);
     }
 
     IEnumerator flashRed()

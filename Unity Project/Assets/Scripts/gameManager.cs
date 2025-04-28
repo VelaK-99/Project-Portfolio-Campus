@@ -14,9 +14,12 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    public TMP_Text CurrentAmmo, TotalAmmo;
+
     public GameObject enemyCountTextObject;
     public GameObject reloadGunText;
-    public GameObject reloadingGun;
+    public GameObject reloadingGunText;
+    public GameObject emptyGuntext;
 
     [SerializeField] GameObject hotkeyBAR;
 

@@ -23,8 +23,8 @@ public class RefillStash : MonoBehaviour, IInteract
         gameManager.instance.textActive.SetActive(true);
         if(Input.GetButtonDown("Interact")) // if the player interacts with the object using the E key it does this function
         {
-            gameManager.instance.playerScript.AddHealth(gameManager.instance.playerScript.getOrigHP());
-            gameManager.instance.playerScript.AddAmmo(gameManager.instance.playerScript.GetMaxAmmo());
+            gameManager.instance.playerScript.HealthPickup(gameManager.instance.playerScript.getOrigHP());
+            gameManager.instance.playerScript.AmmoPickup(gameManager.instance.playerScript.GetMaxAmmo());
 
         }
     }
