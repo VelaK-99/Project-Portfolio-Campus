@@ -18,12 +18,49 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] int gravity;
     [SerializeField] int interactDist;
 
+    /*
     [SerializeField] int shootDamage = 1;
     [SerializeField] int shootDist = 25;
     [SerializeField] float shootRate = 0.5f;
+    */
+
+    /// <summary>
+    /// The damage attached to the Weapon
+    /// </summary>
+    int shootDamage;
+
+    /// <summary>
+    /// The range of the weapon
+    /// </summary>
+    int shootDist;
+
+    /// <summary>
+    /// The rate at which the weapon shoots
+    /// </summary>
+    float shootRate;
+
+    /*
     [SerializeField] int TotalAmmo = 70;
     [SerializeField] float reloadTime = 1.2f;
     [SerializeField] int AmmoCapacity = 7;
+    */
+
+    /// <summary>
+    /// Total Ammo attached to weapon
+    /// </summary>
+    int TotalAmmo;
+
+    /// <summary>
+    /// The reload time for the weapon
+    /// </summary>
+    float reloadTime;
+
+    /// <summary>
+    /// The total capacity of the weapon
+    /// </summary>
+    int AmmoCapacity;
+
+
     [SerializeField] public bool isShotgun;
 
     [SerializeField] float crouchHeight;
@@ -40,9 +77,27 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
+    /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
     [SerializeField] float meleeDist;
+    */
+
+    /// <summary>
+    /// The damage attached to weapon
+    /// </summary>
+    int meleeDamage;
+
+    /// <summary>
+    /// The rate at which to melee
+    /// </summary>
+    float meleeRate;
+
+    /// <summary>
+    /// The range of the melee attack
+    /// </summary>
+    float meleeDist;
+
 
     int bulletsInGun;
     int MaxAmmo = 100;
@@ -329,33 +384,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     }
 
     
-    /*
-    /// <summary>
-    /// Test code for Hotkey bar to pick up weapons using an updated void UpdateWeapon method.
-    /// Currently causes issues in pickups.cs
-    /// </summary>
-    /// <param name="thatWEAPON"></param>
-    public void UpdateWeapon(Weapons thatWEAPON)
-    {
 
-        this.shootDamage = thatWEAPON.damage;
-        this.shootDist = thatWEAPON.range;
-        this.shootRate = thatWEAPON.fireRate;
-        this.reloadTime = thatWEAPON.reloadTime;
-        this.MaxAmmo = thatWEAPON.maxAmmo;
-    
-
-        //A test for the Hotkey system
-        Weapons TESTweapon = new Weapons("TESTweapon", shootDamage, shootDist,
-            shootRate, reloadTime, MaxAmmo, MaxAmmo);
-
-        Hotkey_Bar hotkeyBAR = FindObjectOfType<Hotkey_Bar>();
-        if (hotkeyBAR != null)
-        {
-            hotkeyBAR.AssignAvailableSLOT(TESTweapon);
-        }
-    }  
-    */
 
     public int GetMaxAmmo()
     {
