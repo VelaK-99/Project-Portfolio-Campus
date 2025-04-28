@@ -24,44 +24,74 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] float shootRate = 0.5f;
     */
 
+    /*
+[SerializeField] int TotalAmmo = 70;
+[SerializeField] float reloadTime = 1.2f;
+[SerializeField] int AmmoCapacity = 7;
+*/
+    /// <summary>
+    /// Allows the picked up weapon to be seen in player view 
+    /// </summary>
+    [SerializeField] GameObject weaponMODEL;
     /// <summary>
     /// The damage attached to the Weapon
     /// </summary>
     int shootDamage;
-
     /// <summary>
     /// The range of the weapon
     /// </summary>
     int shootDist;
-
     /// <summary>
     /// The rate at which the weapon shoots
     /// </summary>
     float shootRate;
-
-    /*
-    [SerializeField] int TotalAmmo = 70;
-    [SerializeField] float reloadTime = 1.2f;
-    [SerializeField] int AmmoCapacity = 7;
-    */
-
     /// <summary>
     /// Total Ammo attached to weapon
     /// </summary>
     int TotalAmmo;
-
     /// <summary>
     /// The reload time for the weapon
     /// </summary>
     float reloadTime;
-
     /// <summary>
     /// The total capacity of the weapon
     /// </summary>
     int AmmoCapacity;
-
-
+    /// <summary>
+    /// The amount of melee damage
+    /// </summary>
+    int meleeDamage;
+    /// <summary>
+    /// The rate at which to melee
+    /// </summary>
+    float meleeRate;
+    /// <summary>
+    /// The range of the melee attack
+    /// </summary>
+    float meleeDist;
+    /// <summary>
+    /// To control the melee rate
+    /// </summary>
+    float meleeTimer;
+    /// <summary>
+    /// Is this weapon a shotgun?
+    /// </summary>
     [SerializeField] public bool isShotgun;
+    /// <summary>
+    /// Is this a melee attack?
+    /// </summary>
+    [SerializeField] public bool isMELEE;
+    /// <summary>
+    /// List to hold the currently equipped weapons
+    /// </summary>
+    [SerializeField] List<Weapons> weaponLIST = new List<Weapons>();
+    /// <summary>
+    /// To point to the currently equipped weapon in the weapon list
+    /// </summary>
+    int weaponLIST_INDEX;
+
+    int bulletsInGun;
+    int MaxAmmo;
 
     [SerializeField] float crouchHeight;
     [SerializeField] float crouchSpeedMod;
@@ -82,25 +112,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     [SerializeField] float meleeRate;
     [SerializeField] float meleeDist;
     */
-
-    /// <summary>
-    /// The damage attached to weapon
-    /// </summary>
-    int meleeDamage;
-
-    /// <summary>
-    /// The rate at which to melee
-    /// </summary>
-    float meleeRate;
-
-    /// <summary>
-    /// The range of the melee attack
-    /// </summary>
-    float meleeDist;
-
-
-    int bulletsInGun;
-    int MaxAmmo = 100;
 
     int jumpCount;
     int HPOrig;
@@ -127,7 +138,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     Vector3 camDefaultPos;
     bool isAiming;
 
-    float meleeTimer;
+ 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -220,6 +231,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         
             Interact();
+
+        selectWEAPON();
         
     }
 
@@ -248,11 +261,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     {
         shootTimer = 0;
 
+        weaponLIST[weaponLIST_INDEX].mag_curAmmo--;
+
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
         {
             Debug.Log(hit.collider.name);
+
+            Instantiate(weaponLIST[weaponLIST_INDEX].hitEFFECT, hit.point, Quaternion.identity);
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
@@ -267,19 +284,23 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         int pellets = 10;
         float spreadAngle = 15f;
 
-
-        for (int i = 0; i < pellets; i++)
+        if (isShotgun)
         {
-            Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
-
-            if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+            for (int i = 0; i < pellets; i++)
             {
-                Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
-                Debug.Log(hit.collider.name);
+                Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
 
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
-                if (dmg != null)
-                    dmg.TakeDamage(shootDamage / pellets);
+                if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+                {
+                    Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
+                    Debug.Log(hit.collider.name);
+
+                    Instantiate(weaponLIST[weaponLIST_INDEX].hitEFFECT, hit.point, Quaternion.identity);
+
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(shootDamage / pellets);
+                }
             }
         }
     }
@@ -372,6 +393,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         return HP;
     } // Getter for Player's cuurent health
 
+
+
+    /*
     //Called in pickups. updates the shooting stats to the picked up weapon's
     public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
     {
@@ -382,8 +406,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         AmmoCapacity = ammoCapacity;
         bulletsInGun = ammoCapacity;
     }
-
-    
+    */
+    public void getWEAPON_STATS(Weapons weapon)
+    {
+        weaponLIST.Add(weapon);
+        weaponLIST_INDEX = weaponLIST.Count - 1;
+    }
 
 
     public int GetMaxAmmo()
@@ -502,21 +530,24 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void Melee()
     {
-        meleeTimer += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+        if (isMELEE)
         {
-            meleeTimer = 0;
+            meleeTimer += Time.deltaTime;
 
-            RaycastHit hit;
-
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+            if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
             {
-                Debug.Log("Melee hit: " + hit.collider.name);
+                meleeTimer = 0;
 
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
-                if (dmg != null)
-                    dmg.TakeDamage(meleeDamage);
+                RaycastHit hit;
+
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+                {
+                    Debug.Log("Melee hit: " + hit.collider.name);
+
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(meleeDamage);
+                }
             }
         }
     }
@@ -527,6 +558,30 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         HP = HPOrig;
         UpdatePlayerUI();
+    }
+
+    void selectWEAPON()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponLIST_INDEX < weaponLIST.Count - 1)
+        {
+            weaponLIST_INDEX++;
+            changeWEAPON();
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && weaponLIST_INDEX > 0)
+        {
+            weaponLIST_INDEX--;
+            changeWEAPON();
+        }
+    }
+
+    void changeWEAPON()
+    {
+        shootDamage = weaponLIST[weaponLIST_INDEX].damage;
+        shootRate = weaponLIST[weaponLIST_INDEX].fireRate;
+        shootDist = weaponLIST[weaponLIST_INDEX].range;
+
+        weaponMODEL.GetComponent<MeshFilter>().sharedMesh = weaponLIST[weaponLIST_INDEX].gunMODEL.GetComponent<MeshFilter>().sharedMesh;
+        weaponMODEL.GetComponent<MeshRenderer>().sharedMaterial = weaponLIST[weaponLIST_INDEX].gunMODEL.GetComponent<MeshRenderer>().sharedMaterial;
     }
 
     //meleeDamage set to 2

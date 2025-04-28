@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class pickups : MonoBehaviour
 {
-    enum pickupType { healthPack, ammoPack, Pistol, AssaultRifle, Shotgun, Sniper }
+    enum pickupType { healthPack, ammoPack }
     [SerializeField] int healthAmount;
     [SerializeField] int ammoAmount;
     [SerializeField] pickupType type;
     [SerializeField] float destroyTime;
 
-
+    /// <summary>
+    /// If the pickup is a weapon
+    /// </summary>
+    [SerializeField] Weapons thisWEAPON;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,6 +31,8 @@ public class pickups : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        IInteract ITEM = other.GetComponent<IInteract>();
+
         PlayerScript player = other.GetComponent<PlayerScript>();
 
         if (other.CompareTag("Player"))
@@ -48,6 +53,16 @@ public class pickups : MonoBehaviour
                 Destroy(gameObject);
             }
 
+            if (ITEM != null)
+            {
+                ITEM.getWEAPON_STATS(thisWEAPON);
+                thisWEAPON.currentAmmo = thisWEAPON.maxAmmo;
+                thisWEAPON.mag_curAmmo = thisWEAPON.mag_Capacity;
+
+                gameManager.instance.playerScript.UpdatePlayerUI();
+                Destroy(gameObject);
+            }
+            /*
             if(player != null && type == pickupType.Pistol)
             {
                 player.UpdateWeapon(1, 25, 0.5f, 1.2f, 7);
@@ -72,6 +87,7 @@ public class pickups : MonoBehaviour
                 player.UpdateWeapon(30, 70, 2, 3f, 5);
                 Destroy(gameObject);
             }
+            */
         }
     }
 }

@@ -19,4 +19,6 @@ public class RefillStash : MonoBehaviour, IInteract
         }
     }
 
+    public void getWEAPON_STATS(Weapons thisWEAPON) { }
+
 }
