@@ -8,8 +8,10 @@ public class Spawner : MonoBehaviour
     [SerializeField] int numToSpawn;
     [SerializeField] int timeBetweenSpawns;
     [SerializeField] Transform[] spawnPos;
-    [SerializeField] GameObject entrance;
-    [SerializeField] GameObject exit;
+    [SerializeField] OpenDoor entrance;
+    [SerializeField] OpenDoor exit;
+    OpenDoor door;
+    private bool isCleared = false;
 
     public List<GameObject> spawnList = new List<GameObject>();
 
@@ -21,7 +23,7 @@ public class Spawner : MonoBehaviour
     
     void Start()
     {
-
+        gameManager.instance.CountSpawner();
     }
     
     void Update()
@@ -42,8 +44,8 @@ public class Spawner : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             startSpawning = true;
-            entrance.SetActive(true);
-            exit.SetActive(true);
+            entrance.LockDoor();
+            exit.LockDoor();
         }
     }
 
@@ -54,6 +56,8 @@ public class Spawner : MonoBehaviour
 
         GameObject enemyClone = Instantiate(objectsToSpawn[enemyArrayIndex], spawnPos[arrayPos].position, spawnPos[arrayPos].rotation);
         spawnList.Add(enemyClone);
+
+        gameManager.instance.AddEnemy(enemyClone);
         enemyClone.GetComponent<EnemyAI>().whereICameFrom = this;
         spawnCount++;
         spawnTimer = 0;
@@ -61,10 +65,14 @@ public class Spawner : MonoBehaviour
 
     public void checkEnemyTotal()
     {
-        if (spawnList.Count <= 0)
+        if (spawnList.Count <= 0 && !isCleared)
         {
-            entrance.SetActive(false);
-            exit.SetActive(false);
+            entrance.UnlockDoor();
+            exit.UnlockDoor();
+
+            isCleared = true;
+
+            gameManager.instance.ClearSpawners();
         }
     }
 }

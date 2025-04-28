@@ -8,10 +8,14 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
+    [SerializeField] Transform headPos;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
+    [SerializeField] int fov;
     [SerializeField] int animTranSpeed;
+    [SerializeField] int roamDist;
+    [SerializeField] int roamPauseTime;
 
 
     [SerializeField] Transform shootPos;
@@ -25,7 +29,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     float angleToPlayer;
     float stoppingDistOrig;
 
-    
+    public Spawner whereICameFrom;
+
 
     Color colorOriginal;
 
@@ -44,7 +49,10 @@ public class EnemyAI : MonoBehaviour, IDamage
     void Update()
     {
         onAnimLomotion();
-        if (playerInRange)
+        if (agent.remainingDistance < 0.01f)
+            roamTimer += Time.deltaTime;
+
+        if (playerInRange && !CanSeePlayer())
         {
             checkRoam();
         }
@@ -85,6 +93,9 @@ public class EnemyAI : MonoBehaviour, IDamage
         {
             gameManager.instance.UpdateGameGoal(-1);
             whereICameFrom.spawnList.Remove(gameObject);
+            
+            gameManager.instance.RemoveEnemy(gameObject);
+
             whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
             Destroy(gameObject);
         }

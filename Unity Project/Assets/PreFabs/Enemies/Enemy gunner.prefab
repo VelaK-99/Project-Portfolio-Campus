@@ -248,13 +248,18 @@ MonoBehaviour:
   model: {fileID: 5422307608469253352}
   agent: {fileID: 3604038115171440814}
   animator: {fileID: 6158415743423404558}
+  headPos: {fileID: 7017721214005784707}
   HP: 5
   faceTargetSpeed: 8
+  fov: 0
   animTranSpeed: 6
+  roamDist: 0
+  roamPauseTime: 0
   shootPos: {fileID: 304202209342690472}
   bullet: {fileID: 1084385584208275833, guid: a19226d1cd1d2314aa8d44961c0f106e, type: 3}
   shootRate: 0.5
   shootFOV: 25
+  whereICameFrom: {fileID: 0}
 --- !u!95 &6158415743423404558
 Animator:
   serializedVersion: 7
