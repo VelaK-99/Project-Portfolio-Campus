@@ -19,9 +19,10 @@ MonoBehaviour:
   reloadSpeed: 1.6
   ammoCapacity: 8
   currentAmmo: 8
-  totalAmmo: 60
+  totalAmmo: 45
   maxAmmo: 120
   isShotgun: 0
   hitEffect: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
-  shootSounds: []
-  shootSoundVol: 0.5
+  shootSounds:
+  - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
+  shootSoundVol: 0.504

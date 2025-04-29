@@ -2,12 +2,14 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
     [Header("===== Controls =====")]
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
+    [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
     [SerializeField] int HP;
@@ -45,6 +47,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
+
+    [SerializeField] AudioClip[] audJump;
+    [SerializeField] float audJumpVol;
+    [SerializeField] AudioClip[] audHurt;
+    [SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audStep;
+    [SerializeField] float audStepVol;
+    [SerializeField] AudioClip[] audReload;
+    [SerializeField] float audReloadVol;
+    [SerializeField] float shootSoundsVol;
+
     /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
@@ -63,6 +76,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     Vector3 moveDir;
     Vector3 playerVel;
 
+    bool isPlayingStep;
     bool isShotgun;
     bool isSprinting;
     bool isReloading;
@@ -120,6 +134,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (controller.isGrounded)
         {
+            if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
+            {
+                StartCoroutine(playStep());
+            }
             jumpCount = 0;
             playerVel = Vector3.zero;
         }
@@ -188,10 +206,28 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         //Melee();
     }
 
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+
+        if (isSprinting)
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.5f);
+
+        }
+        isPlayingStep = false;
+    }
+
     void Jump()
     {
         if (Input.GetButtonDown("Jump") && jumpCount < jumpMax)
         {
+            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
             jumpCount++;
             playerVel.y = jumpSpeed;
         }
@@ -201,18 +237,20 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         if (Input.GetButtonDown("Sprint"))
         {
+            isSprinting = true;
             speed *= sprintMod;
         }
         else if (Input.GetButtonUp("Sprint"))
         {
             speed /= sprintMod;
+            isSprinting = false;
         }
     }
 
     void Shoot()
     {
         shootTimer = 0;
-
+        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.RandomRange(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
@@ -245,6 +283,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
                 if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
                 {
+                    aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.RandomRange(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
                     Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
                     Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
@@ -273,6 +312,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     IEnumerator Reload()
     {
+        aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audReloadVol);
         isReloading = true;
         gameManager.instance.reloadingGunText.SetActive(true);
 
@@ -280,6 +320,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (TotalAmmo >= AmmoCapacity)
         {
+           
             int reloadAmt = AmmoCapacity - bulletsInGun;
             TotalAmmo -= reloadAmt;
             bulletsInGun += reloadAmt;
@@ -323,7 +364,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void TakeDamage(int amount)
     {
+
         HP -= amount;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
         UpdatePlayerUI();
         StartCoroutine(FlashDamageScreen());
 
@@ -391,6 +434,19 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         UpdatePlayerUI();
     } //When picking up Ammo
+
+    public void RefillAllAmmo() // for the refill stash to refill all weapons
+    {
+        for (int gunListCount = 0; gunListCount < arsenal.Count; gunListCount++)
+        {
+            if (arsenal[gunListCount].totalAmmo < MaxAmmo) 
+            { 
+                arsenal[gunListCount].totalAmmo = arsenal[gunListCount].maxAmmo; 
+                TotalAmmo = arsenal[gunListCount].totalAmmo;
+            }
+        }
+        UpdatePlayerUI();
+    }
 
     public void SelectGun()
     {
