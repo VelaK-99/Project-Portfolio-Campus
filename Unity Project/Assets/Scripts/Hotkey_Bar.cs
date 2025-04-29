@@ -6,6 +6,7 @@ public class Hotkey_Bar : MonoBehaviour
     public gunStats[] weaponSLOTS = new gunStats[3];
     public int activeSLOT = -1;
 
+    public PlayerScript playerSCRIPT;
 
     public void AssignAvailableSLOT(gunStats pickedWEAPON)
     {
@@ -14,6 +15,7 @@ public class Hotkey_Bar : MonoBehaviour
             if (weaponSLOTS[i] == null)
             {
                 weaponSLOTS[i] = pickedWEAPON;
+                break;
             }
         }
     }
@@ -33,7 +35,7 @@ public class Hotkey_Bar : MonoBehaviour
         {
             {
                 activeSLOT = index;
-                //FindObjectOfType<PlayerScript>().UpdateWeapon(weaponSLOTS[index]);
+                playerSCRIPT.GetGunStats(weaponSLOTS[index]);
             }
         }
         else

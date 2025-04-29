@@ -93,7 +93,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         arsenal.Add(startingWeapon);
         gunListPos = 0;
         startingWeapon.currentAmmo = startingWeapon.ammoCapacity;
-        ChangeGun();
+        ChangeGun(gunListPos);
 
         originalHeight = controller.height;
         originalCenter = controller.center;
@@ -370,7 +370,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         arsenal.Add(gun);
         gunListPos = arsenal.Count - 1;
-        ChangeGun();
+        ChangeGun(gunListPos);
     }
 
     public void HealthPickup(int amount)
@@ -389,23 +389,27 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
     } //When picking up Ammo
 
-    void SelectGun()
+    public void SelectGun()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < arsenal.Count - 1)
         {
-            gunListPos++;
-            ChangeGun();
+            //gunListPos++;
+            ChangeGun(gunListPos + 1);
         }
 
         else if (Input.GetAxis("Mouse ScrollWheel") < 0 && gunListPos > 0)
         {
-            gunListPos--;
-            ChangeGun();
+            //gunListPos--;
+            ChangeGun(gunListPos - 1);
         }
     }
 
-    void ChangeGun()
+    public void ChangeGun(int index)
     {
+        if (index >= 0 && index < arsenal.Count)
+{
+        gunListPos = index;
+
         shootDamage = arsenal[gunListPos].shootDmg;
         shootDist = arsenal[gunListPos].shootDist;
         shootRate = arsenal[gunListPos].shootRate;
@@ -419,7 +423,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
         gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
-        UpdatePlayerUI();
+         UpdatePlayerUI();
+        }
     }
 
     void Crouch()
@@ -519,29 +524,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-    //void Melee()
-    //{
-    //    if (isMELEE)
-    //    {
-    //        meleeTimer += Time.deltaTime;
+/*    void Melee()
+    {
+        if (isMELEE)
+        {
+            meleeTimer += Time.deltaTime;
 
-    //        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
-    //        {
-    //            meleeTimer = 0;
+            if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+            {
+                meleeTimer = 0;
 
-    //            RaycastHit hit;
+                RaycastHit hit;
 
-    //            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
-    //            {
-    //                Debug.Log("Melee hit: " + hit.collider.name);
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+                {
+                    Debug.Log("Melee hit: " + hit.collider.name);
 
-    //                IDamage dmg = hit.collider.GetComponent<IDamage>();
-    //                if (dmg != null)
-    //                    dmg.TakeDamage(meleeDamage);
-    //            }
-    //        }
-    //    }
-    //}
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(meleeDamage);
+                }
+            }
+        }
+    }*/
 
     public void spawnPlayer()
     {

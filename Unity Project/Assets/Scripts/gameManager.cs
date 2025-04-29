@@ -124,7 +124,7 @@ public class gameManager : MonoBehaviour
     /// Function for deselecting(unequipping) selected object
     /// </summary>
     /// <param name="index"></param>
-    void ToggleSlot(int index)
+    public void ToggleSlot(int index)
     {
         if (slotINDEX == index)
         {
@@ -136,6 +136,8 @@ public class gameManager : MonoBehaviour
         {
             EventSystem.current.SetSelectedGameObject(InventorySLOTS[index]);
             slotINDEX = index;
+
+            playerScript.ChangeGun(index);
         }
     }
 
