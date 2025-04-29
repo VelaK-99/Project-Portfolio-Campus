@@ -664,7 +664,7 @@ MonoBehaviour:
   headPos: {fileID: 6297487563788713834}
   HP: 5
   faceTargetSpeed: 8
-  fov: 0
+  fov: 90
   animTranSpeed: 6
   roamDist: 0
   roamPauseTime: 0
@@ -683,7 +683,7 @@ Animator:
   m_GameObject: {fileID: 6134072893057945072}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f4209d51d1ad0434299f2d498ee076ba, type: 3}
-  m_Controller: {fileID: 9100000, guid: c9198944ab3e80c4e862bb996543b0c8, type: 2}
+  m_Controller: {fileID: 9100000, guid: a9606d7979003234bbb0689b58f9b4ee, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

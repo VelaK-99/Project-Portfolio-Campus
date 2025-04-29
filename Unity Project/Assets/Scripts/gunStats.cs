@@ -12,6 +12,7 @@ public class gunStats : ScriptableObject
     public int currentAmmo; //Ammo in mag
     public int totalAmmo; //Mags/Ammo left
     public int maxAmmo; //Max Mags/Ammo you can have
+    public string GunName;
     public bool isShotgun;
 
     public ParticleSystem hitEffect;

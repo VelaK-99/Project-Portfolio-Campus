@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         HPOrig = HP;
         spawnPlayer();
-        bulletsInGun = AmmoCapacity;        
+        bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
 
         arsenal.Add(startingWeapon);
@@ -177,7 +177,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         Interact();
-        
+
 
         SelectGun();
         Sprint();
@@ -309,14 +309,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
             if (interaction != null)
-            { 
-                interaction.Interact(); 
+            {
+                interaction.Interact();
             }
 
         }
-        else if(gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
+        else if (gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
         {
-                gameManager.instance.interactUI.SetActive(false);
+            gameManager.instance.interactUI.SetActive(false);
         }
 
     }
@@ -368,9 +368,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void GetGunStats(gunStats gun)
     {
-        arsenal.Add(gun);
-        gunListPos = arsenal.Count - 1;
-        ChangeGun(gunListPos);
+            arsenal.Add(gun);
+            gunListPos = arsenal.Count - 1;
+            ChangeGun(gunListPos);
     }
 
     public void HealthPickup(int amount)
@@ -384,7 +384,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public void AmmoPickup(int amount)
     {
         arsenal[gunListPos].totalAmmo += amount;
-        if (arsenal[gunListPos].totalAmmo > MaxAmmo) { arsenal[gunListPos].totalAmmo = MaxAmmo; }
+        if (arsenal[gunListPos].totalAmmo > MaxAmmo)
+        {
+            arsenal[gunListPos].totalAmmo = MaxAmmo;
+        }
 
         UpdatePlayerUI();
     } //When picking up Ammo
@@ -407,23 +410,23 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public void ChangeGun(int index)
     {
         if (index >= 0 && index < arsenal.Count)
-{
-        gunListPos = index;
+        {
+            gunListPos = index;
 
-        shootDamage = arsenal[gunListPos].shootDmg;
-        shootDist = arsenal[gunListPos].shootDist;
-        shootRate = arsenal[gunListPos].shootRate;
-        reloadTime = arsenal[gunListPos].reloadSpeed;
-        AmmoCapacity = arsenal[gunListPos].ammoCapacity;
-        bulletsInGun = arsenal[gunListPos].currentAmmo;
-        TotalAmmo = arsenal[gunListPos].totalAmmo;
-        MaxAmmo = arsenal[gunListPos].maxAmmo;
-        isShotgun = arsenal[gunListPos].isShotgun;
+            shootDamage = arsenal[gunListPos].shootDmg;
+            shootDist = arsenal[gunListPos].shootDist;
+            shootRate = arsenal[gunListPos].shootRate;
+            reloadTime = arsenal[gunListPos].reloadSpeed;
+            AmmoCapacity = arsenal[gunListPos].ammoCapacity;
+            bulletsInGun = arsenal[gunListPos].currentAmmo;
+            TotalAmmo = arsenal[gunListPos].totalAmmo;
+            MaxAmmo = arsenal[gunListPos].maxAmmo;
+            isShotgun = arsenal[gunListPos].isShotgun;
 
-        gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
-        gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
+            gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
+            gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
-         UpdatePlayerUI();
+            UpdatePlayerUI();
         }
     }
 
@@ -524,29 +527,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-/*    void Melee()
-    {
-        if (isMELEE)
+    /*    void Melee()
         {
-            meleeTimer += Time.deltaTime;
-
-            if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+            if (isMELEE)
             {
-                meleeTimer = 0;
+                meleeTimer += Time.deltaTime;
 
-                RaycastHit hit;
-
-                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+                if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
                 {
-                    Debug.Log("Melee hit: " + hit.collider.name);
+                    meleeTimer = 0;
 
-                    IDamage dmg = hit.collider.GetComponent<IDamage>();
-                    if (dmg != null)
-                        dmg.TakeDamage(meleeDamage);
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
+                    {
+                        Debug.Log("Melee hit: " + hit.collider.name);
+
+                        IDamage dmg = hit.collider.GetComponent<IDamage>();
+                        if (dmg != null)
+                            dmg.TakeDamage(meleeDamage);
+                    }
                 }
             }
-        }
-    }*/
+        }*/
 
     public void spawnPlayer()
     {
