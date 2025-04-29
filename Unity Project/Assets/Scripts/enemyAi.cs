@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
     [SerializeField] Transform headPos;
+    [SerializeField] AudioSource aud;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
@@ -16,6 +17,12 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int animTranSpeed;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
+    [SerializeField] AudioClip[] audShoot;
+    [SerializeField] float audShootVol;
+    [SerializeField] AudioClip[] audHurt;
+    [SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audStep;
+    [SerializeField] float audStepVol;
 
 
     [SerializeField] Transform shootPos;
@@ -28,6 +35,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     float roamTimer;
     float angleToPlayer;
     float stoppingDistOrig;
+    bool isPlayingStep;
 
     public Spawner whereICameFrom;
 
@@ -66,7 +74,27 @@ public class EnemyAI : MonoBehaviour, IDamage
         float agentSpeedCur = agent.velocity.normalized.magnitude;
         float animSpeedCur = animator.GetFloat("speed");
 
-        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur,agentSpeedCur,Time.deltaTime*animTranSpeed));
+        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
+        bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
+
+        if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
+        {
+            StartCoroutine(playStep());
+        }
+    }
+
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+
+        if (audStep.Length > 0)
+        {
+            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        isPlayingStep = false;
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -86,6 +114,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     public void TakeDamage(int amount)
     {
         HP -= amount;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
         StartCoroutine(flashRed());
 
         if (HP <= 0)
@@ -112,6 +141,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void shoot()
     {
+        aud.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
         shootTimer = 0;
         animator.SetTrigger("shoot");
     }
