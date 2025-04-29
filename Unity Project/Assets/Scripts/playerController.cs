@@ -389,6 +389,19 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
     } //When picking up Ammo
 
+    public void RefillAllAmmo() // for the refill stash to refill all weapons
+    {
+        for (int gunListCount = 0; gunListCount < arsenal.Count; gunListCount++)
+        {
+            if (arsenal[gunListCount].totalAmmo < MaxAmmo) 
+            { 
+                arsenal[gunListCount].totalAmmo = arsenal[gunListCount].maxAmmo; 
+                TotalAmmo = arsenal[gunListCount].totalAmmo;
+            }
+        }
+        UpdatePlayerUI();
+    }
+
     public void SelectGun()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < arsenal.Count - 1)
