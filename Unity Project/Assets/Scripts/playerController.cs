@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] float meleeDist;
     */
 
-    int MaxAmmo;
+    int MaxAmmo = 100;
 
     int jumpCount;
     int HPOrig;
@@ -82,6 +82,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int bulletsInGun;
 
+    int baseSpeed;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -104,6 +106,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             camDefaultPos = camOriginalPos;
             camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
         }
+
+        baseSpeed = speed;
     }
 
     // Update is called once per frame
@@ -424,15 +428,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Crouch()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetButtonDown("Crouch"))
         {
             isCrouching = !isCrouching;
 
             if (isCrouching)
             {
                 controller.height = crouchHeight;
-                controller.center = new Vector3(0, crouchHeight / 2, 0);
-                speed /= (int)crouchSpeedMod;
+                controller.center = new Vector3(0, crouchHeight / 4, 0);
+                speed = (int)(baseSpeed / crouchSpeedMod);
 
                 if (cam != null)
                     cam.localPosition = camCrouchPos;
@@ -441,7 +445,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             {
                 controller.height = originalHeight;
                 controller.center = originalCenter;
-                speed *= (int)crouchSpeedMod;
+                speed = baseSpeed;
 
                 if (cam != null)
                     cam.localPosition = camOriginalPos;
@@ -451,7 +455,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Slide()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting && controller.isGrounded && !isSliding)
+        if (Input.GetButtonDown("Slide"))
         {
             isSliding = true;
             isCrouching = true;
@@ -459,7 +463,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             slideTimer = slideDuration;
 
             controller.height = crouchHeight;
-            controller.center = new Vector3(0, crouchHeight / 2, 0);
+            controller.center = new Vector3(0, crouchHeight / 4, 0);
             speed = (int)slideSpeed;
 
             if (cam != null)
@@ -479,7 +483,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
                 controller.height = originalHeight;
                 controller.center = originalCenter;
-                speed = isSprinting ? speed / (int)crouchSpeedMod : speed / (int)(crouchSpeedMod * sprintMod); // Reset to normal or sprint speed
+                speed = isSprinting ? baseSpeed * sprintMod : baseSpeed;
+
 
                 if (cam != null)
                     cam.localPosition = camOriginalPos;
@@ -489,7 +494,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void ThrowGrenade()
     {
-        if (Input.GetKeyDown(KeyCode.G) && grenadePrefab != null && grenadeSpawnPoint != null)
+        if (Input.GetButtonDown("ThrowGrenade"))
         {
             GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
 
@@ -503,7 +508,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void AimDownSights()
     {
-        if (Input.GetMouseButton(1)) //hold right click to aim
+        if (Input.GetButtonDown("AimDownSights")) //hold right click to aim
         {
             isAiming = true;
         }
@@ -525,7 +530,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     //    {
     //        meleeTimer += Time.deltaTime;
 
-    //        if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
+    //        if (Input.GetButtonDown("Melee"))
     //        {
     //            meleeTimer = 0;
 
