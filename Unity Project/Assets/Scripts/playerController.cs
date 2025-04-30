@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
     [SerializeField] GameObject gunModel;
-    [SerializeField] GameObject DUALmodel;
+    //[SerializeField] GameObject DUALmodel;
 
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
@@ -261,8 +261,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-
-    void dualWIELD()
+    
+    /* void dualWIELD()
     {
         gunStats similiarWEAPON = new gunStats();
 
@@ -272,7 +272,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
         }
     }
-
+    */
     void Shoot()
     {
         shootTimer = 0;
@@ -510,6 +510,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
             UpdatePlayerUI();
+
 
             for (int i = 0; i < hotkey_Slots.Count; i++)
             {
