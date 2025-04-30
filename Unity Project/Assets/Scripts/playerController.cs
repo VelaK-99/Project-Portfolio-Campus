@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
     [SerializeField] GameObject gunModel;
-    [SerializeField] GameObject DUALmodel;
+    //[SerializeField] GameObject DUALmodel;
 
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
@@ -261,8 +261,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-
-    void dualWIELD()
+    
+    /* void dualWIELD()
     {
         gunStats similiarWEAPON = new gunStats();
 
@@ -272,11 +272,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
         }
     }
-
+    */
     void Shoot()
     {
         shootTimer = 0;
-        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.RandomRange(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
@@ -309,7 +309,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
                 if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
                 {
-                    aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.RandomRange(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+                    aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
                     Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
                     Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
@@ -508,7 +508,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
             gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
+
             UpdatePlayerUI();
+
 
             for (int i = 0; i < hotkey_Slots.Count; i++)
             {
