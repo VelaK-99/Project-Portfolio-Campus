@@ -119,12 +119,22 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            if(whereICameFrom != null )
+            {
+                whereICameFrom.spawnList.Remove(gameObject);
+                whereICameFrom.spawnList.RemoveAll(e => e == null);
+                whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
+            }
+            else
+            {
+                Debug.LogWarning($"{name} has no spawner reference! Cannot update spawnList or unlock doors.");
+            }
             gameManager.instance.UpdateGameGoal(-1);
-            whereICameFrom.spawnList.Remove(gameObject);
+            
             
             gameManager.instance.RemoveEnemy(gameObject);
 
-            whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
+            
             Destroy(gameObject);
         }
 
