@@ -2,7 +2,11 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< Updated upstream
 using Unity.VisualScripting;
+=======
+using UnityEngine.UI;
+>>>>>>> Stashed changes
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
@@ -24,7 +28,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     [Header("===== Weapons =====")]
     [SerializeField] List<gunStats> arsenal = new List<gunStats>();
+
+    public List<Hotkey_slots_UI> hotkey_Slots;
+
+
     [SerializeField] GameObject gunModel;
+    [SerializeField] GameObject DUALmodel;
+
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
@@ -104,10 +114,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
 
+        if (startingWeapon != null)
+       { 
         arsenal.Add(startingWeapon);
         gunListPos = 0;
         startingWeapon.currentAmmo = startingWeapon.ammoCapacity;
         ChangeGun(gunListPos);
+        }
+        else
+        {
+            gunListPos = -1;
+        }
 
         originalHeight = controller.height;
         originalCenter = controller.center;
@@ -244,6 +261,18 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             speed /= sprintMod;
             isSprinting = false;
+        }
+    }
+
+
+    void dualWIELD()
+    {
+        gunStats similiarWEAPON = new gunStats();
+
+        if (arsenal[gunListPos].model == similiarWEAPON.model)
+        {
+            DUALmodel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
+            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
         }
     }
 
@@ -482,7 +511,25 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
             gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
+<<<<<<< Updated upstream
             UpdatePlayerUI();
+=======
+         UpdatePlayerUI();
+
+            for (int i = 0; i < hotkey_Slots.Count; i++)
+            {
+                if (i == gunListPos)
+                {
+                    hotkey_Slots[i].SetSLOT(arsenal[i]);
+                    hotkey_Slots[i].GetComponent<Image>().color = Color.yellow;
+                }
+                else
+                {
+                    hotkey_Slots[i].SetSLOT(null);
+                    hotkey_Slots[i].GetComponent<Image>().color = Color.white;
+                }
+            }
+>>>>>>> Stashed changes
         }
     }
 
