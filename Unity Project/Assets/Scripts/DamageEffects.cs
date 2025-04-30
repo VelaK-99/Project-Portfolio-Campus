@@ -21,10 +21,6 @@ public class damage : MonoBehaviour
     bool isDamaging;
     void Start()
     {
-        if (type == damageType.melee)
-        {
-
-        }
         if (type == damageType.moving || type == damageType.homing || type == damageType.AOE)
         {
             Destroy(gameObject, destroyTime);
@@ -67,7 +63,7 @@ public class damage : MonoBehaviour
             dmg.TakeDamage(damageAmount);
         }
 
-        if (type == damageType.moving || type == damageType.homing || type == damageType.melee)
+        if (type == damageType.moving || type == damageType.homing)
         {
             Destroy(gameObject);
         }

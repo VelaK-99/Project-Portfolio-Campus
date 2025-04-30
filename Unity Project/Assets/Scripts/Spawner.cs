@@ -9,8 +9,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] int timeBetweenSpawns;
     [SerializeField] Transform[] spawnPos;
     [SerializeField] OpenDoor entrance;
-    [SerializeField] OpenDoor exit;
-    OpenDoor door;
+    [SerializeField] OpenDoor exit;    
     private bool isCleared = false;
 
     public List<GameObject> spawnList = new List<GameObject>();
@@ -54,7 +53,12 @@ public class Spawner : MonoBehaviour
         int arrayPos = Random.Range(0, spawnPos.Length);
         int enemyArrayIndex = Random.Range(0, objectsToSpawn.Length);
 
-        GameObject enemyClone = Instantiate(objectsToSpawn[enemyArrayIndex], spawnPos[arrayPos].position, spawnPos[arrayPos].rotation);
+        Vector3 basePos = spawnPos[arrayPos].position;
+        Vector3 offset = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
+
+        Vector3 finalPos = basePos + offset;
+
+        GameObject enemyClone = Instantiate(objectsToSpawn[enemyArrayIndex], finalPos, spawnPos[arrayPos].rotation);
         spawnList.Add(enemyClone);
 
         gameManager.instance.AddEnemy(enemyClone);
@@ -65,8 +69,11 @@ public class Spawner : MonoBehaviour
 
     public void checkEnemyTotal()
     {
+        spawnList.RemoveAll(e => e == null || !e.activeInHierarchy);
+
         if (spawnList.Count <= 0 && !isCleared)
         {
+            
             entrance.UnlockDoor();
             exit.UnlockDoor();
 

@@ -18,10 +18,12 @@ MonoBehaviour:
   shootRate: 0.5
   reloadSpeed: 1
   ammoCapacity: 7
-  currentAmmo: 7
-  totalAmmo: 70
+  currentAmmo: 1
+  totalAmmo: 435
   maxAmmo: 100
+  GunName: 
   isShotgun: 0
   hitEffect: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
-  shootSounds: []
+  shootSounds:
+  - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
   shootSoundVol: 0.5
