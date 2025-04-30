@@ -33,6 +33,8 @@ public class pickups : MonoBehaviour
 
         if (pickupable != null && type == pickupType.gun)
         {
+            gun.currentAmmo = gun.ammoCapacity;
+            gun.totalAmmo = gun.maxAmmo;
             pickupable.GetGunStats(gun);
             Destroy(gameObject);
         }
