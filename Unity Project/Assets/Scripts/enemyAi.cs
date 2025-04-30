@@ -11,9 +11,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform headPos;
     [SerializeField] AudioSource aud;
 
-    [SerializeField] int HP;
+    [Range(0,100)] [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
-    [SerializeField] int fov;
+    [Range(0,180)][SerializeField] int fov;
     [SerializeField] int animTranSpeed;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
@@ -24,11 +24,11 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audStep;
     [SerializeField] float audStepVol;
 
-
+    [SerializeField] Collider knife;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
-    [SerializeField] float shootRate;
-    [SerializeField] int shootFOV;    
+    [Range(0,25)] [SerializeField] float shootRate;
+    [Range(0,45)] [SerializeField] int shootFOV;    
 
     float shootTimer;
     bool playerInRange;
@@ -207,5 +207,15 @@ public class EnemyAI : MonoBehaviour, IDamage
         }
         agent.stoppingDistance = 0;
         return false;
+    }
+
+    public void SwordColOn()
+    {
+        knife.enabled = true;
+    }
+
+    public void SwordColOff()
+    {
+        knife.enabled = false;
     }
 }
