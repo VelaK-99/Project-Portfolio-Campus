@@ -72,7 +72,7 @@ public class gameManager : MonoBehaviour
         
         if (Input.GetButtonDown("num2"))
         {
-            ToggleSlot(1);
+           ToggleSlot(1);
         }
 
         if (Input.GetButtonDown("num3"))
@@ -92,23 +92,25 @@ public class gameManager : MonoBehaviour
             else if (menuActive == menuPause)
             {
                 stateUnpause();
-            }
-        }
-
-        if (Input.GetButtonDown("TAB"))
-        {
-            if (menuActive == null)
-            {
-                menuActive = hotkeyBAR;
-                menuActive.SetActive(true);
-            }
-            else if (menuActive == hotkeyBAR)
-            {
                 menuActive.SetActive(false);
                 menuActive = null;
             }
         }
 
+        if (Input.GetButtonDown("TAB"))
+        {
+            if (hotkeyBAR == null)
+            {
+                menuActive = hotkeyBAR;
+                hotkeyBAR.SetActive(true);
+            }
+            else if (menuActive == hotkeyBAR)
+            {
+                hotkeyBAR.SetActive(false);
+                menuActive = null;
+            }
+        }
+        
         //Preventing deselection from mouse clicks by reapplying selection
         if (slotINDEX >= 0)
         {
@@ -117,9 +119,10 @@ public class gameManager : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(InventorySLOTS[slotINDEX]);
             }
         }
-
+        
     }
 
+    
     /// <summary>
     /// Function for deselecting(unequipping) selected object
     /// </summary>
@@ -140,6 +143,7 @@ public class gameManager : MonoBehaviour
             playerScript.ChangeGun(index);
         }
     }
+    
 
     public void statePause()
     {

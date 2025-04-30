@@ -4,6 +4,9 @@ using UnityEngine;
 public class Hotkey_Bar : MonoBehaviour
 {
     public gunStats[] weaponSLOTS = new gunStats[3];
+
+    public Hotkey_slots_UI[] slots_ui = new Hotkey_slots_UI[3];
+
     public int activeSLOT = -1;
 
     public PlayerScript playerSCRIPT;
@@ -15,6 +18,7 @@ public class Hotkey_Bar : MonoBehaviour
             if (weaponSLOTS[i] == null)
             {
                 weaponSLOTS[i] = pickedWEAPON;
+                slots_ui[i].SetSLOT(pickedWEAPON);
                 break;
             }
         }
@@ -26,6 +30,18 @@ public class Hotkey_Bar : MonoBehaviour
         if (Input.GetButtonDown("num1")) EQUIPslot(0);
         if (Input.GetButtonDown("num2")) EQUIPslot(1);
         if (Input.GetButtonDown("num3")) EQUIPslot(2);
+
+
+         
+        /*//-------To display Ammo Constantly outside of reload/shoot
+        for (int i = 0; i < weaponSLOTS.Length; i++)
+        {
+            if (weaponSLOTS[i] == null)
+            {
+                slots_ui[i].SetSLOT(weaponSLOTS[i]);
+            }
+        }
+        */
     }
 
 
@@ -38,9 +54,11 @@ public class Hotkey_Bar : MonoBehaviour
                 playerSCRIPT.GetGunStats(weaponSLOTS[index]);
             }
         }
+        
         else
         {
             index = activeSLOT;
         }
+        
     }
 }
