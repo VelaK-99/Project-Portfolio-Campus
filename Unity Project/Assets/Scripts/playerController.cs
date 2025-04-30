@@ -2,11 +2,8 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< Updated upstream
 using Unity.VisualScripting;
-=======
 using UnityEngine.UI;
->>>>>>> Stashed changes
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
@@ -511,10 +508,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
             gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
-<<<<<<< Updated upstream
             UpdatePlayerUI();
-=======
-         UpdatePlayerUI();
 
             for (int i = 0; i < hotkey_Slots.Count; i++)
             {
@@ -529,7 +523,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
                     hotkey_Slots[i].GetComponent<Image>().color = Color.white;
                 }
             }
->>>>>>> Stashed changes
         }
     }
 
