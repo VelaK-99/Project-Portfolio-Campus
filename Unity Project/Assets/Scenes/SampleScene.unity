@@ -1466,7 +1466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1757070032422955072, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 209
+      value: 78.8
       objectReference: {fileID: 0}
     - target: {fileID: 2453017510043640387, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1506,11 +1506,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2475857626504833434, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -301
+      value: -206
       objectReference: {fileID: 0}
     - target: {fileID: 2475857626504833434, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 68.100006
+      value: 57
       objectReference: {fileID: 0}
     - target: {fileID: 2622150118193915194, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
@@ -1664,6 +1664,10 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1071620227}
+    - target: {fileID: 6949219076252958636, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_margin.z
+      value: 128.29346
+      objectReference: {fileID: 0}
     - target: {fileID: 7045475460574621713, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1684,9 +1688,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7458461941740694726, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_margin.z
+      value: 170.23216
+      objectReference: {fileID: 0}
     - target: {fileID: 7718405884945679228, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7895810791324487740, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 121.5
       objectReference: {fileID: 0}
     - target: {fileID: 8446531731038433174, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1711,6 +1723,14 @@ PrefabInstance:
     - target: {fileID: 8661574380878623079, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_margin.x
       value: -0.8702964
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661574380878623079, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_margin.z
+      value: 153.88716
+      objectReference: {fileID: 0}
+    - target: {fileID: 8661574380878623079, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
