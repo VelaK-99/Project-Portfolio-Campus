@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,15 +12,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
-    [SerializeField] int HP;
-    [SerializeField] int speed;
-    [SerializeField] int sprintMod;
-    [SerializeField] int jumpSpeed;
-    [SerializeField] int jumpMax;
-    [SerializeField] int jetForce;
-    [SerializeField] int jetMax;
+    [Range(1,100)] [SerializeField] int HP;
+    [Range(1, 10)][SerializeField] int speed;
+    [Range(1, 3)] [SerializeField] int sprintMod;
+    [Range(1, 20)] [SerializeField] int jumpSpeed;
+    [Range(1, 3)] [SerializeField] int jumpMax;
+    [Range(1, 10)] [SerializeField] int jetForce;
+    [Range(1, 10)] [SerializeField] int jetMax;
     [SerializeField] int gravity;
-    [SerializeField] int interactDist;
+    [Range(1, 5)][SerializeField] int interactDist;
 
     [Header("===== Weapons =====")]
     [SerializeField] List<gunStats> arsenal = new List<gunStats>();
@@ -32,20 +31,21 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] GameObject gunModel;
     //[SerializeField] GameObject DUALmodel;
 
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
-    [SerializeField] int TotalAmmo;
-    [SerializeField] float reloadTime;
+    [Range(1,10)] [SerializeField] int shootDamage;
+    [Range(1, 10)] [SerializeField] int shootDist;
+    [Range(0, 10)] [SerializeField] float shootRate;
+    [Range(0, 200)] [SerializeField] int TotalAmmo;
+    [Range(0, 10)] [SerializeField] float reloadTime;
     [SerializeField] int AmmoCapacity;
     [SerializeField] gunStats startingWeapon;
 
-    [SerializeField] float crouchHeight;
-    [SerializeField] float crouchSpeedMod;
+    [Header("===== Crouch/Slide =====")]
+    [Range(1, 5)][SerializeField] float crouchHeight;
+    [Range(1, 5)] [SerializeField] float crouchSpeedMod;
     [SerializeField] Transform cam;
 
-    [SerializeField] float slideSpeed;
-    [SerializeField] float slideDuration;
+    [Range(1, 5)] [SerializeField] float slideSpeed;
+    [Range(1, 5)] [SerializeField] float slideDuration;
 
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
@@ -54,16 +54,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
-
+    [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audJump;
-    [SerializeField] float audJumpVol;
+    [Range(0, 100)] [SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audHurt;
-    [SerializeField] float audHurtVol;
+    [Range(0, 100)] [SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
-    [SerializeField] float audStepVol;
+    [Range(0, 100)] [SerializeField] float audStepVol;
     [SerializeField] AudioClip[] audReload;
-    [SerializeField] float audReloadVol;
-    [SerializeField] float shootSoundsVol;
+    [Range(0, 100)] [SerializeField] float audReloadVol;
+    [Range(0, 100)] [SerializeField] float shootSoundsVol;
 
     /*
     [SerializeField] int meleeDamage;
@@ -71,7 +71,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] float meleeDist;
     */
 
-    int MaxAmmo;
+    int MaxAmmo = 100;
 
     int jumpCount;
     int HPOrig;
@@ -103,6 +103,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int bulletsInGun;
 
+    int baseSpeed;
+
+    public Transform gun; // assign GunPos in the inspector
+    public Vector3 hipFirePos;
+    public Vector3 adsGunPos;
+    public float gunAimSpeed = 10f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -132,6 +139,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             camDefaultPos = camOriginalPos;
             camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
         }
+
+        baseSpeed = speed;
     }
 
     // Update is called once per frame
@@ -141,6 +150,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
+
+        Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
+        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
     }
 
     void Movement()
@@ -530,15 +542,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Crouch()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetButtonDown("Crouch"))
         {
             isCrouching = !isCrouching;
 
             if (isCrouching)
             {
                 controller.height = crouchHeight;
-                controller.center = new Vector3(0, crouchHeight / 2, 0);
-                speed /= (int)crouchSpeedMod;
+                controller.center = new Vector3(0, crouchHeight / 4, 0);
+                speed = (int)(baseSpeed / crouchSpeedMod);
 
                 if (cam != null)
                     cam.localPosition = camCrouchPos;
@@ -547,7 +559,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             {
                 controller.height = originalHeight;
                 controller.center = originalCenter;
-                speed *= (int)crouchSpeedMod;
+                speed = baseSpeed;
 
                 if (cam != null)
                     cam.localPosition = camOriginalPos;
@@ -557,7 +569,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Slide()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && isSprinting && controller.isGrounded && !isSliding)
+        if (Input.GetButtonDown("Slide"))
         {
             isSliding = true;
             isCrouching = true;
@@ -565,7 +577,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             slideTimer = slideDuration;
 
             controller.height = crouchHeight;
-            controller.center = new Vector3(0, crouchHeight / 2, 0);
+            controller.center = new Vector3(0, crouchHeight / 4, 0);
             speed = (int)slideSpeed;
 
             if (cam != null)
@@ -585,7 +597,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
                 controller.height = originalHeight;
                 controller.center = originalCenter;
-                speed = isSprinting ? speed / (int)crouchSpeedMod : speed / (int)(crouchSpeedMod * sprintMod); // Reset to normal or sprint speed
+                speed = isSprinting ? baseSpeed * sprintMod : baseSpeed;
+
 
                 if (cam != null)
                     cam.localPosition = camOriginalPos;
@@ -595,7 +608,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void ThrowGrenade()
     {
-        if (Input.GetKeyDown(KeyCode.G) && grenadePrefab != null && grenadeSpawnPoint != null)
+        if (Input.GetButtonDown("ThrowGrenade"))
         {
             GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
 
@@ -609,7 +622,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void AimDownSights()
     {
-        if (Input.GetMouseButton(1)) //hold right click to aim
+        if (Input.GetButton("AimDownSights")) // hold right click to aim
         {
             isAiming = true;
         }
@@ -618,11 +631,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             isAiming = false;
         }
 
+        // Keep camera fixed
         if (cam != null)
         {
-            Vector3 targetPos = isAiming ? adsCamPos : (isCrouching ? camCrouchPos : camDefaultPos);
-            cam.localPosition = Vector3.Lerp(cam.localPosition, targetPos, Time.deltaTime * adsSpeed);
+            cam.localPosition = camDefaultPos;
         }
+
+        // Move the gun between hip fire and ADS position
+        Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
+        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
     }
 
     /*    void Melee()
@@ -631,9 +648,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             {
                 meleeTimer += Time.deltaTime;
 
-                if (Input.GetKeyDown(KeyCode.F) && meleeTimer >= meleeRate)
-                {
-                    meleeTimer = 0;
+    //        if (Input.GetButtonDown("Melee"))
+    //        {
+    //            meleeTimer = 0;
 
                     RaycastHit hit;
 

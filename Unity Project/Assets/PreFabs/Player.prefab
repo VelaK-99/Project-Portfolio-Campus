@@ -222,15 +222,15 @@ MonoBehaviour:
   sprintMod: 3
   jumpSpeed: 12
   jumpMax: 2
-  jetForce: 0
-  jetMax: 0
+  jetForce: 1
+  jetMax: 1
   gravity: 35
   interactDist: 3
   arsenal: []
   hotkey_Slots: []
   gunModel: {fileID: 6027848457595790386}
   shootDamage: 2
-  shootDist: 25
+  shootDist: 10
   shootRate: 0.5
   TotalAmmo: 200
   reloadTime: 1.2
@@ -239,18 +239,18 @@ MonoBehaviour:
   crouchHeight: 2
   crouchSpeedMod: 2
   cam: {fileID: 7491251138447997815}
-  slideSpeed: 6
+  slideSpeed: 5
   slideDuration: 2
-  grenadePrefab: {fileID: 0}
-  grenadeSpawnPoint: {fileID: 0}
-  grenadeThrowForce: 20
+  grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
+  grenadeSpawnPoint: {fileID: 7491251138447997815}
+  grenadeThrowForce: 100
   adsCamPos: {x: 0, y: 0, z: 0}
-  adsSpeed: 0
+  adsSpeed: 100
   audJump:
   - {fileID: 8300000, guid: 7268c285d3390014599735fbebdb6f2a, type: 3}
   - {fileID: 8300000, guid: d9dbf138327eadb49b026f89167ac8f3, type: 3}
   - {fileID: 8300000, guid: 22a9176480377a64fbba72ad9c3abf77, type: 3}
-  audJumpVol: 0
+  audJumpVol: 0.1
   audHurt:
   - {fileID: 8300000, guid: 0dab4200bd8c34a4da9210bcce98a654, type: 3}
   - {fileID: 8300000, guid: c1c654878bcbb534cb078153b3581753, type: 3}
@@ -258,7 +258,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 87e9d49c9f04f964c919551c141b440b, type: 3}
   - {fileID: 8300000, guid: c85b785e72cef104094f26adbd4e4118, type: 3}
   - {fileID: 8300000, guid: 79ee60f09d3f2bb4bb5cf83a49b633ae, type: 3}
-  audHurtVol: 0
+  audHurtVol: 0.1
   audStep:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
   - {fileID: 8300000, guid: f417ba1afd59f344a9dcc2e1573de7d8, type: 3}
@@ -269,11 +269,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 44973d8ef84398740bad2f77d76fed28, type: 3}
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
-  audStepVol: 0
+  audStepVol: 0.05
   audReload:
   - {fileID: 8300000, guid: a7302ca5bc0b31a4daac1c38e358e2f0, type: 3}
-  audReloadVol: 0
-  shootSoundsVol: 0
+  audReloadVol: 0.1
+  shootSoundsVol: 0.1
   playerSpawnPos: {fileID: 0}
 --- !u!143 &5688579929998117802
 CharacterController:
