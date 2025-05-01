@@ -69,6 +69,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
+    [SerializeField] float recoilStrength; 
+    [SerializeField] float recoilSpeed; 
+    [SerializeField] Vector3 recoilDirection; 
+    private Vector3 currentRecoil; 
     /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
@@ -110,10 +114,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int baseSpeed;
 
-    public Transform gunAimPos; // assign GunPos in the inspector
+    public Transform gun; 
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
     public float gunAimSpeed = 10f;
+    private Vector3 gunOriginalPos;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -148,11 +154,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         baseSpeed = speed;
 
         normalFov = Camera.main.fieldOfView;
+
+        gunOriginalPos = gun.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
         Movement();
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
@@ -168,6 +178,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         else
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, normalFov, Time.deltaTime * 8f);
+        }
+
+        if (currentRecoil != Vector3.zero)
+        {
+            // Smoothly return to the original position
+            gun.localPosition = Vector3.Lerp(gun.localPosition, gunOriginalPos, Time.deltaTime * recoilSpeed);
+
+            // Gradually reduce recoil over time
+            currentRecoil = Vector3.Lerp(currentRecoil, Vector3.zero, Time.deltaTime * recoilSpeed);
         }
     }
 
@@ -303,6 +322,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     */
     void Shoot()
     {
+
         shootTimer = 0;
         aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
         RaycastHit hit;
@@ -320,6 +340,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         arsenal[gunListPos].currentAmmo--;
         bulletsInGun = arsenal[gunListPos].currentAmmo;
         UpdatePlayerUI();
+
+        ApplyRecoil();
     }
 
     void ShootShotgun()
@@ -688,6 +710,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         HP = HPOrig;
         UpdatePlayerUI();
+    }
+
+    void ApplyRecoil()
+    {
+        
+        currentRecoil = recoilDirection * recoilStrength;
+
+       
+        currentRecoil += new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 0);
+
+        gun.localPosition += currentRecoil; 
     }
 }
 
