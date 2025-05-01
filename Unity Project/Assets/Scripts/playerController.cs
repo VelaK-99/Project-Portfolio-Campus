@@ -44,15 +44,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 5)] [SerializeField] float crouchSpeedMod;
     [SerializeField] Transform cam;
 
-    [Range(1, 5)] [SerializeField] float slideSpeed;
-    [Range(1, 5)] [SerializeField] float slideDuration;
+    [Range(1, 6)] [SerializeField] float slideSpeed;
+    [Range(0, 2)] [SerializeField] float slideDuration;
 
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
     [SerializeField] float grenadeThrowForce;
-
-    [SerializeField] Vector3 adsCamPos;
-    [SerializeField] float adsSpeed;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audJump;
@@ -65,11 +62,19 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(0, 100)] [SerializeField] float audReloadVol;
     [Range(0, 100)] [SerializeField] float shootSoundsVol;
 
+    [Header("===== Aim Down Sights =====")]
+    [SerializeField] float adsFov;
+    [SerializeField] float normalFov; 
+
+    [SerializeField] Vector3 adsCamPos;
+    [SerializeField] float adsSpeed;
+
     /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
     [SerializeField] float meleeDist;
     */
+
 
     int MaxAmmo = 100;
 
@@ -141,6 +146,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         baseSpeed = speed;
+
+        normalFov = Camera.main.fieldOfView;
     }
 
     // Update is called once per frame
@@ -153,6 +160,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
         gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+
+        if (isAiming)
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, adsFov, Time.deltaTime * 8f); // Smooth transition
+        }
+        else
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, normalFov, Time.deltaTime * 8f);
+        }
     }
 
     void Movement()
