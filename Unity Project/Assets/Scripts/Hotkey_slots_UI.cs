@@ -24,4 +24,10 @@ public class Hotkey_slots_UI : MonoBehaviour
             total_ammoTEXT.text = "";
         }
     }
+
+    public void UpdateAmmo(gunStats gun)
+    {
+        current_ammoTEXT.text = gun.currentAmmo.ToString("F0");
+        total_ammoTEXT.text = gun.totalAmmo.ToString("F0");
+    }
 }
