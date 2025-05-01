@@ -13,16 +13,18 @@ MonoBehaviour:
   m_Name: Stats - Rifle
   m_EditorClassIdentifier: 
   model: {fileID: 100000, guid: a61f2e6a963d28049ad58604cddca05f, type: 3}
+  Image: {fileID: 0}
   shootDmg: 1
   shootDist: 35
   shootRate: 0.2
   reloadSpeed: 1.6
   ammoCapacity: 8
   currentAmmo: 8
-  totalAmmo: 45
+  totalAmmo: 120
   maxAmmo: 120
+  GunName: 
   isShotgun: 0
   hitEffect: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
   shootSounds:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
-  shootSoundVol: 0.504
+  shootSoundVol: 0.25
