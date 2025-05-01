@@ -114,12 +114,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int baseSpeed;
 
-    public Transform gun; 
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
     public float gunAimSpeed = 10f;
     private Vector3 gunOriginalPos;
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -154,15 +152,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         baseSpeed = speed;
 
         normalFov = Camera.main.fieldOfView;
-
         gunOriginalPos = gun.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
         Movement();
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
