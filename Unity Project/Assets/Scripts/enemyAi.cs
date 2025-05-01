@@ -11,24 +11,27 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform headPos;
     [SerializeField] AudioSource aud;
 
+    [Header("===== Stats =====")]
     [Range(0,100)] [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
     [Range(0,180)][SerializeField] int fov;
     [SerializeField] int animTranSpeed;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
+    [Range(0,25)] [SerializeField] float shootRate;
+    [Range(0,45)] [SerializeField] int shootFOV; 
+
+    [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
-    [SerializeField] float audShootVol;
+    [Range(0, 100)] [SerializeField] float audShootVol;
     [SerializeField] AudioClip[] audHurt;
-    [SerializeField] float audHurtVol;
+    [Range(0, 100)] [SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
-    [SerializeField] float audStepVol;
+    [Range(0, 100)] [SerializeField] float audStepVol;
 
     [SerializeField] Collider knife;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
-    [Range(0,25)] [SerializeField] float shootRate;
-    [Range(0,45)] [SerializeField] int shootFOV;    
 
     float shootTimer;
     bool playerInRange;

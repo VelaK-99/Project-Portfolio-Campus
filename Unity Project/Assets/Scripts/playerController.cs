@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,15 +12,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
-    [SerializeField] int HP;
-    [SerializeField] int speed;
-    [SerializeField] int sprintMod;
-    [SerializeField] int jumpSpeed;
-    [SerializeField] int jumpMax;
-    [SerializeField] int jetForce;
-    [SerializeField] int jetMax;
+    [Range(1,100)] [SerializeField] int HP;
+    [Range(1, 10)][SerializeField] int speed;
+    [Range(1, 3)] [SerializeField] int sprintMod;
+    [Range(1, 20)] [SerializeField] int jumpSpeed;
+    [Range(1, 3)] [SerializeField] int jumpMax;
+    [Range(1, 10)] [SerializeField] int jetForce;
+    [Range(1, 10)] [SerializeField] int jetMax;
     [SerializeField] int gravity;
-    [SerializeField] int interactDist;
+    [Range(1, 5)][SerializeField] int interactDist;
 
     [Header("===== Weapons =====")]
     [SerializeField] List<gunStats> arsenal = new List<gunStats>();
@@ -32,20 +31,21 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] GameObject gunModel;
     //[SerializeField] GameObject DUALmodel;
 
-    [SerializeField] int shootDamage;
-    [SerializeField] int shootDist;
-    [SerializeField] float shootRate;
-    [SerializeField] int TotalAmmo;
-    [SerializeField] float reloadTime;
+    [Range(1,10)] [SerializeField] int shootDamage;
+    [Range(1, 10)] [SerializeField] int shootDist;
+    [Range(0, 10)] [SerializeField] float shootRate;
+    [Range(0, 200)] [SerializeField] int TotalAmmo;
+    [Range(0, 10)] [SerializeField] float reloadTime;
     [SerializeField] int AmmoCapacity;
     [SerializeField] gunStats startingWeapon;
 
-    [SerializeField] float crouchHeight;
-    [SerializeField] float crouchSpeedMod;
+    [Header("===== Crouch/Slide =====")]
+    [Range(1, 5)][SerializeField] float crouchHeight;
+    [Range(1, 5)] [SerializeField] float crouchSpeedMod;
     [SerializeField] Transform cam;
 
-    [SerializeField] float slideSpeed;
-    [SerializeField] float slideDuration;
+    [Range(1, 5)] [SerializeField] float slideSpeed;
+    [Range(1, 5)] [SerializeField] float slideDuration;
 
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
@@ -54,16 +54,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
-
+    [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audJump;
-    [SerializeField] float audJumpVol;
+    [Range(0, 100)] [SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audHurt;
-    [SerializeField] float audHurtVol;
+    [Range(0, 100)] [SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
-    [SerializeField] float audStepVol;
+    [Range(0, 100)] [SerializeField] float audStepVol;
     [SerializeField] AudioClip[] audReload;
-    [SerializeField] float audReloadVol;
-    [SerializeField] float shootSoundsVol;
+    [Range(0, 100)] [SerializeField] float audReloadVol;
+    [Range(0, 100)] [SerializeField] float shootSoundsVol;
 
     /*
     [SerializeField] int meleeDamage;
