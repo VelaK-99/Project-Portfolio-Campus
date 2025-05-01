@@ -65,6 +65,7 @@ public class gameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetButtonDown("num1"))
         {
             ToggleSlot(0);
@@ -79,7 +80,7 @@ public class gameManager : MonoBehaviour
         {
             ToggleSlot(2);
         }
-
+        
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -96,7 +97,7 @@ public class gameManager : MonoBehaviour
                 menuActive = null;
             }
         }
-
+        
         if (Input.GetButtonDown("TAB"))
         {
             if (hotkeyBAR.activeSelf == true)
