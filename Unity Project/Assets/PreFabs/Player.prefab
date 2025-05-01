@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bb664b2dd43da46adea06c3f4aa695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sens: 300
+  sens: 150
   lockVertMax: 90
   lockVertMin: -90
   invertY: 0
@@ -227,6 +227,7 @@ MonoBehaviour:
   gravity: 35
   interactDist: 3
   arsenal: []
+  hotkey_Slots: []
   gunModel: {fileID: 6027848457595790386}
   shootDamage: 2
   shootDist: 25

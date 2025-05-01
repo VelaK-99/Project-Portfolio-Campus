@@ -345,7 +345,7 @@ MonoBehaviour:
   aud: {fileID: 2546103334933848522}
   HP: 10
   faceTargetSpeed: 2
-  fov: 90
+  fov: 180
   animTranSpeed: 6
   roamDist: 0
   roamPauseTime: 0
@@ -371,6 +371,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.1
+  knife: {fileID: 0}
   shootPos: {fileID: 3523957986135192304}
   bullet: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   shootRate: 5
