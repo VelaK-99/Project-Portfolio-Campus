@@ -761,7 +761,7 @@ MonoBehaviour:
   aud: {fileID: -7665960896629748515}
   HP: 5
   faceTargetSpeed: 8
-  fov: 90
+  fov: 180
   animTranSpeed: 6
   roamDist: 8
   roamPauseTime: 2
@@ -1636,7 +1636,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.09485202
   m_Height: 0.8943245
