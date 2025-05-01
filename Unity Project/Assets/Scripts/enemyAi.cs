@@ -48,8 +48,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void Start()
     {
-        colorOriginal = model.material.color;
-        gameManager.instance.UpdateGameGoal(1);
+        colorOriginal = model.material.color;        
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
     }
@@ -129,7 +128,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             {
                 Debug.LogWarning($"{name} has no spawner reference! Cannot update spawnList or unlock doors.");
             }
-            gameManager.instance.UpdateGameGoal(-1);
+            
             
             
             gameManager.instance.RemoveEnemy(gameObject);

@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Stats - Pistol
   m_EditorClassIdentifier: 
   model: {fileID: 100000, guid: b300cca8b6ea99b4a9ffe7a04c7186cf, type: 3}
+  Image: {fileID: 0}
   shootDmg: 1
   shootDist: 25
   shootRate: 0.5
   reloadSpeed: 1
   ammoCapacity: 7
-  currentAmmo: 1
-  totalAmmo: 435
+  currentAmmo: 2
+  totalAmmo: 184
   maxAmmo: 100
   GunName: 
   isShotgun: 0

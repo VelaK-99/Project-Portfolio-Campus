@@ -23,6 +23,15 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         gameManager.instance.CountSpawner();
+
+        if (entrance == null)
+        {
+            entrance = transform.parent.Find("entrance")?.GetComponent<OpenDoor>();
+        }
+        if (exit == null)
+        {
+            entrance = transform.parent.Find("exit")?.GetComponent<OpenDoor>();
+        }
     }
     
     void Update()
@@ -69,17 +78,21 @@ public class Spawner : MonoBehaviour
 
     public void checkEnemyTotal()
     {
-        spawnList.RemoveAll(e => e == null || !e.activeInHierarchy);
 
+        
         if (spawnList.Count <= 0 && !isCleared)
-        {
+        {          
             
             entrance.UnlockDoor();
             exit.UnlockDoor();
 
             isCleared = true;
+            
 
             gameManager.instance.ClearSpawners();
+            gameManager.instance.UpdateRoom();
+
+            Destroy(this);
         }
     }
 }

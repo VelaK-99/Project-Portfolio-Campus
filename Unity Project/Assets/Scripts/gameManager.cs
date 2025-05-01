@@ -25,6 +25,8 @@ public class gameManager : MonoBehaviour
     public GameObject enemyCountTextObject;
     public GameObject reloadGunText;
     public GameObject reloadingGunText;
+    [SerializeField] TMP_Text RoomCount;
+    public int currentRoom = 1;
 
     [SerializeField] GameObject hotkeyBAR;
 
@@ -47,9 +49,7 @@ public class gameManager : MonoBehaviour
 
     public bool isPaused;
 
-    float timeScaleOrig;
-
-    public int currentRoom = 1;
+    float timeScaleOrig;    
 
     float gameGoalCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -163,17 +163,12 @@ public class gameManager : MonoBehaviour
         menuActive = null;
     } // Returns game to default state when unpaused
 
-    public void UpdateGameGoal(int amount)
+     
+    public void UpdateRoom()
     {
-        gameGoalCount += amount;
-
-        //if(gameGoalCount <= 0)
-        //{
-        //    statePause();
-        //    menuActive = menuWin;
-        //    menuActive.SetActive(true);
-        //}
-    } //Updates the game goal count when an enemy is spawned/killed
+        currentRoom++;
+        RoomCount.text = "Room: " + currentRoom;
+    }
 
     public void youLose()
     {
