@@ -105,6 +105,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int baseSpeed;
 
+    public Transform gun; // assign GunPos in the inspector
+    public Vector3 hipFirePos;
+    public Vector3 adsGunPos;
+    public float gunAimSpeed = 10f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -145,6 +150,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
+
+        Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
+        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
     }
 
     void Movement()
@@ -614,7 +622,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void AimDownSights()
     {
-        if (Input.GetButtonDown("AimDownSights")) //hold right click to aim
+        if (Input.GetButton("AimDownSights")) // hold right click to aim
         {
             isAiming = true;
         }
@@ -623,11 +631,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             isAiming = false;
         }
 
+        // Keep camera fixed
         if (cam != null)
         {
-            Vector3 targetPos = isAiming ? adsCamPos : (isCrouching ? camCrouchPos : camDefaultPos);
-            cam.localPosition = Vector3.Lerp(cam.localPosition, targetPos, Time.deltaTime * adsSpeed);
+            cam.localPosition = camDefaultPos;
         }
+
+        // Move the gun between hip fire and ADS position
+        Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
+        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
     }
 
     /*    void Melee()
