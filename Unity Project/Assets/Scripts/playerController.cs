@@ -110,7 +110,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int baseSpeed;
 
-    public Transform gun; // assign GunPos in the inspector
+    public Transform gunAimPos; // assign GunPos in the inspector
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
     public float gunAimSpeed = 10f;
@@ -159,7 +159,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
 
         Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
-        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+        gunAimPos.localPosition = Vector3.Lerp(gunAimPos.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
         if (isAiming)
         {
@@ -655,7 +655,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         // Move the gun between hip fire and ADS position
         Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
-        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+        gunAimPos.localPosition = Vector3.Lerp(gunAimPos.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
     }
 
     /*    void Melee()
