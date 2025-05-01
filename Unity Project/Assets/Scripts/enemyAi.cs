@@ -11,9 +11,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform headPos;
     [SerializeField] AudioSource aud;
 
-    [SerializeField] int HP;
+    [Range(0,100)] [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
-    [SerializeField] int fov;
+    [Range(0,180)][SerializeField] int fov;
     [SerializeField] int animTranSpeed;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
@@ -24,11 +24,11 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audStep;
     [SerializeField] float audStepVol;
 
-
+    [SerializeField] Collider knife;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
-    [SerializeField] float shootRate;
-    [SerializeField] int shootFOV;    
+    [Range(0,25)] [SerializeField] float shootRate;
+    [Range(0,45)] [SerializeField] int shootFOV;    
 
     float shootTimer;
     bool playerInRange;
@@ -119,12 +119,22 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            if(whereICameFrom != null )
+            {
+                whereICameFrom.spawnList.Remove(gameObject);
+                whereICameFrom.spawnList.RemoveAll(e => e == null);
+                whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
+            }
+            else
+            {
+                Debug.LogWarning($"{name} has no spawner reference! Cannot update spawnList or unlock doors.");
+            }
             gameManager.instance.UpdateGameGoal(-1);
-            whereICameFrom.spawnList.Remove(gameObject);
+            
             
             gameManager.instance.RemoveEnemy(gameObject);
 
-            whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
+            
             Destroy(gameObject);
         }
 
@@ -207,5 +217,15 @@ public class EnemyAI : MonoBehaviour, IDamage
         }
         agent.stoppingDistance = 0;
         return false;
+    }
+
+    public void SwordColOn()
+    {
+        knife.enabled = true;
+    }
+
+    public void SwordColOff()
+    {
+        knife.enabled = false;
     }
 }

@@ -349,7 +349,8 @@ MonoBehaviour:
   animTranSpeed: 6
   roamDist: 0
   roamPauseTime: 0
-  audShoot: []
+  audShoot:
+  - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
   audShootVol: 0.8
   audHurt:
   - {fileID: 8300000, guid: 0dab4200bd8c34a4da9210bcce98a654, type: 3}

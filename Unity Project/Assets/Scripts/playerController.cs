@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
@@ -24,7 +25,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     [Header("===== Weapons =====")]
     [SerializeField] List<gunStats> arsenal = new List<gunStats>();
+
+    public List<Hotkey_slots_UI> hotkey_Slots;
+
+
     [SerializeField] GameObject gunModel;
+    //[SerializeField] GameObject DUALmodel;
+
     [SerializeField] int shootDamage;
     [SerializeField] int shootDist;
     [SerializeField] float shootRate;
@@ -104,10 +111,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
 
+        if (startingWeapon != null)
+       { 
         arsenal.Add(startingWeapon);
         gunListPos = 0;
         startingWeapon.currentAmmo = startingWeapon.ammoCapacity;
         ChangeGun(gunListPos);
+        }
+        else
+        {
+            gunListPos = -1;
+        }
 
         originalHeight = controller.height;
         originalCenter = controller.center;
@@ -247,10 +261,22 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
+    
+    /* void dualWIELD()
+    {
+        gunStats similiarWEAPON = new gunStats();
+
+        if (arsenal[gunListPos].model == similiarWEAPON.model)
+        {
+            DUALmodel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
+            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
+        }
+    }
+    */
     void Shoot()
     {
         shootTimer = 0;
-        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.RandomRange(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
@@ -283,7 +309,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
                 if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
                 {
-                    aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.RandomRange(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+                    aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
                     Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
                     Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
@@ -482,7 +508,23 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
             gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
 
+
             UpdatePlayerUI();
+
+
+            for (int i = 0; i < hotkey_Slots.Count; i++)
+            {
+                if (i == gunListPos)
+                {
+                    hotkey_Slots[i].SetSLOT(arsenal[i]);
+                    hotkey_Slots[i].GetComponent<Image>().color = Color.yellow;
+                }
+                else
+                {
+                    hotkey_Slots[i].SetSLOT(null);
+                    hotkey_Slots[i].GetComponent<Image>().color = Color.white;
+                }
+            }
         }
     }
 
