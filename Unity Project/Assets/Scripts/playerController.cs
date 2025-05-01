@@ -114,7 +114,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int baseSpeed;
 
-    public Transform gun; 
+    public Transform gun;
+    public Transform gunAimPos;
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
     public float gunAimSpeed = 10f;
