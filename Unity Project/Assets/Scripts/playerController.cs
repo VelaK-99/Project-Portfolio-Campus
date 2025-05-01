@@ -114,10 +114,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int baseSpeed;
 
+    public Transform gun; // assign GunPos in the inspector
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
     public float gunAimSpeed = 10f;
     private Vector3 gunOriginalPos;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -168,19 +170,19 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (isAiming)
         {
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, adsFov, Time.deltaTime * 8f); // Smooth transition
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, adsFov, Time.deltaTime * 8f); 
         }
         else
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, normalFov, Time.deltaTime * 8f);
         }
 
+
         if (currentRecoil != Vector3.zero)
         {
-            // Smoothly return to the original position
+           
             gun.localPosition = Vector3.Lerp(gun.localPosition, gunOriginalPos, Time.deltaTime * recoilSpeed);
 
-            // Gradually reduce recoil over time
             currentRecoil = Vector3.Lerp(currentRecoil, Vector3.zero, Time.deltaTime * recoilSpeed);
         }
     }
