@@ -271,6 +271,10 @@ PrefabInstance:
       value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: recoilSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: hipFirePos.x
       value: 0.4
       objectReference: {fileID: 0}
@@ -291,9 +295,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 30121246}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: recoilStrength
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: grenadeSpawnPoint
       value: 
       objectReference: {fileID: 632672086}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: recoilDirection.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: recoilDirection.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_Name
       value: Player
