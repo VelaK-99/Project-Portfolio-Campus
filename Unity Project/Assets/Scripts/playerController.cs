@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 5)][SerializeField] int interactDist;
 
     [Header("===== Weapons =====")]
-    [SerializeField] List<gunStats> arsenal = new List<gunStats>();
+    [SerializeField] public List<gunStats> arsenal = new List<gunStats>();
 
     public List<Hotkey_slots_UI> hotkey_Slots;
 
@@ -488,7 +488,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void GetGunStats(gunStats gun)
     {
-            arsenal.Add(gun);
+        if (!arsenal.Contains(gun))
+            {
+                arsenal.Add(gun);
+            }
+
             gunListPos = arsenal.Count - 1;
             ChangeGun(gunListPos);
     }
@@ -568,12 +572,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
                 if (i == gunListPos)
                 {
                     hotkey_Slots[i].SetSLOT(arsenal[i]);
-                    hotkey_Slots[i].GetComponent<Image>().color = Color.yellow;
                 }
                 else
                 {
                     hotkey_Slots[i].SetSLOT(null);
-                    hotkey_Slots[i].GetComponent<Image>().color = Color.white;
                 }
             }
         }
