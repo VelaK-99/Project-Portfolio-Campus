@@ -41,12 +41,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     [Header("===== Crouch/Slide =====")]
     [Range(1, 5)][SerializeField] float crouchHeight;
-    [Range(1, 5)] [SerializeField] float crouchSpeedMod;
+    [Range(0, 6)] [SerializeField] float crouchSpeedMod;
     [SerializeField] Transform cam;
 
     [Range(1, 6)] [SerializeField] float slideSpeed;
     [Range(0, 2)] [SerializeField] float slideDuration;
 
+    [SerializeField] float slideFov;
+    [SerializeField] float slideFovSpeed;
+
+    [Header("===== Grenade =====")]
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
     [SerializeField] float grenadeThrowForce;
@@ -155,6 +159,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         normalFov = Camera.main.fieldOfView;
         gunOriginalPos = gun.localPosition;
+
+        Camera.main.fieldOfView = normalFov;
     }
 
     // Update is called once per frame
@@ -166,8 +172,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
 
         Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
-        gunAimPos.localPosition = Vector3.Lerp(gunAimPos.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
-
+      
         if (isAiming)
         {
             Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, adsFov, Time.deltaTime * 8f); 
@@ -185,6 +190,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             currentRecoil = Vector3.Lerp(currentRecoil, Vector3.zero, Time.deltaTime * recoilSpeed);
         }
+
+        float targetFov = normalFov;
+
+        if (isSliding)
+            targetFov = slideFov;
+        else if (isAiming)
+            targetFov = adsFov;
+
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFov, Time.deltaTime * slideFovSpeed);
     }
 
     void Movement()
@@ -676,7 +690,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         // Move the gun between hip fire and ADS position
         Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
-        gunAimPos.localPosition = Vector3.Lerp(gunAimPos.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+      
     }
 
     /*    void Melee()
