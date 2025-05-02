@@ -33,15 +33,15 @@ public class Hotkey_Bar : MonoBehaviour
 
         
          
-        /*//-------To display Ammo Constantly outside of reload/shoot
-        for (int i = 0; i < weaponSLOTS.Length; i++)
+        //-------To display Ammo Constantly outside of reload/shoot
+        for (int i = 0; i < gameManager.instance.playerScript.arsenal.Count; i++)
         {
-            if (weaponSLOTS[i] == null)
+            if (gameManager.instance.playerScript.arsenal[i] == null)
             {
-                slots_ui[i].SetSLOT(weaponSLOTS[i]);
+                slots_ui[i].SetSLOT(gameManager.instance.playerScript.arsenal[i]);
             }
         }
-        */
+        
     }
 
     public void EQUIPslot(int index)
@@ -50,7 +50,7 @@ public class Hotkey_Bar : MonoBehaviour
         {
             {
                 activeSLOT = index;
-                playerSCRIPT.GetGunStats(gameManager.instance.playerScript.arsenal[index]);
+                playerSCRIPT.ChangeGun(index);
                 refreshUI();
             }
         }
