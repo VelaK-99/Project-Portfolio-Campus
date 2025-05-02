@@ -91,9 +91,19 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] float sprintBobAmplitude;
     [SerializeField] float walkBobFrequency;
     [SerializeField] float walkBobAmplitude;
-    
+
+    [Header("===== Camera Bobbing =====")]
+    [SerializeField] float camwalkBobAmplitude;  
+    [SerializeField] float camwalkBobFrequency;  
+    [SerializeField] float camsprintBobAmplitude; 
+    [SerializeField] float camsprintBobFrequency;
+
 
     float bobTimer;
+
+    private float cambobTimer = 0f;
+    private Vector3 bobcamOriginalPos;
+
 
     Vector3 gunBobOffset;
 
@@ -175,7 +185,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         gunOriginalPos = gun.localPosition;
 
         Camera.main.fieldOfView = normalFov;
-    }
+
+        if (cam != null)
+        {
+            bobcamOriginalPos = cam.localPosition;
+        }
+    
+}
 
     // Update is called once per frame
     void Update()
@@ -239,6 +255,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
              targetGunPos = isAiming ? adsGunPos : hipFirePos;
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
         }
+
+        CameraBobbing();
     }
 
     void Movement()
@@ -798,6 +816,32 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Vector3 targetGunPos = (isAiming ? adsGunPos : hipFirePos) + gunBobOffset;
         gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+    }
+
+    void CameraBobbing()
+    {
+        if (controller.isGrounded && moveDir.magnitude > 0.1f && !isSliding)
+        {
+            float currentFrequency = isSprinting ? camsprintBobFrequency : camwalkBobFrequency;
+            float currentAmplitude = isSprinting ? camsprintBobAmplitude : camwalkBobAmplitude;
+
+            cambobTimer += Time.deltaTime * currentFrequency;
+
+            // X-axis and Y-axis bobbing
+            float bobX = Mathf.Cos(bobTimer) * currentAmplitude;
+            float bobY = Mathf.Abs(Mathf.Sin(bobTimer * 2)) * currentAmplitude;
+            bobY = Mathf.Clamp(bobY, -0.1f, 0.1f); // Keeps Y bobbing small
+
+            // Apply bobbing effect to camera
+            Vector3 bobOffset = new Vector3(bobX, bobY, 0);
+            cam.localPosition = bobcamOriginalPos + bobOffset;
+        }
+        else
+        {
+            // Reset bob timer and position if not moving
+            cambobTimer = 0f;
+            cam.localPosition = bobcamOriginalPos;
+        }
     }
 
 }
