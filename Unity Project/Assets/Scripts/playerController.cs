@@ -29,7 +29,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
     [SerializeField] GameObject gunModel;
-    //[SerializeField] GameObject DUALmodel;
+    [SerializeField] GameObject DUALmodel;
+    public gunStats SecondaryGUN;
 
     [Range(1, 10)][SerializeField] int shootDamage;
     [Range(1, 10)][SerializeField] int shootDist;
@@ -378,17 +379,19 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     }
 
 
-    /* void dualWIELD()
+     void dualWIELD(gunStats SIMILARweapon)
     {
-        gunStats similiarWEAPON = new gunStats();
-
-        if (arsenal[gunListPos].model == similiarWEAPON.model)
+        SecondaryGUN = SIMILARweapon;
+       
+        if (arsenal[gunListPos].model == SecondaryGUN.model)
         {
-            DUALmodel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
-            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
+            DUALmodel.GetComponent<MeshFilter>().sharedMesh = SecondaryGUN.model.GetComponent<MeshFilter>().sharedMesh;
+            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = SecondaryGUN.model.GetComponent<MeshRenderer>().sharedMaterial;
+
+            DUALmodel.SetActive(true);
         }
     }
-    */
+    
     void Shoot()
     {
 
@@ -563,6 +566,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         gunListPos = arsenal.Count - 1;
         ChangeGun(gunListPos);
+
+        dualWIELD(gun);
     }
 
     public void HealthPickup(int amount)
