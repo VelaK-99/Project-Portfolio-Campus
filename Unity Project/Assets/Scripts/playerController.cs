@@ -1,109 +1,132 @@
-using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Unity.VisualScripting;
+using UnityEngine.UI;
 
-public class PlayerScript : MonoBehaviour, IDamage, IInteract
+public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
+    [Header("===== Controls =====")]
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
+    [SerializeField] AudioSource aud;
 
-    [SerializeField] int HP;
-    [SerializeField] int speed;
-    [SerializeField] int sprintMod;
-    [SerializeField] int jumpSpeed;
-    [SerializeField] int jumpMax;
-    [SerializeField] int jetForce;
-    [SerializeField] int jetMax;
+    [Header("===== Stats =====")]
+    [Range(1, 100)][SerializeField] int HP;
+    [Range(1, 10)][SerializeField] int speed;
+    [Range(1, 3)][SerializeField] int sprintMod;
+    [Range(1, 20)][SerializeField] int jumpSpeed;
+    [Range(1, 3)][SerializeField] int jumpMax;
+    [Range(1, 10)][SerializeField] int jetForce;
+    [Range(1, 10)][SerializeField] int jetMax;
     [SerializeField] int gravity;
-<<<<<<< Updated upstream
-=======
     [Range(1, 5)][SerializeField] int interactDist;
 
     [Header("===== Weapons =====")]
     [SerializeField] public List<gunStats> arsenal = new List<gunStats>();
 
-    public List<Hotkey_slots_UI> hotkey_Slots;
-    Hotkey_Bar HotkeyBar;
+    //public List<Hotkey_slots_UI> hotkey_Slots;
 
-    private List<GameObject> gunMODELS = new List<GameObject>();
-    private GameObject current_gunMODEL;
 
     [SerializeField] GameObject gunModel;
-    //[SerializeField] GameObject DUALmodel;
+    [SerializeField] GameObject DUALmodel;
+    public gunStats secondaryGUN;
+    public bool isDUALwielding = false;
 
-    [Range(1,10)] [SerializeField] int shootDamage;
-    [Range(1, 10)] [SerializeField] int shootDist;
-    [Range(0, 10)] [SerializeField] float shootRate;
-    [Range(0, 200)] [SerializeField] int TotalAmmo;
-    [Range(0, 10)] [SerializeField] float reloadTime;
+    [Range(1, 10)][SerializeField] int shootDamage;
+    [Range(1, 10)][SerializeField] int shootDist;
+    [Range(0, 10)][SerializeField] float shootRate;
+    [Range(0, 200)][SerializeField] int TotalAmmo;
+    [Range(0, 10)][SerializeField] float reloadTime;
     [SerializeField] int AmmoCapacity;
     [SerializeField] gunStats startingWeapon;
 
     [Header("===== Crouch/Slide =====")]
     [Range(1, 5)][SerializeField] float crouchHeight;
-    [Range(1, 5)] [SerializeField] float crouchSpeedMod;
+    [Range(0, 6)][SerializeField] float crouchSpeedMod;
     [SerializeField] Transform cam;
 
-    [Range(1, 6)] [SerializeField] float slideSpeed;
-    [Range(0, 2)] [SerializeField] float slideDuration;
+    [Range(1, 6)][SerializeField] float slideSpeed;
+    [Range(0, 2)][SerializeField] float slideDuration;
 
+    [SerializeField] float slideFov;
+    [SerializeField] float slideFovSpeed;
+
+    [Header("===== Grenade =====")]
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
     [SerializeField] float grenadeThrowForce;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audJump;
-    [Range(0, 100)] [SerializeField] float audJumpVol;
+    [Range(0, 100)][SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audHurt;
-    [Range(0, 100)] [SerializeField] float audHurtVol;
+    [Range(0, 100)][SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
-    [Range(0, 100)] [SerializeField] float audStepVol;
+    [Range(0, 100)][SerializeField] float audStepVol;
     [SerializeField] AudioClip[] audReload;
-    [Range(0, 100)] [SerializeField] float audReloadVol;
-    [Range(0, 100)] [SerializeField] float shootSoundsVol;
+    [Range(0, 100)][SerializeField] float audReloadVol;
+    [Range(0, 100)][SerializeField] float shootSoundsVol;
 
     [Header("===== Aim Down Sights =====")]
     [SerializeField] float adsFov;
-    [SerializeField] float normalFov; 
+    [SerializeField] float normalFov;
 
     [SerializeField] Vector3 adsCamPos;
     [SerializeField] float adsSpeed;
 
-    [SerializeField] float recoilStrength; 
-    [SerializeField] float recoilSpeed; 
-    [SerializeField] Vector3 recoilDirection; 
-    private Vector3 currentRecoil; 
+    [SerializeField] float recoilStrength;
+    [SerializeField] float recoilSpeed;
+    [SerializeField] Vector3 recoilDirection;
+    private Vector3 currentRecoil;
     /*
     [SerializeField] int meleeDamage;
     [SerializeField] float meleeRate;
     [SerializeField] float meleeDist;
     */
->>>>>>> Stashed changes
 
-    [SerializeField] int shootDamage = 1;
-    [SerializeField] int interactDist;
-    [SerializeField] int shootDist = 25;
-    [SerializeField] float shootRate = 0.5f;
-    [SerializeField] int TotalAmmo = 70;
-    [SerializeField] float reloadTime = 1.2f;
-    [SerializeField] int AmmoCapacity = 7;
+    [Header("===== Gun Bobbing =====")]
+    [SerializeField] float bobFrequency;
+    [SerializeField] float bobAmplitude;
+    [SerializeField] float bobLerpSpeed;
+    [SerializeField] float sprintBobFrequency;
+    [SerializeField] float sprintBobAmplitude;
+    [SerializeField] float walkBobFrequency;
+    [SerializeField] float walkBobAmplitude;
 
-    int bulletsInGun;
+    [Header("===== Camera Bobbing =====")]
+    [SerializeField] float camwalkBobAmplitude;  
+    [SerializeField] float camwalkBobFrequency;  
+    [SerializeField] float camsprintBobAmplitude; 
+    [SerializeField] float camsprintBobFrequency;
+
+
+    float bobTimer;
+
+    private float cambobTimer = 0f;
+    private Vector3 bobcamOriginalPos;
+
+
+    Vector3 gunBobOffset;
+
+
     int MaxAmmo = 100;
 
     int jumpCount;
     int HPOrig;
+    int gunListPos;
+    public GameObject playerSpawnPos;
 
     float shootTimer;
 
     Vector3 moveDir;
     Vector3 playerVel;
 
+    bool isPlayingStep;
+    bool isShotgun;
     bool isSprinting;
     bool isReloading;
 
-<<<<<<< Updated upstream
-=======
     bool isCrouching;
 
     float originalHeight;
@@ -121,27 +144,23 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     int baseSpeed;
 
-    public Transform gun; 
+    public Transform gun; // assign GunPos in the inspector
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
-    public Transform gunAimPos;
     public float gunAimSpeed = 10f;
     private Vector3 gunOriginalPos;
 
 
->>>>>>> Stashed changes
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         HPOrig = HP;
-<<<<<<< Updated upstream
-=======
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
 
         if (startingWeapon != null)
-        { 
+        {
             arsenal.Add(startingWeapon);
             gunListPos = 0;
             startingWeapon.currentAmmo = startingWeapon.ammoCapacity;
@@ -165,25 +184,81 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
         baseSpeed = speed;
 
         normalFov = Camera.main.fieldOfView;
-
         gunOriginalPos = gun.localPosition;
->>>>>>> Stashed changes
-    }
+
+        Camera.main.fieldOfView = normalFov;
+
+        if (cam != null)
+        {
+            bobcamOriginalPos = cam.localPosition;
+        }
+    
+}
 
     // Update is called once per frame
     void Update()
     {
         Movement();
 
-        Sprint();
-
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity)
-        {
-            StartCoroutine(Reload());
-        }
-
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
+
+        Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
+
+        if (isAiming)
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, adsFov, Time.deltaTime * 8f);
+        }
+        else
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, normalFov, Time.deltaTime * 8f);
+        }
+
+
+        if (currentRecoil != Vector3.zero)
+        {
+
+            gun.localPosition = Vector3.Lerp(gun.localPosition, gunOriginalPos, Time.deltaTime * recoilSpeed);
+
+            currentRecoil = Vector3.Lerp(currentRecoil, Vector3.zero, Time.deltaTime * recoilSpeed);
+        }
+
+        float targetFov = normalFov;
+
+        if (isSliding)
+            targetFov = slideFov;
+        else if (isAiming)
+            targetFov = adsFov;
+
+        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFov, Time.deltaTime * slideFovSpeed);
+
+        GunBobbing();
+
+        if (controller.isGrounded && moveDir.magnitude > 0.1f && !isSliding)
+        {
+            float currentFrequency = isSprinting ? sprintBobFrequency : walkBobFrequency;
+            float currentAmplitude = isSprinting ? sprintBobAmplitude : walkBobAmplitude;
+
+            bobTimer += Time.deltaTime * currentFrequency;
+
+            float bobX = Mathf.Cos(bobTimer) * currentAmplitude;
+            float bobY = Mathf.Abs(Mathf.Sin(bobTimer * 2)) * currentAmplitude;
+            bobY = Mathf.Clamp(bobY, -0.1f, 0.1f);
+
+            Vector3 baseGunPos = isAiming ? adsGunPos : hipFirePos;
+            Vector3 bobOffset = new Vector3(bobX, bobY, 0);
+             targetGunPos = baseGunPos + bobOffset;
+
+            gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+        }
+        else
+        {
+            bobTimer = 0;
+             targetGunPos = isAiming ? adsGunPos : hipFirePos;
+            gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+        }
+
+        CameraBobbing();
     }
 
     void Movement()
@@ -191,6 +266,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         if (controller.isGrounded)
         {
+            if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
+            {
+                StartCoroutine(playStep());
+            }
             jumpCount = 0;
             playerVel = Vector3.zero;
         }
@@ -208,34 +287,86 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         shootTimer += Time.deltaTime;
 
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused)
+        //Shooting
+        if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && !isShotgun)
         {
             Shoot();
+
+            if (isDUALwielding && secondaryGUN != null && secondaryGUN.currentAmmo > 0)
+            {
+                ShootSecondary();
+            }
         }
 
-
-        if(Input.GetButton("Interact"))
+        //Shooting Shotgun
+        else if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && isShotgun)
         {
-            Interact();
+            ShootShotgun();
         }
+
+        //Reload
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && bulletsInGun < AmmoCapacity && TotalAmmo != 0)
+        {
+            StartCoroutine(Reload());
+        }
+
+        //Displaying Reload Text
+        if (bulletsInGun <= 0 && !isReloading && TotalAmmo > 0)
+        {
+            if (gameManager.instance.reloadGunText != null)
+                gameManager.instance.reloadGunText.SetActive(true);
+        }
+
+        //Displaying Empty Gun Text
+        else if (arsenal.Count > 0 && bulletsInGun <= 0 && !isReloading && TotalAmmo == 0)
+        {
+            if (gameManager.instance.emptyGunText != null)
+                gameManager.instance.emptyGunText.SetActive(true);
+        }
+
+        //Disabling Texts
+        else
+        {
+            gameManager.instance.reloadGunText.SetActive(false);
+            gameManager.instance.emptyGunText.SetActive(false);
+        }
+
+        Interact();
+
+
+        SelectGun();
+        Sprint();
+        Crouch();
+        Slide();
+        ThrowGrenade();
+        AimDownSights();
+        //Melee();
+    }
+
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+        aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+
+        if (isSprinting)
+        {
+            yield return new WaitForSeconds(0.3f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.5f);
+
+        }
+        isPlayingStep = false;
     }
 
     void Jump()
     {
         if (Input.GetButtonDown("Jump") && jumpCount < jumpMax)
         {
+            aud.PlayOneShot(audJump[Random.Range(0, audJump.Length)], audJumpVol);
             jumpCount++;
             playerVel.y = jumpSpeed;
-        }
-
-        if (jumpCount == 2 && Input.GetButton("Jump"))
-        {
-            playerVel.y = jetForce * Time.deltaTime;
-
-            if (playerVel.y > jetMax)
-            {
-                playerVel.y = jetMax;
-            }
         }
     }
 
@@ -243,41 +374,132 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     {
         if (Input.GetButtonDown("Sprint"))
         {
+            isSprinting = true;
             speed *= sprintMod;
         }
         else if (Input.GetButtonUp("Sprint"))
         {
             speed /= sprintMod;
+            isSprinting = false;
         }
     }
 
-    void Shoot()
-    {
-        shootTimer = 0;
 
+     void dualWIELD(gunStats similarWEAPON)
+    {
+        secondaryGUN = similarWEAPON;
+   
+        if (arsenal[gunListPos].model == secondaryGUN.model)
+        {
+            DUALmodel.GetComponent<MeshFilter>().sharedMesh = secondaryGUN.model.GetComponent<MeshFilter>().sharedMesh;
+            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = secondaryGUN.model.GetComponent<MeshRenderer>().sharedMaterial;
+
+            DUALmodel.SetActive(true);
+        }
+    }
+
+    void ShootSecondary()
+    {
+        if (secondaryGUN == null || secondaryGUN.currentAmmo <= 0)
+        {
+            return;
+        }
+
+        aud.PlayOneShot(secondaryGUN.shootSounds[Random.Range(0, secondaryGUN.shootSounds.Length)], secondaryGUN.shootSoundVol);
         RaycastHit hit;
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
         {
-            Debug.Log(hit.collider.name);
+            Instantiate(secondaryGUN.hitEffect, hit.point, Quaternion.identity);
+
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(shootDamage);
+            }
+        }
+        secondaryGUN.currentAmmo--;
+    }    
+    void Shoot()
+    {
+
+        shootTimer = 0;
+        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
+        {
+            //Debug.Log(hit.collider.name);
+
+            Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
         }
-        bulletsInGun--;
+        arsenal[gunListPos].currentAmmo--;
+        bulletsInGun = arsenal[gunListPos].currentAmmo;
+        UpdatePlayerUI();
+
+        ApplyRecoil();
     }
+
+    void ShootShotgun()
+    {
+        shootTimer = 0;
+        int pellets = 10;
+        float spreadAngle = 10f;
+
+        if (isShotgun)
+        {
+            for (int i = 0; i < pellets; i++)
+            {
+
+                Vector3 shootDirection = GetSpreadDirection(Camera.main.transform.forward, spreadAngle);
+
+                if (Physics.Raycast(Camera.main.transform.position, shootDirection, out RaycastHit hit, shootDist, ~ignoreLayer))
+                {
+                    aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+                    Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+
+                    Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
+                    Debug.Log(hit.collider.name);
+
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
+                    if (dmg != null)
+                        dmg.TakeDamage(shootDamage / pellets);
+                }
+            }
+        }
+        arsenal[gunListPos].currentAmmo--;
+        bulletsInGun = arsenal[gunListPos].currentAmmo;
+        UpdatePlayerUI();
+    }
+
+
+    Vector3 GetSpreadDirection(Vector3 forward, float angle)
+    {
+        float spreadRadius = Mathf.Tan(angle * Mathf.Deg2Rad);
+        Vector2 spread = Random.insideUnitCircle * spreadRadius;
+
+        Vector3 direction = forward + Camera.main.transform.right * spread.x + Camera.main.transform.up * spread.y;
+        return direction.normalized;
+    } //Helper Function for shotgun spread
 
     IEnumerator Reload()
     {
+        aud.PlayOneShot(audReload[Random.Range(0, audReload.Length)], audReloadVol);
         isReloading = true;
+        gameManager.instance.reloadingGunText.SetActive(true);
 
         yield return new WaitForSeconds(reloadTime);
 
-        if(TotalAmmo >= AmmoCapacity)
+        if (TotalAmmo >= AmmoCapacity)
         {
-            TotalAmmo -= AmmoCapacity;
-            bulletsInGun = AmmoCapacity;
+
+            int reloadAmt = AmmoCapacity - bulletsInGun;
+            TotalAmmo -= reloadAmt;
+            bulletsInGun += reloadAmt;
         }
         else
         {
@@ -285,23 +507,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             TotalAmmo = 0;
         }
         isReloading = false;
+        arsenal[gunListPos].currentAmmo = bulletsInGun;
+        arsenal[gunListPos].totalAmmo = TotalAmmo;
+        gameManager.instance.reloadingGunText.SetActive(false);
+
+        UpdatePlayerUI();
     }
 
-    public void AddAmmo(int amount)
-    {
-        TotalAmmo += amount;
-
-        if(TotalAmmo > MaxAmmo) { TotalAmmo = MaxAmmo; }
-    }
-
-    public void AddHealth(int amount)
-    {
-        HP += amount;
-        if(HP > HPOrig) HP = HPOrig;
-    }
-
-
-    
     public void Interact()
     {
 
@@ -313,14 +525,26 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
-            if (interaction != null) interaction.Interact();
+            if (interaction != null)
+            {
+                interaction.Interact();
+            }
+
+        }
+        else if (gameManager.instance.interactUI.activeSelf == true) // If the raycast does not detect the object it turns off the interaction text
+        {
+            gameManager.instance.interactUI.SetActive(false);
         }
 
     }
 
     public void TakeDamage(int amount)
     {
+
         HP -= amount;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+        UpdatePlayerUI();
+        StartCoroutine(FlashDamageScreen());
 
         if (HP <= 0)
         {
@@ -331,27 +555,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public int getOrigHP()
     {
         return HPOrig;
-    }
+    } // Getter for Player's max health
 
     public int getCurHP()
     {
         return HP;
-    }
+    } // Getter for Player's current health
 
-    public void UpdateWeapon(int damage, int range, float fireRate, float ReloadTime, int ammoCapacity)
-    {
-        shootDamage = damage;
-        shootDist = range;
-        shootRate = fireRate;
-        reloadTime = ReloadTime;
-        AmmoCapacity = ammoCapacity;
-    }
 
     public int GetMaxAmmo()
     {
         return MaxAmmo;
-<<<<<<< Updated upstream
-=======
     }  //Getter for Player's max ammo
 
     public void UpdatePlayerUI()
@@ -374,11 +588,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     public void GetGunStats(gunStats gun)
     {
         if (!arsenal.Contains(gun))
-            {
-                arsenal.Add(gun);
-            }
+        {
+            arsenal.Add(gun);
+        }
+
         gunListPos = arsenal.Count - 1;
         ChangeGun(gunListPos);
+
+        dualWIELD(gun);
     }
 
     public void HealthPickup(int amount)
@@ -404,9 +621,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
     {
         for (int gunListCount = 0; gunListCount < arsenal.Count; gunListCount++)
         {
-            if (arsenal[gunListCount].totalAmmo < MaxAmmo) 
-            { 
-                arsenal[gunListCount].totalAmmo = arsenal[gunListCount].maxAmmo; 
+            if (arsenal[gunListCount].totalAmmo < MaxAmmo)
+            {
+                arsenal[gunListCount].totalAmmo = arsenal[gunListCount].maxAmmo;
                 TotalAmmo = arsenal[gunListCount].totalAmmo;
             }
         }
@@ -415,7 +632,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     public void SelectGun()
     {
-
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < arsenal.Count - 1)
         {
             //gunListPos++;
@@ -427,19 +643,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             //gunListPos--;
             ChangeGun(gunListPos - 1);
         }
-
-        
-        if (Input.GetButtonDown("num1")) HotkeyBar.EQUIPslot(0);
-        if (Input.GetButtonDown("num2")) HotkeyBar.EQUIPslot(1);
-        if (Input.GetButtonDown("num3")) HotkeyBar.EQUIPslot(2);
-        
     }
 
     public void ChangeGun(int index)
     {
         if (index >= 0 && index < arsenal.Count)
         {
-
             gunListPos = index;
 
             shootDamage = arsenal[gunListPos].shootDmg;
@@ -452,14 +661,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             MaxAmmo = arsenal[gunListPos].maxAmmo;
             isShotgun = arsenal[gunListPos].isShotgun;
 
-       
             gunModel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
             gunModel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
-            
+
 
             UpdatePlayerUI();
 
-  
+            /*
             for (int i = 0; i < hotkey_Slots.Count; i++)
             {
                 if (i == gunListPos)
@@ -471,7 +679,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
                     hotkey_Slots[i].SetSLOT(null);
                 }
             }
-            
+            */
         }
     }
 
@@ -574,7 +782,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
         // Move the gun between hip fire and ADS position
         Vector3 targetGunPos = isAiming ? adsGunPos : hipFirePos;
-        gunAimPos.localPosition = Vector3.Lerp(gunAimPos.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+
     }
 
     /*    void Melee()
@@ -601,8 +809,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
             }
         }*/
 
-   
-
     public void spawnPlayer()
     {
         controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
@@ -613,15 +819,63 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract
 
     void ApplyRecoil()
     {
-        
+
         currentRecoil = recoilDirection * recoilStrength;
 
-       
+
         currentRecoil += new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 0);
 
-        gun.localPosition += currentRecoil; 
->>>>>>> Stashed changes
+        gun.localPosition += currentRecoil;
     }
+
+    void GunBobbing()
+    {
+        float frequency = isSprinting ? sprintBobFrequency : bobFrequency;
+        float amplitude = isSprinting ? sprintBobAmplitude : bobAmplitude;
+
+        if (controller.isGrounded && moveDir.magnitude > 0.1f && !isAiming)
+        {
+            bobTimer += Time.deltaTime * frequency;
+
+            float bobX = Mathf.Cos(bobTimer) * amplitude;
+            float bobY = Mathf.Sin(bobTimer * 2) * amplitude;
+
+            gunBobOffset = new Vector3(bobX, bobY, 0);
+        }
+        else
+        {
+            bobTimer = 0f;
+            gunBobOffset = Vector3.Lerp(gunBobOffset, Vector3.zero, Time.deltaTime * bobLerpSpeed);
+        }
+
+        Vector3 targetGunPos = (isAiming ? adsGunPos : hipFirePos) + gunBobOffset;
+        gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+    }
+
+    void CameraBobbing()
+    {
+        if (controller.isGrounded && moveDir.magnitude > 0.1f && !isSliding)
+        {
+            float currentFrequency = isSprinting ? camsprintBobFrequency : camwalkBobFrequency;
+            float currentAmplitude = isSprinting ? camsprintBobAmplitude : camwalkBobAmplitude;
+
+            cambobTimer += Time.deltaTime * currentFrequency;
+
+            // X-axis and Y-axis bobbing
+            float bobX = Mathf.Cos(bobTimer) * currentAmplitude;
+            float bobY = Mathf.Abs(Mathf.Sin(bobTimer * 2)) * currentAmplitude;
+            bobY = Mathf.Clamp(bobY, -0.1f, 0.1f); // Keeps Y bobbing small
+
+            // Apply bobbing effect to camera
+            Vector3 bobOffset = new Vector3(bobX, bobY, 0);
+            cam.localPosition = bobcamOriginalPos + bobOffset;
+        }
+        else
+        {
+            // Reset bob timer and position if not moving
+            cambobTimer = 0f;
+            cam.localPosition = bobcamOriginalPos;
+        }
+    }
+
 }
-
-
