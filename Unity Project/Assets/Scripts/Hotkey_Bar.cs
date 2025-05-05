@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class Hotkey_Bar : MonoBehaviour
 {
-    public gunStats[] weaponSLOTS = new gunStats[3];
 
     public Hotkey_slots_UI[] slots_ui = new Hotkey_slots_UI[3];
 
@@ -13,11 +13,11 @@ public class Hotkey_Bar : MonoBehaviour
 
     public void AssignAvailableSLOT(gunStats pickedWEAPON)
     {
-        for (int i = 0; i < weaponSLOTS.Length; i++)
+        for (int i = 0; i < gameManager.instance.playerScript.arsenal.Count; i++)
         {
-            if (weaponSLOTS[i] == null)
+            if (gameManager.instance.playerScript.arsenal[i] == null)
             {
-                weaponSLOTS[i] = pickedWEAPON;
+                gameManager.instance.playerScript.arsenal[i] = pickedWEAPON;
                 slots_ui[i].SetSLOT(pickedWEAPON);
                 break;
             }
@@ -31,34 +31,36 @@ public class Hotkey_Bar : MonoBehaviour
         if (Input.GetButtonDown("num2")) EQUIPslot(1);
         if (Input.GetButtonDown("num3")) EQUIPslot(2);
 
-
+        
          
-        /*//-------To display Ammo Constantly outside of reload/shoot
-        for (int i = 0; i < weaponSLOTS.Length; i++)
+        //-------To display Ammo Constantly outside of reload/shoot
+        for (int i = 0; i < gameManager.instance.playerScript.arsenal.Count; i++)
         {
-            if (weaponSLOTS[i] == null)
+            if (gameManager.instance.playerScript.arsenal[i] == null)
             {
-                slots_ui[i].SetSLOT(weaponSLOTS[i]);
+                slots_ui[i].SetSLOT(gameManager.instance.playerScript.arsenal[i]);
             }
         }
-        */
+        
     }
 
-
-    void EQUIPslot(int index)
+    public void EQUIPslot(int index)
     {
-        if (weaponSLOTS[index] != null)
+        if (gameManager.instance.playerScript.arsenal[index] != null)
         {
             {
                 activeSLOT = index;
-                playerSCRIPT.GetGunStats(weaponSLOTS[index]);
+                playerSCRIPT.ChangeGun(index);
+                refreshUI();
             }
         }
-        
-        else
+    }
+
+    public void refreshUI()
+    {
+        if (activeSLOT >= 0 && gameManager.instance.playerScript.arsenal[activeSLOT] != null)
         {
-            index = activeSLOT;
+            slots_ui[activeSLOT].UpdateAmmo(gameManager.instance.playerScript.arsenal[activeSLOT]);
         }
-        
     }
 }

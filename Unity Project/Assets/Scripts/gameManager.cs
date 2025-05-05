@@ -65,6 +65,7 @@ public class gameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetButtonDown("num1"))
         {
             ToggleSlot(0);
@@ -79,7 +80,7 @@ public class gameManager : MonoBehaviour
         {
             ToggleSlot(2);
         }
-
+        
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -96,18 +97,16 @@ public class gameManager : MonoBehaviour
                 menuActive = null;
             }
         }
-
+        
         if (Input.GetButtonDown("TAB"))
         {
-            if (hotkeyBAR == null)
-            {
-                menuActive = hotkeyBAR;
-                hotkeyBAR.SetActive(true);
-            }
-            else if (menuActive == hotkeyBAR)
+            if (hotkeyBAR.activeSelf == true)
             {
                 hotkeyBAR.SetActive(false);
-                menuActive = null;
+            }
+            else
+            {
+                hotkeyBAR.SetActive(true);
             }
         }
         
@@ -138,6 +137,7 @@ public class gameManager : MonoBehaviour
         else
         {
             EventSystem.current.SetSelectedGameObject(InventorySLOTS[index]);
+            hotkeyBAR.GetComponent<Hotkey_Bar>().EQUIPslot(index);
             slotINDEX = index;
 
             playerScript.ChangeGun(index);

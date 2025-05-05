@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bb664b2dd43da46adea06c3f4aa695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sens: 300
+  sens: 150
   lockVertMax: 90
   lockVertMin: -90
   invertY: 0
@@ -235,7 +235,7 @@ MonoBehaviour:
   TotalAmmo: 200
   reloadTime: 1.2
   AmmoCapacity: 7
-  startingWeapon: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
+  startingWeapon: {fileID: 0}
   crouchHeight: 2
   crouchSpeedMod: 2
   cam: {fileID: 7491251138447997815}
@@ -244,8 +244,6 @@ MonoBehaviour:
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   grenadeSpawnPoint: {fileID: 7491251138447997815}
   grenadeThrowForce: 100
-  adsCamPos: {x: 0, y: 0, z: 0}
-  adsSpeed: 100
   audJump:
   - {fileID: 8300000, guid: 7268c285d3390014599735fbebdb6f2a, type: 3}
   - {fileID: 8300000, guid: d9dbf138327eadb49b026f89167ac8f3, type: 3}
@@ -274,7 +272,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a7302ca5bc0b31a4daac1c38e358e2f0, type: 3}
   audReloadVol: 0.1
   shootSoundsVol: 0.1
+  adsFov: 40
+  normalFov: 80
+  adsCamPos: {x: 0, y: 1, z: 0.3}
+  adsSpeed: 100
+  recoilStrength: 0
+  recoilSpeed: 0
+  recoilDirection: {x: 0, y: 0, z: 0}
   playerSpawnPos: {fileID: 0}
+  gun: {fileID: 4241756268025260782}
+  gunAimPos: {fileID: 4241756268025260782}
+  hipFirePos: {x: 0.4, y: -0.3, z: 0.3}
+  adsGunPos: {x: 0.015, y: -0.15, z: 0.8}
+  gunAimSpeed: 10
 --- !u!143 &5688579929998117802
 CharacterController:
   m_ObjectHideFlags: 0
@@ -456,6 +466,10 @@ PrefabInstance:
     - target: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_Name
       value: GunPOS
+      objectReference: {fileID: 0}
+    - target: {fileID: 7112671836918191081, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 298171137077548677, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}

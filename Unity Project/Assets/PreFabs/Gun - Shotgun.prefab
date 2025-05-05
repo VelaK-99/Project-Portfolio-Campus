@@ -33,7 +33,8 @@ Transform:
   m_LocalPosition: {x: -76.779, y: 1, z: -84.415}
   m_LocalScale: {x: 1.0000002, y: 0.99999994, z: 0.9999999}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 6913261133830963609}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!33 &9206240670511071659
@@ -148,3 +149,34 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.7
   m_Center: {x: -0.20065087, y: 0.016613275, z: 0.003615478}
+--- !u!1 &8901161906123754964
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6913261133830963609}
+  m_Layer: 0
+  m_Name: ADSpos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6913261133830963609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8901161906123754964}
+  serializedVersion: 2
+  m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
+  m_LocalPosition: {x: 0.075, y: -0.119, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5038942850976964070}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
