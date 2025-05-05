@@ -25,11 +25,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Header("===== Weapons =====")]
     [SerializeField] public List<gunStats> arsenal = new List<gunStats>();
 
-    public List<Hotkey_slots_UI> hotkey_Slots;
+    //public List<Hotkey_slots_UI> hotkey_Slots;
 
 
     [SerializeField] GameObject gunModel;
-    //[SerializeField] GameObject DUALmodel;
+    [SerializeField] GameObject DUALmodel;
+    public gunStats secondaryGUN;
+    public bool isDUALwielding = false;
 
     [Range(1, 10)][SerializeField] int shootDamage;
     [Range(1, 10)][SerializeField] int shootDist;
@@ -289,6 +291,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && !isShotgun)
         {
             Shoot();
+
+            if (isDUALwielding && secondaryGUN != null && secondaryGUN.currentAmmo > 0)
+            {
+                ShootSecondary();
+            }
         }
 
         //Shooting Shotgun
@@ -378,17 +385,41 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     }
 
 
-    /* void dualWIELD()
+     void dualWIELD(gunStats similarWEAPON)
     {
-        gunStats similiarWEAPON = new gunStats();
-
-        if (arsenal[gunListPos].model == similiarWEAPON.model)
+        secondaryGUN = similarWEAPON;
+   
+        if (arsenal[gunListPos].model == secondaryGUN.model)
         {
-            DUALmodel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
-            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
+            DUALmodel.GetComponent<MeshFilter>().sharedMesh = secondaryGUN.model.GetComponent<MeshFilter>().sharedMesh;
+            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = secondaryGUN.model.GetComponent<MeshRenderer>().sharedMaterial;
+
+            DUALmodel.SetActive(true);
         }
     }
-    */
+
+    void ShootSecondary()
+    {
+        if (secondaryGUN == null || secondaryGUN.currentAmmo <= 0)
+        {
+            return;
+        }
+
+        aud.PlayOneShot(secondaryGUN.shootSounds[Random.Range(0, secondaryGUN.shootSounds.Length)], secondaryGUN.shootSoundVol);
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
+        {
+            Instantiate(secondaryGUN.hitEffect, hit.point, Quaternion.identity);
+
+            IDamage dmg = hit.collider.GetComponent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(shootDamage);
+            }
+        }
+        secondaryGUN.currentAmmo--;
+    }    
     void Shoot()
     {
 
@@ -563,6 +594,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         gunListPos = arsenal.Count - 1;
         ChangeGun(gunListPos);
+
+        dualWIELD(gun);
     }
 
     public void HealthPickup(int amount)
@@ -634,7 +667,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             UpdatePlayerUI();
 
-
+            /*
             for (int i = 0; i < hotkey_Slots.Count; i++)
             {
                 if (i == gunListPos)
@@ -646,6 +679,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
                     hotkey_Slots[i].SetSLOT(null);
                 }
             }
+            */
         }
     }
 
