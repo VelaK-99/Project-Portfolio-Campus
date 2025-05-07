@@ -151,6 +151,17 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public float gunAimSpeed = 10f;
     private Vector3 gunOriginalPos;
 
+    /*
+    /// <summary>
+    /// Assign in the inspector
+    /// </summary>
+    public GameObject Dropped_Weapon;
+    /// <summary>
+    /// Where the weapon drops (in front of the player)
+    /// </summary>
+    public Transform dropPOINT;
+    */
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -221,14 +232,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             gun.localPosition = Vector3.Lerp(gun.localPosition, gunOriginalPos, Time.deltaTime * recoilSpeed);
 
-            /*
+            
             if (DUALgun != null)
             {
                 Vector3 dualOFFset = new Vector3(-0.442f, -0.322f, 0.652f);
                 Vector3 dualTARGETpos = targetGunPos + dualOFFset;
                 DUALgun.localPosition = Vector3.Lerp(DUALgun.localPosition, dualTARGETpos, Time.deltaTime * recoilSpeed);
             }
-            */
+            
 
             currentRecoil = Vector3.Lerp(currentRecoil, Vector3.zero, Time.deltaTime * recoilSpeed);
         }
@@ -261,6 +272,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
+            updateDUALguns(targetGunPos);
+                
             /*
             if (DUALgun != null)
             {
@@ -274,6 +287,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             bobTimer = 0;
              targetGunPos = isAiming ? adsGunPos : hipFirePos;
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
+
+            updateDUALguns(targetGunPos);
 
             /*
             if(DUALgun != null)
@@ -316,11 +331,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         if (Input.GetButton("Fire1") && shootTimer >= shootRate && bulletsInGun > 0 && !isReloading && !gameManager.instance.isPaused && !isShotgun)
         {
             Shoot();
-
-            if (isDUALwielding && SecondaryGUN != null)
-            {
-                DUALshoot();
-            }
         }
 
         //Shooting Shotgun
@@ -422,7 +432,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             DUALmodel.SetActive(true);
         }
     }
-    
+
+    void updateDUALguns(Vector3 DualPOS)
+    {
+        if (DUALgun == null) return;
+
+        Vector3 dualOFFset = new Vector3(-0.442f, -0.322f, 0.652f);
+        Vector3 dualTARGETpos = DualPOS + dualOFFset;
+        DUALgun.localPosition = Vector3.Lerp(DUALgun.localPosition, dualTARGETpos, Time.deltaTime * recoilSpeed);
+
+    }
+   
+    /*
+    void dropWEAPON(gunStats EQUIPPED_weapon)
+    {
+        if (arsenal[gunListPos] == EQUIPPED_weapon)
+        {
+            GameObject dropped = Instantiate(Dropped_Weapon, dropPOINT.position, Quaternion.identity);
+
+            arsenal.RemoveAt(gunListPos);
+        }
+    }
+    */
+
     void Shoot()
     {
 
@@ -443,7 +475,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         arsenal[gunListPos].currentAmmo--;
         bulletsInGun = arsenal[gunListPos].currentAmmo;
         UpdatePlayerUI();
-
+        DUALshoot();
         ApplyRecoil();
     }
 
@@ -505,6 +537,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
         arsenal[gunListPos].currentAmmo--;
         bulletsInGun = arsenal[gunListPos].currentAmmo;
+        DUALshoot();
         ApplyRecoil();
         UpdatePlayerUI();
     }
@@ -859,12 +892,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         gun.localPosition += currentRecoil;
 
-        /*
+        
         if (DUALgun != null)
         {
             DUALgun.localPosition += currentRecoil;
         }
-        */
+        
     }
 
     void GunBobbing()
@@ -890,12 +923,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         Vector3 targetGunPos = (isAiming ? adsGunPos : hipFirePos) + gunBobOffset;
         gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
-        /*
-        if (DUALgun != null)
-        {
-            DUALgun.localPosition = Vector3.Lerp(DUALgun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
-        }
-        */
+        updateDUALguns(targetGunPos);
     }
 
     void CameraBobbing()
