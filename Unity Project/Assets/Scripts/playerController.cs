@@ -442,7 +442,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         DUALgun.localPosition = Vector3.Lerp(DUALgun.localPosition, dualTARGETpos, Time.deltaTime * recoilSpeed);
 
     }
-   
+
     /*
     void dropWEAPON(gunStats EQUIPPED_weapon)
     {
@@ -451,6 +451,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             GameObject dropped = Instantiate(Dropped_Weapon, dropPOINT.position, Quaternion.identity);
 
             arsenal.RemoveAt(gunListPos);
+
+            DUALmodel.SetActive(false);
         }
     }
     */
@@ -497,7 +499,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             IDamage DMG = hit.collider.GetComponent<IDamage>();
             if (DMG != null)
             {
-                DMG.TakeDamage(shootDamage * 2);
+                DMG.TakeDamage(shootDamage);
             }
         }
 

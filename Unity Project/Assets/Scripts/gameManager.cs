@@ -62,6 +62,17 @@ public class gameManager : MonoBehaviour
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
     }
 
+    /*
+    private void Start()
+    {
+        instance = this;
+
+        foreach (GameObject slot in InventorySLOTS)
+        {
+            slot.SetActive(false);
+        }
+    }
+    */
     // Update is called once per frame
     void Update()
     {
