@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,9 +6,16 @@ using UnityEngine.UI;
 
 public class Hotkey_slots_UI : MonoBehaviour
 {
+    public static Hotkey_slots_UI instance;
+
     public Image gun_image;
     public TMP_Text current_ammoTEXT;
     public TMP_Text total_ammoTEXT;
+
+    public void Start()
+    {
+        instance = this;
+    }
 
     public void SetSLOT(gunStats gun)
     {

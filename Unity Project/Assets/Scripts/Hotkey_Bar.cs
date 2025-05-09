@@ -15,7 +15,7 @@ public class Hotkey_Bar : MonoBehaviour
     {
         for (int i = 0; i < gameManager.instance.playerScript.arsenal.Count; i++)
         {
-            if (gameManager.instance.playerScript.arsenal[i] == null)
+            if (gameManager.instance.playerScript.arsenal[i] != null)
             {
                 gameManager.instance.playerScript.arsenal[i] = pickedWEAPON;
 
@@ -57,7 +57,7 @@ public class Hotkey_Bar : MonoBehaviour
             */
 
             
-            if (gameManager.instance.playerScript.arsenal[i] == null)
+            if (gameManager.instance.playerScript.arsenal[i] != null)
             {
                 slots_ui[i].SetSLOT(gameManager.instance.playerScript.arsenal[i]);
             }

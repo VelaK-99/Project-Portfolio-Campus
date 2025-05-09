@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
@@ -643,6 +644,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             gameManager.instance.CurrentAmmo.text = arsenal[gunListPos].currentAmmo.ToString("F0");
             gameManager.instance.TotalAmmo.text = arsenal[gunListPos].totalAmmo.ToString("F0");
+
+            Hotkey_slots_UI.instance.UpdateAmmo(arsenal[gunListPos]);
         }
     }
 
