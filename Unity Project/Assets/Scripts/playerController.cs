@@ -646,6 +646,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gameManager.instance.TotalAmmo.text = arsenal[gunListPos].totalAmmo.ToString("F0");
 
             Hotkey_slots_UI.instance.UpdateAmmo(arsenal[gunListPos]);
+            Hotkey_slots_UI.instance.SetSLOT(arsenal[gunListPos]);
         }
     }
 
