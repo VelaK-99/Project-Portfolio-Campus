@@ -30,9 +30,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
     [SerializeField] GameObject gunModel;
+
+    /*
     [SerializeField] GameObject DUALmodel;
     public gunStats SecondaryGUN;
     public bool isDUALwielding = false;
+    */
+
 
     [Range(1, 10)][SerializeField] int shootDamage;
     [Range(1, 10)][SerializeField] int shootDist;
@@ -273,7 +277,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
-            updateDUALguns(targetGunPos);
+            //updateDUALguns(targetGunPos);
                 
             /*
             if (DUALgun != null)
@@ -289,7 +293,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
              targetGunPos = isAiming ? adsGunPos : hipFirePos;
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
-            updateDUALguns(targetGunPos);
+            //updateDUALguns(targetGunPos);
 
             /*
             if(DUALgun != null)
@@ -420,7 +424,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-
+    /*
      void dualWIELD(gunStats SIMILARweapon)
     {
         SecondaryGUN = SIMILARweapon;
@@ -433,6 +437,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             DUALmodel.SetActive(true);
         }
     }
+    
 
     void updateDUALguns(Vector3 DualPOS)
     {
@@ -443,6 +448,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         DUALgun.localPosition = Vector3.Lerp(DUALgun.localPosition, dualTARGETpos, Time.deltaTime * recoilSpeed);
 
     }
+    */
 
     /*
     void dropWEAPON(gunStats EQUIPPED_weapon)
@@ -478,10 +484,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         arsenal[gunListPos].currentAmmo--;
         bulletsInGun = arsenal[gunListPos].currentAmmo;
         UpdatePlayerUI();
-        DUALshoot();
+        //DUALshoot();
         ApplyRecoil();
     }
 
+    /*
     void DUALshoot()
     {
         if (SecondaryGUN == null || SecondaryGUN.currentAmmo <= 0)
@@ -509,7 +516,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         ApplyRecoil();
         UpdatePlayerUI();
     }
-
+    */
     
     void ShootShotgun()
     {
@@ -540,7 +547,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
         arsenal[gunListPos].currentAmmo--;
         bulletsInGun = arsenal[gunListPos].currentAmmo;
-        DUALshoot();
+        //DUALshoot();
         ApplyRecoil();
         UpdatePlayerUI();
     }
@@ -667,7 +674,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         gunListPos = arsenal.Count - 1;
         ChangeGun(gunListPos);
 
-        dualWIELD(gun);
+        //dualWIELD(gun);
     }
 
     public void HealthPickup(int amount)
@@ -929,7 +936,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         Vector3 targetGunPos = (isAiming ? adsGunPos : hipFirePos) + gunBobOffset;
         gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
-        updateDUALguns(targetGunPos);
+        //updateDUALguns(targetGunPos);
     }
 
     void CameraBobbing()
