@@ -148,7 +148,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     int baseSpeed;
 
     public Transform gun; // assign GunPos in the inspector
-    public Transform DUALgun;
+    //public Transform DUALgun;
     public Vector3 hipFirePos;
     public Vector3 adsGunPos;
     public float gunAimSpeed = 10f;
@@ -239,14 +239,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             gun.localPosition = Vector3.Lerp(gun.localPosition, gunOriginalPos, Time.deltaTime * recoilSpeed);
 
-            
+            /*
             if (DUALgun != null)
             {
                 Vector3 dualOFFset = new Vector3(-0.442f, -0.322f, 0.652f);
                 Vector3 dualTARGETpos = targetGunPos + dualOFFset;
                 DUALgun.localPosition = Vector3.Lerp(DUALgun.localPosition, dualTARGETpos, Time.deltaTime * recoilSpeed);
             }
-            
+            */
 
             currentRecoil = Vector3.Lerp(currentRecoil, Vector3.zero, Time.deltaTime * recoilSpeed);
         }
@@ -842,12 +842,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         gun.localPosition += currentRecoil;
 
-        
+        /*
         if (DUALgun != null)
         {
             DUALgun.localPosition += currentRecoil;
         }
-        
+        */
     }
 
     void GunBobbing()
