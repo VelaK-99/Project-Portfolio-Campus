@@ -40,20 +40,20 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] gunStats startingWeapon;
 
     [Header("===== Crouch/Slide =====")]
-    [Range(1, 5)][SerializeField] float crouchHeight;
-    [Range(0, 6)][SerializeField] float crouchSpeedMod;
+    float crouchHeight = 2f;
+    float crouchSpeedMod = 2f;
     [SerializeField] Transform cam;
 
-    [Range(1, 6)][SerializeField] float slideSpeed;
-    [Range(0, 2)][SerializeField] float slideDuration;
+    float slideSpeed = 6f;
+    float slideDuration = 0.6f;
 
-    [SerializeField] float slideFov;
-    [SerializeField] float slideFovSpeed;
+    float slideFov = 80f;
+    float slideFovSpeed = 7f;
 
     [Header("===== Grenade =====")]
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
-    [SerializeField] float grenadeThrowForce;
+    float grenadeThrowForce = 100f;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audJump;
@@ -67,35 +67,36 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(0, 100)][SerializeField] float shootSoundsVol;
 
     [Header("===== Aim Down Sights =====")]
-    [SerializeField] float adsFov;
-    [SerializeField] float normalFov;
+    float adsFov = 40f;
+    float normalFov = 80f;
 
     [SerializeField] Vector3 adsCamPos;
-    [SerializeField] float adsSpeed;
+    float adsSpeed = 100f;
 
-    [SerializeField] float recoilStrength;
-    [SerializeField] float recoilSpeed;
+    float recoilStrength = 0.5f;
+    float recoilSpeed = 6f;
     [SerializeField] Vector3 recoilDirection;
     private Vector3 currentRecoil;
 
-    [Header("===== Gun Bobbing =====")]
-    [SerializeField] float bobFrequency;
-    [SerializeField] float bobAmplitude;
-    [SerializeField] float bobLerpSpeed;
-    [SerializeField] float sprintBobFrequency;
-    [SerializeField] float sprintBobAmplitude;
-    [SerializeField] float walkBobFrequency;
-    [SerializeField] float walkBobAmplitude;
 
-    [Header("===== Camera Bobbing =====")]
-    [SerializeField] float camwalkBobAmplitude;  
-    [SerializeField] float camwalkBobFrequency;  
-    [SerializeField] float camsprintBobAmplitude; 
-    [SerializeField] float camsprintBobFrequency;
+    float bobFrequency = 4f;
+    float bobAmplitude = 0.03f;
+    float bobLerpSpeed = 4f;
+    float sprintBobFrequency = 1.5f;
+    float sprintBobAmplitude = 0.2f;
+    float walkBobFrequency = 0.04f;
+    float walkBobAmplitude = 0.03f;
+
+
+    float camwalkBobAmplitude = 0.06f;
+    float camwalkBobFrequency = 0.50f;
+    float camsprintBobAmplitude = 0.1f;
+    float camsprintBobFrequency = 0.4f;
 
 
     float bobTimer;
 
+    private Vector3 currentRecoil;
     private float cambobTimer = 0f;
     private Vector3 bobcamOriginalPos;
 
