@@ -10,6 +10,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
     [SerializeField] AudioSource aud;
+    [SerializeField] Animator animator;
+    [SerializeField] int animTranSpeed;
 
     [Header("===== Stats =====")]
     [Range(1, 100)][SerializeField] int HP;
@@ -27,16 +29,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public List<Hotkey_slots_UI> hotkey_Slots;
 
-
     [SerializeField] GameObject gunModel;
-    //[SerializeField] GameObject DUALmodel;
 
-    [Range(1, 10)][SerializeField] int shootDamage;
-    [Range(1, 10)][SerializeField] int shootDist;
-    [Range(0, 10)][SerializeField] float shootRate;
-    [Range(0, 200)][SerializeField] int TotalAmmo;
-    [Range(0, 10)][SerializeField] float reloadTime;
-    [SerializeField] int AmmoCapacity;
+    int shootDamage;
+    int shootDist;
+    float shootRate;
+     int TotalAmmo;
+    float reloadTime;
+    int AmmoCapacity;
     [SerializeField] gunStats startingWeapon;
 
     [Header("===== Crouch/Slide =====")]
@@ -77,11 +77,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] float recoilSpeed;
     [SerializeField] Vector3 recoilDirection;
     private Vector3 currentRecoil;
-    /*
-    [SerializeField] int meleeDamage;
-    [SerializeField] float meleeRate;
-    [SerializeField] float meleeDist;
-    */
 
     [Header("===== Gun Bobbing =====")]
     [SerializeField] float bobFrequency;
@@ -124,6 +119,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     bool isShotgun;
     bool isSprinting;
     bool isReloading;
+    bool isMoving;
 
     bool isCrouching;
 
@@ -152,6 +148,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        animator = GetComponent<Animator>();
         HPOrig = HP;
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
@@ -196,6 +193,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Update is called once per frame
     void Update()
     {
+
+        OnAnimLocomotion();
+
         Movement();
 
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
@@ -261,7 +261,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Movement()
     {
-
         if (controller.isGrounded)
         {
             if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
@@ -275,6 +274,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         moveDir = (Input.GetAxis("Horizontal") * transform.right) +
                  (Input.GetAxis("Vertical") * transform.forward);
 
+        float regSpeed = Mathf.Clamp01(moveDir.magnitude) * speed;
+
+        if(regSpeed > 0.5f && regSpeed < 0.6f) { regSpeed = 0.5f; }
+        animator.SetFloat("speed", regSpeed, 0.05f, Time.deltaTime);
 
         controller.Move(moveDir * speed * Time.deltaTime);
 
@@ -333,7 +336,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         Slide();
         ThrowGrenade();
         AimDownSights();
-        //Melee();
     }
 
     IEnumerator playStep()
@@ -377,18 +379,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
     }
 
-
-    /* void dualWIELD()
-    {
-        gunStats similiarWEAPON = new gunStats();
-
-        if (arsenal[gunListPos].model == similiarWEAPON.model)
-        {
-            DUALmodel.GetComponent<MeshFilter>().sharedMesh = arsenal[gunListPos].model.GetComponent<MeshFilter>().sharedMesh;
-            DUALmodel.GetComponent<MeshRenderer>().sharedMaterial = arsenal[gunListPos].model.GetComponent<MeshRenderer>().sharedMaterial;
-        }
-    }
-    */
     void Shoot()
     {
 
@@ -398,7 +388,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
         {
-            //Debug.Log(hit.collider.name);
 
             Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
@@ -490,8 +479,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInteract, interactDist, ~ignoreLayer))
         {
-            Debug.Log(hitInteract.collider.name); // created a debug to see what is trying to interact with
-
             IInteract interaction = hitInteract.collider.GetComponent<IInteract>();
 
             if (interaction != null)
@@ -751,30 +738,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     }
 
-    /*    void Melee()
-        {
-            if (isMELEE)
-            {
-                meleeTimer += Time.deltaTime;
-
-    //        if (Input.GetButtonDown("Melee"))
-    //        {
-    //            meleeTimer = 0;
-
-                    RaycastHit hit;
-
-                    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeDist, ~ignoreLayer))
-                    {
-                        Debug.Log("Melee hit: " + hit.collider.name);
-
-                        IDamage dmg = hit.collider.GetComponent<IDamage>();
-                        if (dmg != null)
-                            dmg.TakeDamage(meleeDamage);
-                    }
-                }
-            }
-        }*/
-
     public void spawnPlayer()
     {
         controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
@@ -842,6 +805,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             cambobTimer = 0f;
             cam.localPosition = bobcamOriginalPos;
         }
+    }
+
+    void OnAnimLocomotion()
+    {
+        float speed = controller.velocity.magnitude;
+        float animSpeedCur = animator.GetFloat("speed");
+
+        if(speed < 0.5f) { speed = 0f; }
+        animator.SetFloat("speed", speed);
+        Debug.Log("Speed: " + speed);
     }
 
 }
