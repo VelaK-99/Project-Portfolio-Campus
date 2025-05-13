@@ -4,7 +4,7 @@ using UnityEngine;
 public class gunStats : ScriptableObject
 {
     public GameObject model;
-    public GameObject Image;
+    public Sprite Image;
 
     [Range(1, 15)] public int shootDmg;
     [Range(5, 1000)] public int shootDist;
