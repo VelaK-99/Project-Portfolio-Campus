@@ -19,7 +19,14 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
     [Range(0,25)] [SerializeField] float shootRate;
-    [Range(0,45)] [SerializeField] int shootFOV; 
+    [Range(0,45)] [SerializeField] int shootFOV;
+
+    [Header("===== Cover System =====")]
+    [SerializeField] float detectionRange = 20f;
+    [SerializeField] float coverDistance = 5f;
+    [SerializeField] LayerMask coverMask;
+    private bool isTakingCover = false;
+    private Vector3 coverPosition;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
@@ -59,14 +66,25 @@ public class EnemyAI : MonoBehaviour, IDamage
     void Update()
     {
         onAnimLomotion();
-        if (agent.remainingDistance < 0.01f)
-            roamTimer += Time.deltaTime;
-
-        if (playerInRange && !CanSeePlayer())
+       if(playerInRange)
         {
-            checkRoam();
+            if(CanSeePlayer())
+            {
+                if(ShouldTakeCover())
+                {
+                    FindCover();
+                }
+                else
+                {
+                    agent.SetDestination(gameManager.instance.transform.position);
+                }
+            }
+            else
+            {
+                checkRoam();
+            }
         }
-        else if (!playerInRange)
+       else
         {
             checkRoam();
         }
@@ -83,6 +101,11 @@ public class EnemyAI : MonoBehaviour, IDamage
         {
             StartCoroutine(playStep());
         }
+    }
+
+    bool ShouldTakeCover()
+    {
+        return HP <= 50 || Vector3.Distance(transform.position, gameManager.instance.player.transform.position) <= detectionRange;
     }
 
     IEnumerator playStep()
@@ -230,4 +253,89 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
         knife.enabled = false;
     }
-}
+
+    public void FindCover()
+    {
+        Collider[] coverSpots = Physics.OverlapSphere(transform.position, coverDistance, coverMask);
+        Transform bestCover = null;
+        float bestCoverScore = Mathf.NegativeInfinity;
+
+        foreach (Collider cover in coverSpots)
+        {
+            Vector3 directionToCover = gameManager.instance.player.transform.position - cover.transform.position;
+            if (Physics.Raycast(cover.transform.position, directionToCover, out RaycastHit hit))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    continue;
+                }
+            }
+
+            float distanceToPlayer = Vector3.Distance(gameManager.instance.player.transform.position, cover.transform.position);
+            float distanceToEnemy = Vector3.Distance(transform.position, cover.transform.position);
+            float coverScore = distanceToPlayer - distanceToEnemy;
+
+            if (coverScore > bestCoverScore)
+            {
+                bestCoverScore = coverScore;
+                bestCover = cover.transform;
+            }
+        }
+
+        if (bestCover != null)
+        {
+            Debug.Log($"Enemy taking cover at {bestCover.position}");
+            isTakingCover = true;
+            coverPosition = bestCover.position;
+            agent.SetDestination(coverPosition);
+            StartCoroutine(CoverBehavior());
+        }
+        else
+        {
+            Debug.Log("No suitable cover found.");
+        }
+    }
+
+    IEnumerator CoverBehavior()
+    {
+       while (isTakingCover)
+        {
+            float distanceToCover = Vector3.Distance(transform.position, coverPosition);
+
+            if (distanceToCover <= 1f)
+            {
+                faceTarget();
+                shootTimer += Time.deltaTime;
+
+                if (shootTimer >= shootRate)
+                {
+                    shoot();
+                    shootTimer = 0f;
+
+                    if (Random.value > 0.5f)
+                    {
+                        Debug.Log("Enemy is peeking to shoot.");                       
+                    }
+                    else
+                    {
+                        Debug.Log("Enemy is hiding");
+                    }
+                }
+            }
+            else
+            {
+                agent.SetDestination(coverPosition);
+            }
+
+            if (Vector3.Distance(transform.position, gameManager.instance.player.transform.position) <= 5f)
+            {
+                Debug.Log("Player is too close. Leaving cover.");
+                isTakingCover = false;
+                break;
+            }
+            yield return null;
+        }
+
+        isTakingCover = false;
+    }
+ }
