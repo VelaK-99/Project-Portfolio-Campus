@@ -60,6 +60,11 @@ public class gameManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
+
+        if (playerSpawnPos == null)
+        {
+            Debug.LogWarning(" 'PlayerSpawnPos' GameObject is missing in the scene! Camera may default at (0, 0, 0)!");
+        }
     }
 
     /*
@@ -110,6 +115,7 @@ public class gameManager : MonoBehaviour
             }
         }
         
+        /*
         if (Input.GetButtonDown("TAB"))
         {
             if (hotkeyBAR.activeSelf == true)
@@ -121,7 +127,8 @@ public class gameManager : MonoBehaviour
                 hotkeyBAR.SetActive(true);
             }
         }
-        
+        */
+
         //Preventing deselection from mouse clicks by reapplying selection
         if (slotINDEX >= 0)
         {

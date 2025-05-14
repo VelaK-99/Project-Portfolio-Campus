@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1362340633836789566}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.026332565, y: -0.7066164, z: -0.7066162, w: 0.026332565}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -35,7 +35,7 @@ Transform:
   - {fileID: 4241756268025260782}
   - {fileID: 2261126578692185028}
   m_Father: {fileID: 6668166344820973566}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: -175.732}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &349209968593559255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,8 +61,8 @@ Camera:
   m_GameObject: {fileID: 1362340633836789566}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.12661672, g: 0.13145411, b: 0.13836467, a: 0.5803922}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   arsenal: []
   hotkey_Slots: []
   gunModel: {fileID: 6027848457595790386}
-  startingWeapon: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
+  startingWeapon: {fileID: 0}
   cam: {fileID: 7491251138447997815}
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   grenadeSpawnPoint: {fileID: 7491251138447997815}

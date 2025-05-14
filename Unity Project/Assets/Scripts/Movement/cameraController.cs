@@ -16,15 +16,6 @@ public class cameraController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        //initialize rotateX to match the camera's initial X rotation
-        rotX = transform.localEulerAngles.x;
-        
-        //Convert to range -180 to 180 to match clamping behavior
-        if (rotX > 180)
-        {
-            rotX -= 360;
-        }
-
     }
 
 

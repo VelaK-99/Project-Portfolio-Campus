@@ -192,9 +192,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (cam != null)
         {
+            cam.localPosition = new Vector3(0, 2.21f, 0);
             camOriginalPos = cam.localPosition;
             camDefaultPos = camOriginalPos;
             camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
+            Debug.Log("Initialized camDefaultPos to: " + cam.localPosition);
         }
 
         baseSpeed = speed;
@@ -214,6 +216,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Camera Local Position: " + cam.localPosition);
 
         OnAnimLocomotion();
 
@@ -814,7 +817,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         // Keep camera fixed
-        if (cam != null)
+        if (cam != null && isAiming)
         {
             cam.localPosition = camDefaultPos;
         }
