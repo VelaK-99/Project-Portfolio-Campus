@@ -95,8 +95,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
     float bobTimer;
-
-    private Vector3 currentRecoil;
     private float cambobTimer = 0f;
     private Vector3 bobcamOriginalPos;
 
