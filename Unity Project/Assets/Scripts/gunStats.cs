@@ -16,6 +16,7 @@ public class gunStats : ScriptableObject
     public int maxAmmo; //Max Mags/Ammo you can have
     public string GunName;
     public bool isShotgun;
+    public bool isSciFi;
 
     public ParticleSystem hitEffect;
     public AudioClip[] shootSounds;
