@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 5)][SerializeField] int interactDist;
 
     [Header("===== Weapons =====")]
-    [SerializeField] public List<gunStats> arsenal = new List<gunStats>();
+    [SerializeField] public List<gunStats> arsenal = new List<gunStats>(); 
 
     public List<Hotkey_slots_UI> hotkey_Slots;
 
@@ -38,6 +38,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public bool isDUALwielding = false;
     */
 
+    public Transform laserOrigin;
+    public float laserDuration = 0.05f;
+    public LineRenderer laserLine;
 
     int shootDamage;
     int shootDist;
@@ -174,6 +177,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
+        laserLine = GetComponent<LineRenderer>();
 
         if (startingWeapon != null)
         {
@@ -430,26 +434,40 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Shoot()
     {
-
+        if (arsenal[gunListPos].GunName == "Laser")
+        {
+            laserLine.SetPosition(0, laserOrigin.position);
+            Vector3 rayOrigin = controller.transform.position;
+            
+        }
         shootTimer = 0;
         aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
         RaycastHit hit;
-
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, shootDist, ~ignoreLayer))
         {
 
             Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
+            if (arsenal[gunListPos].GunName == "Laser")
+            {
+                laserLine.SetPosition(1, hit.point);
+                StartCoroutine(ShootLaser());
+            }
 
             IDamage dmg = hit.collider.GetComponent<IDamage>();
 
             if (dmg != null) dmg.TakeDamage(shootDamage);
+        }
+        else if(arsenal[gunListPos].GunName == "Laser")
+        {
+            laserLine.SetPosition(1, controller.transform.position + (cam.transform.forward * arsenal[gunListPos].shootDist));
+            StartCoroutine(ShootLaser());
         }
         arsenal[gunListPos].currentAmmo--;
         bulletsInGun = arsenal[gunListPos].currentAmmo;
         UpdatePlayerUI();
         //DUALshoot();
         ApplyRecoil();
-    }
+    } 
 
     /*
     void DUALshoot()
@@ -515,7 +533,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
     }
 
-
+    IEnumerator ShootLaser()
+    {
+        laserLine.enabled = true;
+        yield return new WaitForSeconds(laserDuration);
+        laserLine.enabled = false;
+    }
     Vector3 GetSpreadDirection(Vector3 forward, float angle)
     {
         float spreadRadius = Mathf.Tan(angle * Mathf.Deg2Rad);
