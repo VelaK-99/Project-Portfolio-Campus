@@ -259,6 +259,11 @@ MonoBehaviour:
   roamPauseTime: 2
   shootRate: 0.5
   shootFOV: 25
+  detectionRange: 20
+  coverDistance: 5
+  coverMask:
+    serializedVersion: 2
+    m_Bits: 4096
   audShoot:
   - {fileID: 8300000, guid: c0cae6912e1322e47bc9be15d515041c, type: 3}
   audShootVol: 0.6
