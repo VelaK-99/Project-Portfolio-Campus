@@ -1,233 +1,306 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.AI;
+using System.Collections;
 
-
-public class EnemyAI : MonoBehaviour, IDamage
+public class Enemy_AI : MonoBehaviour, IDamage
 {
-    [SerializeField] Renderer model;
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] Animator animator;
-    [SerializeField] Transform headPos;
-    [SerializeField] AudioSource aud;
+    /// <summary>
+    /// Used to tie in a model/mesh for the enemy AI script
+    /// </summary>
+    [SerializeField] Renderer MODEL;
 
-    [Header("===== Stats =====")]
-    [Range(0,100)] [SerializeField] int HP;
-    [SerializeField] int faceTargetSpeed;
-    [Range(0,180)][SerializeField] int fov;
-    [SerializeField] int animTranSpeed;
-    [SerializeField] int roamDist;
-    [SerializeField] int roamPauseTime;
-    [Range(0,25)] [SerializeField] float shootRate;
-    [Range(0,45)] [SerializeField] int shootFOV; 
+    /// <summary>
+    /// This is tied to NavMeshSurface to allow Unity's pathfinding
+    /// </summary>
+    [SerializeField] NavMeshAgent AGENT;
 
-    [Header("===== Audio =====")]
-    [SerializeField] AudioClip[] audShoot;
-    [Range(0, 100)] [SerializeField] float audShootVol;
-    [SerializeField] AudioClip[] audHurt;
-    [Range(0, 100)] [SerializeField] float audHurtVol;
-    [SerializeField] AudioClip[] audStep;
-    [Range(0, 100)] [SerializeField] float audStepVol;
+    /// <summary>
+    /// Where the new raycast will come from
+    /// </summary>
+    [SerializeField] Transform headPOSITON;
 
-    [SerializeField] Collider knife;
-    [SerializeField] Transform shootPos;
-    [SerializeField] GameObject bullet;
+    /// <summary>
+    /// The controller that is attached to the mesh
+    /// </summary>
+    [SerializeField] Animator anim;
 
-    float shootTimer;
-    bool playerInRange;
-    float roamTimer;
-    float angleToPlayer;
-    float stoppingDistOrig;
-    bool isPlayingStep;
+    [SerializeField] float animTRANspeed;
 
-    public Spawner whereICameFrom;
+    [SerializeField] float HP;
+
+    /// <summary>
+    /// For melee collisions
+    /// </summary>
+    [SerializeField] Collider SwordCOLLIDE;
+
+    /// <summary>
+    /// The position of where projectiles come from, generally attached to the hand
+    /// </summary>
+    [SerializeField] Transform shootPOS;
+    /// <summary>
+    /// The gameObject in question attached to the projectile
+    /// </summary>
+    [SerializeField] GameObject BULLET;
+    [SerializeField] float shootRATE;
+    /// <summary>
+    /// How fast the enemy turns at the target, further defined in void faceTARGET().
+    /// </summary>
+    [SerializeField] float faceTARGETspeed;
+
+    /// <summary>
+    /// Enemy's field of view
+    /// </summary>
+    [SerializeField] int FOV;
+
+    [SerializeField] int shootFOV;
+
+    /// <summary>
+    /// how far can the enemy roam in a perimeter
+    /// </summary>
+    [SerializeField] int roam_DISTANCE;
+    /// <summary>
+    /// how long will an enemy pause in a position
+    /// </summary>
+    [SerializeField] int roam_PAUSEtime;
 
 
-    Color colorOriginal;
+    /// <summary>
+    /// a check to see if the player in range is true
+    /// </summary>
+    bool player_IN_RANGE;
 
-    Vector3 playerDir;
-    Vector3 startingPos;
+    /// <summary>
+    /// Calculation variable for when to start roaming again
+    /// </summary>
+    float roamTIMER;
+
+    /// <summary>
+    /// To calculate where the enemy can see based on an angle
+    /// </summary>
+    float angleTO_PLAYER;
+
+    /// <summary>
+    /// any time roaming, stopping distance must be 0.
+    /// </summary>
+    float stoppingDistance_ORIGINAL;
+
+    /// <summary>
+    /// predicates the shoot rate. If shootTimer 1; shootRATE of 0.5 would be 2 shots a second
+    /// </summary>
+    float shootTIMER;
 
 
+    /// <summary>
+    /// Creating a vector3 for the playerDIRECTION, further defined in void Update: 
+    /// playerDIRECTION = (Game_Management.INSTANCE.PLAYER.transform.position - transform.position);
+    /// </summary>
+    Vector3 playerDIRECTION;
+
+    /// <summary>
+    /// Where the enemy is within the worldspace
+    /// </summary>
+    Vector3 startingPOSITION;
+
+    /// <summary>
+    /// The original color of the mesh
+    /// </summary>
+    Color colorORIGINAL;
+
+
+
+
+
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        colorOriginal = model.material.color;        
-        startingPos = transform.position;
-        stoppingDistOrig = agent.stoppingDistance;
+
+        colorORIGINAL = MODEL.material.color;
+
+        //Left out to allow for the spawner to update the game goal
+        //Game_Management.INSTANCE.updateGAMEgoal(1); //adding 1 to the gameGOALamount
+        //referencing amount of enemies
+
+
+        startingPOSITION = transform.position;
+        stoppingDistance_ORIGINAL = AGENT.stoppingDistance;
+
+
     }
 
+    // Update is called once per frame
     void Update()
     {
-        onAnimLomotion();
-        if (agent.remainingDistance < 0.01f)
-            roamTimer += Time.deltaTime;
 
-        if (playerInRange && !CanSeePlayer())
+        animLOCOmotion();
+
+        if (AGENT.remainingDistance < 0.01f)
         {
-            checkRoam();
-        }
-        else if (!playerInRange)
-        {
-            checkRoam();
-        }
-    }
-    void onAnimLomotion()
-    {
-        float agentSpeedCur = agent.velocity.normalized.magnitude;
-        float animSpeedCur = animator.GetFloat("speed");
-
-        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
-        bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
-
-        if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
-        {
-            StartCoroutine(playStep());
-        }
-    }
-
-    IEnumerator playStep()
-    {
-        isPlayingStep = true;
-
-        if (audStep.Length > 0)
-        {
-            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+            roamTIMER += Time.deltaTime;
         }
 
-        yield return new WaitForSeconds(0.3f);
-
-        isPlayingStep = false;
-    }
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        if (player_IN_RANGE && !CANsee_PLAYER())
         {
-            playerInRange = true;
+            checkROAM();
         }
-    }
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        else if (!player_IN_RANGE)
         {
-            playerInRange = false;
-            agent.stoppingDistance = 0;
-        }
-    }
-    public void TakeDamage(int amount)
-    {
-        HP -= amount;
-        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
-        StartCoroutine(flashRed());
-
-        if (HP <= 0)
-        {
-            if(whereICameFrom != null )
-            {
-                whereICameFrom.spawnList.Remove(gameObject);
-                whereICameFrom.spawnList.RemoveAll(e => e == null);
-                whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
-            }
-            else
-            {
-                Debug.LogWarning($"{name} has no spawner reference! Cannot update spawnList or unlock doors.");
-            }
-            
-            
-            
-            gameManager.instance.RemoveEnemy(gameObject);
-
-            
-            Destroy(gameObject);
+            checkROAM();
         }
 
-        else
-            agent.SetDestination(gameManager.instance.player.transform.position);
     }
 
-    IEnumerator flashRed()
+    void animLOCOmotion()
     {
-        model.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        model.material.color = colorOriginal;
+        float AGENT_speedCUR = AGENT.velocity.normalized.magnitude;
+        float anim_speedCUR = anim.GetFloat("Speed");
+
+        anim.SetFloat("Speed", Mathf.Lerp(anim_speedCUR, AGENT_speedCUR, Time.deltaTime * animTRANspeed));
     }
 
-    void shoot()
+    void checkROAM()
     {
-        aud.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
-        shootTimer = 0;
-        animator.SetTrigger("shoot");
-    }
-    public void createBullet()
-    {
-            Instantiate(bullet, shootPos.position, transform.rotation);
-        
-    }
-
-    void faceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
-    }
-
-    void checkRoam()
-    {
-        if (roamTimer >= roamPauseTime && agent.remainingDistance < 0.01f)
+        if (roamTIMER >= roam_PAUSEtime && AGENT.remainingDistance <= 0.01f)
         {
             roam();
         }
     }
+
     void roam()
     {
-        roamTimer = 0;
-        agent.stoppingDistance = 0;
+        //Soon as he enters his destination, the timer should reset to 0
+        roamTIMER = 0;
+        AGENT.stoppingDistance = 0;
 
-        Vector3 randomPos = Random.insideUnitSphere * roamDist;
-        randomPos += startingPos;
+        ///selecting a random position based on the applied roam_DISTANCE
+        Vector3 ranPOS = Random.insideUnitSphere * roam_DISTANCE;
+        ranPOS += startingPOSITION;
 
+        ///To know exactly where the mesh is at, to go only on the map where a NavMesh is at
         NavMeshHit hit;
-        NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
-        agent.SetDestination(hit.position);
+
+        ///Selecting a position in the Navmesh; the 1 is for the default layer, not using multiple navmesh layers
+        NavMesh.SamplePosition(ranPOS, out hit, roam_DISTANCE, 1);
+
+        //The location in which the NPC should go
+        AGENT.SetDestination(hit.position);
     }
 
-    bool CanSeePlayer()
+
+
+    bool CANsee_PLAYER()
     {
-        playerDir = (gameManager.instance.player.transform.position - headPos.position);
-        angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
-        Debug.DrawRay(headPos.position, playerDir);
+        playerDIRECTION = (gameManager.instance.player.transform.position - headPOSITON.position);
+
+        ///Calling a new Vector3 to ignore the y in the player direction for the Y
+        angleTO_PLAYER = Vector3.Angle(new Vector3(playerDIRECTION.x, 0, playerDIRECTION.z), transform.forward); //will return the angle to player
+
+        //Will draw in the editor when the enemy see's a player
+        Debug.DrawRay(headPOSITON.position, playerDIRECTION);
 
         RaycastHit hit;
-        if (Physics.Raycast(headPos.position, playerDir, out hit))
+        if (Physics.Raycast(headPOSITON.position, playerDIRECTION, out hit))
         {
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= fov)
+            if (hit.collider.CompareTag("Player") && angleTO_PLAYER <= FOV)
             {
-                agent.SetDestination(gameManager.instance.player.transform.position);
+                //This allows the enemy AI to follow the player to it's position
+                //using the NavMeshSurface
+                AGENT.SetDestination(gameManager.instance.playerScript.transform.position);
 
-                if (agent.remainingDistance <= agent.stoppingDistance)
+                //Must be activated within the enemy's stopping distance
+                if (AGENT.remainingDistance <= AGENT.stoppingDistance)
                 {
-                    faceTarget();
+                    faceTARGET();
                 }
 
-                shootTimer += Time.deltaTime;
+                shootTIMER += Time.deltaTime;
 
-                if (angleToPlayer <= shootFOV && shootTimer >= shootRate)
+                if (angleTO_PLAYER <= shootFOV && shootTIMER >= shootRATE)
                 {
-                    shoot();
+                    enemySHOOT();
                 }
-                agent.stoppingDistance = stoppingDistOrig;
+
+                AGENT.stoppingDistance = stoppingDistance_ORIGINAL;
+
+                //returns true scenario for canSEE player
                 return true;
             }
         }
-        agent.stoppingDistance = 0;
+        AGENT.stoppingDistance = 0;
         return false;
     }
 
-    public void SwordColOn()
+    private void OnTriggerEnter(Collider other)
     {
-        knife.enabled = true;
+        if (other.CompareTag("Player"))
+        {
+            player_IN_RANGE = true;
+        }
     }
 
-    public void SwordColOff()
+    private void OnTriggerExit(Collider other)
     {
-        knife.enabled = false;
+        if (other.CompareTag("Player"))
+        {
+            player_IN_RANGE = false;
+            AGENT.stoppingDistance = 0;
+        }
     }
+
+    public void TakeDamage(int amount)
+    {
+        HP -= amount;
+        StartCoroutine(flashDAMAGE_color());
+
+        AGENT.SetDestination(gameManager.instance.player.transform.position);
+
+        if (HP <= 0)
+        {
+            gameManager.instance.CountSpawner(); //Removing the gameGOALcount per enemy removed
+            Destroy(gameObject); //takes whatever object this script is referencing and deletes from scene
+        }
+    }
+
+    IEnumerator flashDAMAGE_color()
+    {
+        MODEL.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        MODEL.material.color = colorORIGINAL;
+    }
+
+    void enemySHOOT()
+    {
+        shootTIMER = 0;
+
+        anim.SetTrigger("Shoot");
+
+    }
+
+    public void sword_COLLIDE_ON()
+    {
+        SwordCOLLIDE.enabled = true;
+    }
+    public void sword_COLLIDE_OFF()
+    {
+        SwordCOLLIDE.enabled = false;
+    }
+
+    public void createBULLET()
+    {
+        //Instantiate means to create something in the project in
+        //real time in the scene
+        Instantiate(BULLET, shootPOS.position, transform.rotation);
+    }
+
+    void faceTARGET()
+    {
+        //This will fix the enemy jitters. Basically says face the player's x position and y position,
+        //but do not use the player's y position
+        Quaternion ROTATION = Quaternion.LookRotation(new Vector3(playerDIRECTION.x, transform.position.y, playerDIRECTION.z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, ROTATION, Time.deltaTime * faceTARGETspeed);
+
+        //The problem with this code below is that it will cause an immediate snap
+        //transform.rotation = Quaternion.LookRotation(playerDIRECTION);
+    }
+
 }

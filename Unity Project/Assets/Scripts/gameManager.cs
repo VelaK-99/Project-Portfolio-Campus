@@ -67,17 +67,6 @@ public class gameManager : MonoBehaviour
         }
     }
 
-    /*
-    private void Start()
-    {
-        instance = this;
-
-        foreach (GameObject slot in InventorySLOTS)
-        {
-            slot.SetActive(false);
-        }
-    }
-    */
 
     // Update is called once per frame
     void Update()
@@ -115,7 +104,7 @@ public class gameManager : MonoBehaviour
             }
         }
         
-        /*
+        
         if (Input.GetButtonDown("TAB"))
         {
             if (hotkeyBAR.activeSelf == true)
@@ -127,7 +116,7 @@ public class gameManager : MonoBehaviour
                 hotkeyBAR.SetActive(true);
             }
         }
-        */
+        
 
         //Preventing deselection from mouse clicks by reapplying selection
         if (slotINDEX >= 0)
@@ -179,7 +168,7 @@ public class gameManager : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         menuActive.SetActive(false);
-        menuActive = null;
+        //menuActive = null;
     } // Returns game to default state when unpaused
 
      
