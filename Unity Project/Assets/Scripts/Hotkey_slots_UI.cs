@@ -12,7 +12,7 @@ public class Hotkey_slots_UI : MonoBehaviour
     public TMP_Text current_ammoTEXT;
     public TMP_Text total_ammoTEXT;
 
-    public void Start()
+    public void Awake()
     {
         instance = this;
     }
