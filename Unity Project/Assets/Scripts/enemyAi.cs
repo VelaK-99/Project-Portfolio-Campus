@@ -20,6 +20,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int roamPauseTime;
     [Range(0,25)] [SerializeField] float shootRate;
     [Range(0,45)] [SerializeField] int shootFOV;
+    public float stunTimer;
+
 
     [Header("===== Cover System =====")]
     [SerializeField] float detectionRange = 20f;
@@ -46,6 +48,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     float angleToPlayer;
     float stoppingDistOrig;
     bool isPlayingStep;
+    bool isStuned;
+    Rigidbody rb;
 
     public Spawner whereICameFrom;
 
@@ -54,6 +58,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     Vector3 playerDir;
     Vector3 startingPos;
+    Vector3 knockbackfoce;
 
 
     void Start()
@@ -61,10 +66,29 @@ public class EnemyAI : MonoBehaviour, IDamage
         colorOriginal = model.material.color;        
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
     }
 
     void Update()
     {
+        if (isStuned)
+        {
+            stunTimer -= Time.deltaTime;
+
+          
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+            if (stunTimer <= 0f)
+            {   
+                isStuned = false;
+                rb.linearVelocity = Vector3.zero;
+                rb.isKinematic = true;          
+                agent.isStopped = false;        
+            }
+
+            return; 
+        }
         onAnimLomotion();
        if(playerInRange)
         {
@@ -108,19 +132,21 @@ public class EnemyAI : MonoBehaviour, IDamage
         return HP <= 50 || Vector3.Distance(transform.position, gameManager.instance.player.transform.position) <= detectionRange;
     }
 
-    IEnumerator playStep()
-    {
-        isPlayingStep = true;
 
-        if (audStep.Length > 0)
+        IEnumerator playStep()
         {
-            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+            isPlayingStep = true;
+
+            if (audStep.Length > 0)
+            {
+                aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+            }
+
+            yield return new WaitForSeconds(0.3f);
+
+            isPlayingStep = false;
         }
 
-        yield return new WaitForSeconds(0.3f);
-
-        isPlayingStep = false;
-    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -166,6 +192,23 @@ public class EnemyAI : MonoBehaviour, IDamage
         else
             agent.SetDestination(gameManager.instance.player.transform.position);
     }
+
+    public void Stun(float duration,Vector3 force)
+    {
+        if (isStuned)
+        {
+            return;
+        }
+        isStuned = true;
+        stunTimer = duration;
+        knockbackfoce = force;
+        
+        agent.isStopped = true;
+        rb.isKinematic = false;
+        rb.AddForce(force,ForceMode.Impulse);
+    }
+
+   
 
     IEnumerator flashRed()
     {
