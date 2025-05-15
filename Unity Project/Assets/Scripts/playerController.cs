@@ -933,7 +933,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if(speed < 0.5f) { speed = 0f; }
         animator.SetFloat("speed", speed);
-        Debug.Log("Speed: " + speed);
     }
 
 }
