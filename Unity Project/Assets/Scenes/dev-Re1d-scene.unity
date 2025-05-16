@@ -2734,6 +2734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
   radius: 10
   knockback: 15
   damage: 5
@@ -7422,6 +7423,10 @@ PrefabInstance:
     - target: {fileID: 2841972713814782512, guid: a6612927c2be4ca4586dcb2e00fb1f3d, type: 3}
       propertyPath: m_Name
       value: MiniBoss 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7476299853359841870, guid: a6612927c2be4ca4586dcb2e00fb1f3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

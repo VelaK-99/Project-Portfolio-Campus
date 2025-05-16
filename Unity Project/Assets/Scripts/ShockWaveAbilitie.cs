@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShockWaveAbilitie : MonoBehaviour
 {
-
+    [SerializeField] GameObject SHOCKWAVEparticles;
     [SerializeField] float radius;
     [SerializeField] float knockback;
     [SerializeField] int damage;
@@ -20,7 +20,7 @@ public class ShockWaveAbilitie : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ShockWaveAbilitie instance = this;  
+      
     }
 
     // Update is called once per frame
@@ -38,12 +38,21 @@ public class ShockWaveAbilitie : MonoBehaviour
             Debug.Log("using");
             aud.PlayOneShot(audShock[Random.Range(0, audShock.Length)], audShockVol);
         }
-      
-       
+    }
+
+    /// <summary>
+    /// Helps to visualize if radius is wrong
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     void Shock()
     {
+        Instantiate(SHOCKWAVEparticles, transform.position, Quaternion.identity);
+
         Collider[] enamies = Physics.OverlapSphere(transform.position, radius);
         foreach (Collider e in enamies)
         {
