@@ -248,19 +248,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 5422307608469253352}
   agent: {fileID: 3604038115171440814}
-  anim: {fileID: 6158415743423404558}
+  animator: {fileID: 6158415743423404558}
   headPos: {fileID: 7017721214005784707}
-  XP: 0
+  aud: {fileID: -5335087881832148575}
   HP: 5
   faceTargetSpeed: 8
   fov: 180
-  roamDist: 0
+  animTranSpeed: 0
+  roamDist: 10
   roamPauseTime: 0
-  animTransSpeed: 0
-  shootPOS: {fileID: 0}
-  bullet: {fileID: 1084385584208275833, guid: a19226d1cd1d2314aa8d44961c0f106e, type: 3}
-  shootFOV: 25
   shootRate: 0.5
+  shootFOV: 45
+  detectionRange: 20
+  coverDistance: 5
+  coverMask:
+    serializedVersion: 2
+    m_Bits: 0
+  audShoot:
+  - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
+  audShootVol: 0
+  audHurt:
+  - {fileID: 8300000, guid: 0dab4200bd8c34a4da9210bcce98a654, type: 3}
+  - {fileID: 8300000, guid: c1c654878bcbb534cb078153b3581753, type: 3}
+  - {fileID: 8300000, guid: 55d9ede5881e7104d86b6b544d70682b, type: 3}
+  - {fileID: 8300000, guid: 87e9d49c9f04f964c919551c141b440b, type: 3}
+  - {fileID: 8300000, guid: c85b785e72cef104094f26adbd4e4118, type: 3}
+  - {fileID: 8300000, guid: 79ee60f09d3f2bb4bb5cf83a49b633ae, type: 3}
+  audHurtVol: 0
+  audStep:
+  - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
+  - {fileID: 8300000, guid: f417ba1afd59f344a9dcc2e1573de7d8, type: 3}
+  - {fileID: 8300000, guid: 27e4d77cfed59ca4dafcd1c16c226a2f, type: 3}
+  - {fileID: 8300000, guid: dd9273ada434d2c42993456f95c42d7e, type: 3}
+  - {fileID: 8300000, guid: c99812e2ceefd5449aa047ce446c3dca, type: 3}
+  - {fileID: 8300000, guid: f6d7460f9045ff94bab82d7c73c02b98, type: 3}
+  - {fileID: 8300000, guid: 44973d8ef84398740bad2f77d76fed28, type: 3}
+  - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
+  - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
+  audStepVol: 0
+  knife: {fileID: 0}
+  shootPos: {fileID: 304202209342690472}
+  bullet: {fileID: 1084385584208275833, guid: a19226d1cd1d2314aa8d44961c0f106e, type: 3}
   whereICameFrom: {fileID: 0}
 --- !u!95 &6158415743423404558
 Animator:
@@ -325,7 +353,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0, y: 1.25, z: 0}
@@ -342,7 +370,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

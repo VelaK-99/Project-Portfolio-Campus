@@ -1,57 +1,104 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour, IDamage
 {
-    [Header("===== Components =====")]
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Animator anim;
+    [SerializeField] Animator animator;
     [SerializeField] Transform headPos;
+    [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
-    [SerializeField] int XP;
-    [SerializeField] int HP;
+    [Range(0, 100)][SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
-    [SerializeField] int fov;
+    [Range(0, 180)][SerializeField] int fov;
+    [SerializeField] int animTranSpeed;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
-    [SerializeField] int animTransSpeed;
+    [Range(0, 25)][SerializeField] float shootRate;
+    [Range(0, 45)][SerializeField] int shootFOV;
 
-    [Header("===== Weapons =====")]
-    [SerializeField] Transform shootPOS;
+    [Header("===== Audio =====")]
+    [SerializeField] AudioClip[] audShoot;
+    [Range(0, 100)][SerializeField] float audShootVol;
+    [SerializeField] AudioClip[] audHurt;
+    [Range(0, 100)][SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audStep;
+    [Range(0, 100)][SerializeField] float audStepVol;
+
+    [Header("===== Cover System =====")]
+    [SerializeField] List<Transform> coverPoints;
+    [SerializeField] float coverSwitchDelay = 2f;
+    [SerializeField] bool useCoverSystem = true;
+    [SerializeField] float peekDistance = 0.75f;
+    [SerializeField] float peekSpeed = 5f;
+    [SerializeField] float coverDetectionRadius = 20f;
+
+    private Transform currentCoverPoint;
+    private float coverSwitchTimer;
+
+    [SerializeField] Collider knife;
+    [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
-    [SerializeField] int shootFOV;
-    [SerializeField] float shootRate;
-
-    public Spawner whereICameFrom;
 
     float shootTimer;
+    bool playerInRange;
     float roamTimer;
     float angleToPlayer;
     float stoppingDistOrig;
+    bool isPlayingStep;
+    bool isTakingCover = false;
+    bool isAtCover;
 
-    bool playerInRange;
+    private enum CoverState { MovingToCover, AtCover, SwitchingCover }
+    private CoverState currentCoverState = CoverState.MovingToCover;
+    
 
-    Color colorOrig;
+    [SerializeField] float coverDamageCooldown = 1.5f;
+    private float lastDamageTime = -100f;
+
+    Color colorOriginal;
 
     Vector3 playerDir;
     Vector3 startingPos;
+    Vector3 coverPosition;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        colorOrig = model.material.color;        
+        colorOriginal = model.material.color;
         startingPos = transform.position;
-        stoppingDistOrig = agent.stoppingDistance;
+        stoppingDistOrig = agent.stoppingDistance;        
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (agent.pathStatus == NavMeshPathStatus.PathComplete)
+        {
+            Debug.Log("NavMesh Path is complete.");
+        }
+        else if (agent.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            Debug.Log("NavMesh Path is partial.");
+        }
+        else if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        {
+            Debug.Log("NavMesh Path is invalid.");
+        }
 
-        getAnimLocomotion();
+
+        if (isTakingCover)
+        {
+            HandleCoverBehavior();
+            return;
+        }
+    
+
+
+
+        onAnimLocomotion();
 
         if (agent.remainingDistance < 0.01f)
             roamTimer += Time.deltaTime;
@@ -65,138 +112,263 @@ public class EnemyAI : MonoBehaviour, IDamage
             checkRoam();
         }
     }
+    
 
-    void getAnimLocomotion()
+    void HandleCoverBehavior()
     {
-        float agentSpeed = agent.velocity.normalized.magnitude;
-        float animSpeedCur = anim.GetFloat("Speed");
-
-        anim.SetFloat("Speed", Mathf.Lerp(animSpeedCur, agentSpeed, Time.deltaTime * animTransSpeed));
-    }
-
-
-    void checkRoam()
-    {
-        if (roamTimer >= roamPauseTime && agent.remainingDistance < 0.01f)
+        switch (currentCoverState)
         {
-            roam();
+            case CoverState.MovingToCover:
+                MoveToCover();
+                break;
+
+            case CoverState.AtCover:
+                StayAtCover();
+                break;
+
+            case CoverState.SwitchingCover:
+                SwitchCover();
+                break;
         }
     }
-    void roam()
+
+    void MoveToCover()
     {
-        roamTimer = 0;
-        agent.stoppingDistance = 0;
+        if (currentCoverPoint == null)
+        {
+            currentCoverPoint = GetRandomCoverPoint();
+            agent.SetDestination(currentCoverPoint.position);
+            Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
+        }
 
-        Vector3 randomPos = Random.insideUnitSphere * roamDist;
-        randomPos += startingPos;
-
-        NavMeshHit hit;
-        NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
-        agent.SetDestination(hit.position);
+        if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
+        {
+            Debug.Log("Enemy reached cover.");
+            currentCoverState = CoverState.AtCover;
+            coverSwitchTimer = 0;
+        }
     }
 
-    bool CanSeePlayer()
+    void StayAtCover()
     {
-        playerDir = (gameManager.instance.player.transform.position - headPos.position).normalized;
-        angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
+        coverSwitchTimer += Time.deltaTime;
 
-        if (angleToPlayer > fov)
+        if (!CanSeePlayer())
         {
-            Debug.Log("Player is outside of FOV");
+            Debug.Log("Can't see player, switching cover.");
+            currentCoverState = CoverState.SwitchingCover;
+            return;
+        }
+
+        faceTarget();
+        shootTimer += Time.deltaTime;
+        if (shootTimer >= shootRate)
+        {
+            shoot();
+        }
+
+        if (coverSwitchTimer >= coverSwitchDelay)
+        {
+            currentCoverState = CoverState.SwitchingCover;
+            Debug.Log("Switchign cover after delay");
+        }
+    }
+
+    void SwitchCover()
+    {
+        currentCoverPoint = GetRandomCoverPoint();
+        agent.SetDestination(currentCoverPoint.position);
+        currentCoverState = CoverState.MovingToCover;
+        Debug.Log($"Switching to new cover point: {currentCoverPoint.name}");
+    }
+    Transform GetRandomCoverPoint()
+    {
+        if (coverPoints.Count == 0)
+        {
+            Debug.LogWarning("No cover points assigned.");
+            return transform;
+        }
+        Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
+        Debug.Log($"Selected Cover Point: {selectedCover.name} at {selectedCover.position}");
+        return selectedCover;
+    }
+
+
+        void onAnimLocomotion()
+        {
+            float agentSpeedCur = agent.velocity.normalized.magnitude;
+            float animSpeedCur = animator.GetFloat("speed");
+
+            animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
+            bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
+
+            if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
+            {
+                StartCoroutine(playStep());
+            }
+        }
+
+        IEnumerator playStep()
+        {
+            isPlayingStep = true;
+
+            if (audStep.Length > 0)
+            {
+                aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+            }
+
+            yield return new WaitForSeconds(0.3f);
+
+            isPlayingStep = false;
+        }
+
+        public void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerInRange = true;
+            }
+        }
+        public void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerInRange = false;
+                agent.stoppingDistance = 0;
+            }
+        }
+        public void TakeDamage(int amount)
+        {
+            HP -= amount;
+            StartCoroutine(flashRed());
+
+            aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+
+            if (HP <= 0)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+            if (Time.time - lastDamageTime >= coverDamageCooldown)
+            {
+                lastDamageTime = Time.time;
+                
+                if (currentCoverState != CoverState.AtCover)
+                {
+                    isTakingCover = true;
+                    currentCoverState = CoverState.MovingToCover;
+                    currentCoverPoint = GetRandomCoverPoint();
+                    agent.SetDestination(currentCoverPoint.position);
+                    Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
+                }
+                else
+                {
+                    Debug.Log("Already in cover, staying in current cover.");
+                }
+            }
+            else
+            {
+                Debug.Log("Damage cooldown active, not seeking cover.");
+            }
+        }
+        }
+
+        IEnumerator flashRed()
+        {
+            model.material.color = Color.red;
+            yield return new WaitForSeconds(0.1f);
+            model.material.color = colorOriginal;
+        }
+
+        void shoot()
+        {
+            aud.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
+            shootTimer = 0;
+            animator.SetTrigger("shoot");        
+        }
+        public void createBullet()
+        {
+            Instantiate(bullet, shootPos.position, transform.rotation);
+        }
+
+        void faceTarget()
+        {
+            Vector3 playerDirection = (gameManager.instance.player.transform.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * faceTargetSpeed);
+        }
+
+        void checkRoam()
+        {
+            roamTimer += Time.deltaTime;
+            if (roamTimer >= roamPauseTime)
+            {
+                roamTimer = 0;
+                roam();
+            }
+        }
+        void roam()
+        {
+            Vector3 randomPos = Random.insideUnitSphere * roamDist + startingPos;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPos, out hit, roamDist, 1))
+            {
+                agent.SetDestination(hit.position);
+            }
+        }
+
+        bool CanSeePlayer()
+        {
+
+        if (gameManager.instance.player == null)
+        {
+            Debug.Log("Player not found.");
             return false;
         }
 
+        // Calculate direction to player
+        playerDir = (gameManager.instance.player.transform.position - headPos.position).normalized;
+        angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
+        
+        if (angleToPlayer > fov)
+        {
+            Debug.Log("Player is outside of FOV.");
+            return false;
+        }
+        
         Vector3 rayOrigin = headPos.position;
         Vector3 targetPoint = gameManager.instance.player.transform.position + Vector3.up * 1.5f;
-
         Debug.DrawRay(rayOrigin, (targetPoint - rayOrigin).normalized * 50f, Color.red);
 
-       RaycastHit hit;
-        int layerMask = ~(1 << LayerMask.NameToLayer("Ground"));
+        RaycastHit hit;
+        int layerMask = ~(1 << LayerMask.NameToLayer("Ground")); // Ignore ground
 
-        if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask)) ;
+        if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask))
         {
             Debug.Log($"Raycast hit: {hit.collider.name}");
-
             if (hit.collider.CompareTag("Player"))
             {
                 Debug.Log("Player is in sight!");
-                agent.SetDestination(gameManager.instance.player.transform.position);
-
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    faceTarget();
-                }
-
-                shootTimer += Time.deltaTime;
-
-                if (angleToPlayer <= shootFOV && shootTimer >= shootRate)
-                {
-                    shoot();
-                }
-                agent.stoppingDistance = stoppingDistOrig;
                 return true;
             }
-       }
+            else
+            {
+                Debug.Log($"Raycast blocked by: {hit.collider.name}");
+            }
+        }
+
         Debug.Log("Player is not in sight.");
-        agent.stoppingDistance = 0;
         return false;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-
-        Debug.Log("Player detected in trigger area.");
-
-        if (other.CompareTag("Player"))
+        public void SwordColOn()
         {
-            playerInRange = true;
+            knife.enabled = true;
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        public void SwordColOff()
         {
-            playerInRange = false;
-            agent.stoppingDistance = 0;
-        }
+            knife.enabled = false;
+        }    
     }
-
-    public void TakeDamage(int amount)
-    {
-        HP -= amount;
-        StartCoroutine(flashRed());
-
-        agent.SetDestination(gameManager.instance.player.transform.position);
-
-        if (HP <= 0)
-        {             
-            Destroy(gameObject);
-        }
-    }
-
-    IEnumerator flashRed()
-    {
-        model.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        model.material.color = colorOrig;
-    }
-
-    void shoot()
-    {
-        shootTimer = 0;
-        anim.SetTrigger("shoot");
-    }
-
-    public void createBullet()
-    {
-        Instantiate(bullet, shootPOS.position, transform.rotation);
-    }
-
-    void faceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
-    }
-}
