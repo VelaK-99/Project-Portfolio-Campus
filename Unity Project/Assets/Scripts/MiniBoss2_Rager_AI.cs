@@ -4,6 +4,7 @@ using System.Collections;
 
 public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 {
+    [Header("===== Model Info =====")]
     /// <summary>
     /// Used to tie in a model/mesh for the enemy AI script
     /// </summary>
@@ -19,6 +20,7 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
     /// </summary>
     [SerializeField] Transform headPOSITON;
 
+
     /// <summary>
     /// The controller that is attached to the mesh
     /// </summary>
@@ -28,11 +30,7 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 
     [SerializeField] float HP;
 
-    /// <summary>
-    /// For melee collisions
-    /// </summary>
-    //[SerializeField] Collider SwordCOLLIDE;
-
+    [Header("===== Enemy Stats =====")]
     /// <summary>
     /// The position of where projectiles come from, generally attached to the hand
     /// </summary>
@@ -54,6 +52,7 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 
     [SerializeField] int shootFOV;
 
+    [Header("===== Roam Paramaters =====")]
     /// <summary>
     /// how far can the enemy roam in a perimeter
     /// </summary>
@@ -62,6 +61,22 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
     /// how long will an enemy pause in a position
     /// </summary>
     [SerializeField] int roam_PAUSEtime;
+
+
+    [Header("===== Audio =====")]
+    [SerializeField] AudioSource Audio;
+    [SerializeField] AudioClip[] audShoot;
+    [Range(0f, 2f)][SerializeField] float audShootVol;
+    [SerializeField] AudioClip[] audHurt;
+    [Range(0f, 2f)][SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audStep;
+    [Range(0f, 2f)][SerializeField] float audStepVol;
+
+    /// <summary>
+    /// For melee collisions
+    /// </summary>
+    //[SerializeField] Collider SwordCOLLIDE;
+
 
 
     /// <summary>
@@ -88,6 +103,9 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
     /// predicates the shoot rate. If shootTimer 1; shootRATE of 0.5 would be 2 shots a second
     /// </summary>
     float shootTIMER;
+
+    bool isMoving;
+    bool isPlayingStep;
 
 
     /// <summary>
@@ -156,6 +174,12 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
         float anim_speedCUR = anim.GetFloat("Speed");
 
         anim.SetFloat("Speed", Mathf.Lerp(anim_speedCUR, AGENT_speedCUR, Time.deltaTime * animTRANspeed));
+        bool isMoving = AGENT.velocity.magnitude > 0.1f && AGENT.remainingDistance > AGENT.stoppingDistance;
+
+        if (isMoving && !isPlayingStep)
+        {
+            StartCoroutine(playStep());
+        }
     }
 
     void checkROAM()
@@ -190,7 +214,9 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 
     bool CANsee_PLAYER()
     {
-        playerDIRECTION = (gameManager.instance.player.transform.position - headPOSITON.position);
+        Vector3 targetPos = gameManager.instance.player.transform.position + new Vector3(-0.5f, 1.5f, 0);
+
+        playerDIRECTION = (targetPos - headPOSITON.position);
 
         ///Calling a new Vector3 to ignore the y in the player direction for the Y
         angleTO_PLAYER = Vector3.Angle(new Vector3(playerDIRECTION.x, 0, playerDIRECTION.z), transform.forward); //will return the angle to player
@@ -251,6 +277,7 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
     {
         HP -= amount;
         StartCoroutine(flashDAMAGE_color());
+        Audio.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
 
         AGENT.SetDestination(gameManager.instance.player.transform.position);
 
@@ -289,6 +316,7 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 
     public void createBULLET()
     {
+        Audio.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
         //Instantiate means to create something in the project in
         //real time in the scene
         Instantiate(BULLET, shootPOS.position, transform.rotation);
@@ -303,6 +331,20 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 
         //The problem with this code below is that it will cause an immediate snap
         //transform.rotation = Quaternion.LookRotation(playerDIRECTION);
+    }
+
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+
+        if (audStep.Length > 0)
+        {
+            Audio.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        isPlayingStep = false;
     }
 
 }

@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] AudioSource aud;
     [SerializeField] Animator animator;
     [SerializeField] int animTranSpeed;
+    public GameObject headPosition;
 
     [Header("===== Stats =====")]
     [Range(1, 100)][SerializeField] int HP;
