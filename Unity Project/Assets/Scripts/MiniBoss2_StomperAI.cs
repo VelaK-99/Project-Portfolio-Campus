@@ -92,7 +92,7 @@ public class MiniBoss2_StomperAI : MonoBehaviour, IDamage
 
     /// <summary>
     /// Creating a vector3 for the playerDIRECTION, further defined in void Update: 
-    /// playerDIRECTION = (Game_Management.INSTANCE.PLAYER.transform.position - transform.position);
+    // playerDIRECTION = (Game_Management.INSTANCE.PLAYER.transform.position - transform.position);
     /// </summary>
     Vector3 playerDIRECTION;
 
