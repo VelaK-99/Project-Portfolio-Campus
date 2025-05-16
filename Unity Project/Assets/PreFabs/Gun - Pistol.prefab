@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7112671836918191081}
   - component: {fileID: 4526793779972649851}
   - component: {fileID: 3639122857141436183}
-  - component: {fileID: 298171137077548677}
+  - component: {fileID: 7173542043205207400}
   m_Layer: 10
   m_Name: Gun - Pistol
   m_TagString: Untagged
@@ -105,8 +105,8 @@ MonoBehaviour:
   ammoAmount: 0
   type: 2
   destroyTime: 0
---- !u!65 &298171137077548677
-BoxCollider:
+--- !u!135 &7173542043205207400
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -124,5 +124,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5612045, y: 0.36223838, z: 0.058353692}
+  m_Radius: 0.5
   m_Center: {x: -0.13869458, y: 0.078739986, z: 0.0034398166}

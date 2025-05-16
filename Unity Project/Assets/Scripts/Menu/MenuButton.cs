@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class MenuButton : MonoBehaviour
 {
     [SerializeField] private string sceneName;
+    [SerializeField] private GameObject Start_button;
     [SerializeField] private GameObject painelMenu;
     [SerializeField] private GameObject painelSettings;
 
