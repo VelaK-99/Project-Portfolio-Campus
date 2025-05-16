@@ -95,7 +95,10 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
 
         foreach(Transform pos in bulletPos)
         {
-            Instantiate(bullet, pos.position, pos.rotation);
+            Vector3 targetDir = (PlayerPos.position + Vector3.up * 1.5f) - pos.position;
+            Quaternion rot = Quaternion.LookRotation(targetDir);
+
+            Instantiate(bullet, pos.position, rot);
         }
     }
 
@@ -105,13 +108,19 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
 
         foreach(Transform pos in missilePos)
         {
-            Instantiate(missile, pos.position, pos.rotation);
+            Vector3 targetDir = (PlayerPos.position + Vector3.up * 2.5f) - pos.position;
+            Quaternion rot = Quaternion.LookRotation(targetDir);
+
+            Instantiate(missile, pos.position, rot);
         }
     }
 
     void FireMortar()
     {
-        Instantiate(rocket, rocketPos.position, rocketPos.rotation);
+        Vector3 targetDir = (PlayerPos.position + Vector3.up * 2.5f) - rocketPos.position;
+        Quaternion rot = Quaternion.LookRotation(targetDir);
+
+        Instantiate(rocket, rocketPos.position, rot);
     }
 
     IEnumerator DpsPhase()
@@ -123,7 +132,7 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
 
     void faceTarget()
     {
-        Vector3 directionToLook = PlayerPos.position - transform.position;
+        Vector3 directionToLook = new Vector3 (PlayerPos.position.x, PlayerPos.position.y - 3f, PlayerPos.position.z) - transform.position;
         Quaternion rot = Quaternion.LookRotation(directionToLook);
         transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
     }
