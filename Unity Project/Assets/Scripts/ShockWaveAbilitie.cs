@@ -20,7 +20,7 @@ public class ShockWaveAbilitie : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        ShockWaveAbilitie instance = this;  
     }
 
     // Update is called once per frame
@@ -48,20 +48,20 @@ public class ShockWaveAbilitie : MonoBehaviour
         foreach (Collider e in enamies)
         {
             EnemyAI enemy = e.GetComponent<EnemyAI>();
-           
-
             if (enemy != null)
             {
                 Vector3 dir = (enemy.transform.position - transform.position).normalized;
                 enemy.TakeDamage(damage);
-                enemy.Stun(duration,dir*knockback);
-               
-               
+                enemy.Stun(duration, dir * knockback);
+            }
 
+            MiniBoss2_Stomper_AI stomper = e.GetComponent<MiniBoss2_Stomper_AI>();
+            if (stomper != null)
+            {
+                Vector3 dir = (stomper.transform.position - transform.position).normalized;
+                stomper.TakeDamage(damage);
+                stomper.Stun(duration, dir * knockback);
             }
         }
-    
-}
-
-
+    }
 }

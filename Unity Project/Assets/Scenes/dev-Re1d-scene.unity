@@ -2139,12 +2139,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &602648057 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
+  m_PrefabInstance: {fileID: 799056136}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &624732192 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
   m_PrefabInstance: {fileID: 799056136}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 602648057}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea9bbf727120ee142b82288c866ee6e5, type: 3}
@@ -2702,13 +2707,42 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1972416009106637310, guid: 2c5a0d2027747c640802931560349457, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 800060885}
   m_SourcePrefab: {fileID: 100100000, guid: 2c5a0d2027747c640802931560349457, type: 3}
 --- !u!95 &800060878 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8878020144247688959, guid: 2c5a0d2027747c640802931560349457, type: 3}
   m_PrefabInstance: {fileID: 799056136}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &800060880 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 8280381488094341783, guid: 2c5a0d2027747c640802931560349457, type: 3}
+  m_PrefabInstance: {fileID: 799056136}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &800060885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602648057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 10
+  knockback: 15
+  damage: 5
+  cooldown: 2
+  duration: 0.5
+  aud: {fileID: 800060880}
+  audShock:
+  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
+  audShockVol: 0.3
 --- !u!1 &814120842
 GameObject:
   m_ObjectHideFlags: 0
@@ -7388,6 +7422,14 @@ PrefabInstance:
     - target: {fileID: 2841972713814782512, guid: a6612927c2be4ca4586dcb2e00fb1f3d, type: 3}
       propertyPath: m_Name
       value: MiniBoss 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6704497330403742417, guid: a6612927c2be4ca4586dcb2e00fb1f3d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7476299853359841870, guid: a6612927c2be4ca4586dcb2e00fb1f3d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
