@@ -19,18 +19,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
     [Range(0, 25)][SerializeField] float shootRate;
-    [Range(0, 45)][SerializeField] int shootFOV;
-    [Range(0,25)] [SerializeField] float shootRate;
-    [Range(0,45)] [SerializeField] int shootFOV;
-    public float stunTimer;
-
-
-    [Header("===== Cover System =====")]
-    [SerializeField] float detectionRange = 20f;
-    [SerializeField] float coverDistance = 5f;
-    [SerializeField] LayerMask coverMask;
-    private bool isTakingCover = false;
-    private Vector3 coverPosition;
+    [Range(0, 45)][SerializeField] int shootFOV;    
+    public float stunTimer;    
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
@@ -109,8 +99,8 @@ public class EnemyAI : MonoBehaviour, IDamage
             }
 
             return; 
-        }
-        onAnimLomotion();
+        }        
+
        if(playerInRange)
         {
             Debug.Log("NavMesh Path is complete.");
@@ -130,9 +120,6 @@ public class EnemyAI : MonoBehaviour, IDamage
             HandleCoverBehavior();
             return;
         }
-    
-
-
 
         onAnimLocomotion();
 
@@ -273,45 +260,28 @@ public class EnemyAI : MonoBehaviour, IDamage
                 agent.stoppingDistance = 0;
             }
         }
-        public void TakeDamage(int amount)
+
+    public void TakeDamage(int amount)
+    {
+        HP -= amount;
+        StartCoroutine(flashRed());
+
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+
+        if (HP <= 0)
         {
-            HP -= amount;
-            StartCoroutine(flashRed());
-
-            aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
-
-            if (HP <= 0)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-            if (Time.time - lastDamageTime >= coverDamageCooldown)
-            {
-                lastDamageTime = Time.time;
-                
-                if (currentCoverState != CoverState.AtCover)
-                {
-                    isTakingCover = true;
-                    currentCoverState = CoverState.MovingToCover;
-                    currentCoverPoint = GetRandomCoverPoint();
-                    agent.SetDestination(currentCoverPoint.position);
-                    Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
-                }
-                else
-                {
-                    Debug.Log("Already in cover, staying in current cover.");
-                }
-            }
-            else
-            {
-                Debug.Log("Damage cooldown active, not seeking cover.");
-            }
-        }
+            Destroy(gameObject);
+            return;
         }
 
-        else
-            agent.SetDestination(gameManager.instance.player.transform.position);
+        if (Time.time - lastDamageTime >= coverDamageCooldown)
+        {
+            lastDamageTime = Time.time;
+            isTakingCover = true;
+            currentCoverState = CoverState.MovingToCover;
+            currentCoverPoint = GetRandomCoverPoint();
+            agent.SetDestination(currentCoverPoint.position);
+        }
     }
 
     public void Stun(float duration,Vector3 force)
@@ -346,35 +316,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
     public void createBullet()
     {
-            Instantiate(bullet, shootPos.position, transform.rotation);
+            Instantiate(bullet, shootPos.position, transform.rotation);        
+    }             
         
-    }
-
-    void faceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
-    }
-
-    void checkRoam()
-    {
-        if (roamTimer >= roamPauseTime && agent.remainingDistance < 0.01f)
-        {
-            model.material.color = Color.red;
-            yield return new WaitForSeconds(0.1f);
-            model.material.color = colorOriginal;
-        }
-
-        void shoot()
-        {
-            aud.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
-            shootTimer = 0;
-            animator.SetTrigger("shoot");        
-        }
-        public void createBullet()
-        {
-            Instantiate(bullet, shootPos.position, transform.rotation);
-        }
 
         void faceTarget()
         {
