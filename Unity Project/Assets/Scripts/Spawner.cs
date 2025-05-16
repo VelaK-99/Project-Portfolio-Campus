@@ -36,6 +36,7 @@ public class Spawner : MonoBehaviour
     
     void Update()
     {
+        /*
         if (startSpawning)
         {
             spawnTimer += Time.deltaTime;
@@ -45,6 +46,7 @@ public class Spawner : MonoBehaviour
                 spawn();
             }
         }
+        */
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,7 +58,7 @@ public class Spawner : MonoBehaviour
             exit.LockDoor();
         }
     }
-
+    /*
     void spawn()
     {
         int arrayPos = Random.Range(0, spawnPos.Length);
@@ -71,11 +73,11 @@ public class Spawner : MonoBehaviour
         spawnList.Add(enemyClone);
 
         gameManager.instance.AddEnemy(enemyClone);
-        enemyClone.GetComponent<EnemyAI>().whereICameFrom = this;
+        enemyClone.GetComponent<Enemy_AI>().whereICameFrom = this;
         spawnCount++;
         spawnTimer = 0;
     }
-
+    */
     public void checkEnemyTotal()
     {
 
