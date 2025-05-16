@@ -20,6 +20,17 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] int roamPauseTime;
     [Range(0, 25)][SerializeField] float shootRate;
     [Range(0, 45)][SerializeField] int shootFOV;
+    [Range(0,25)] [SerializeField] float shootRate;
+    [Range(0,45)] [SerializeField] int shootFOV;
+    public float stunTimer;
+
+
+    [Header("===== Cover System =====")]
+    [SerializeField] float detectionRange = 20f;
+    [SerializeField] float coverDistance = 5f;
+    [SerializeField] LayerMask coverMask;
+    private bool isTakingCover = false;
+    private Vector3 coverPosition;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
@@ -52,6 +63,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool isPlayingStep;
     bool isTakingCover = false;
     bool isAtCover;
+    bool isStuned;
+    Rigidbody rb;
 
     private enum CoverState { MovingToCover, AtCover, SwitchingCover }
     private CoverState currentCoverState = CoverState.MovingToCover;
@@ -65,17 +78,40 @@ public class EnemyAI : MonoBehaviour, IDamage
     Vector3 playerDir;
     Vector3 startingPos;
     Vector3 coverPosition;
+    Vector3 knockbackfoce;
+
 
     void Start()
     {
         colorOriginal = model.material.color;
         startingPos = transform.position;
-        stoppingDistOrig = agent.stoppingDistance;        
+        stoppingDistOrig = agent.stoppingDistance;
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
     }
 
     void Update()
     {
         if (agent.pathStatus == NavMeshPathStatus.PathComplete)
+        if (isStuned)
+        {
+            stunTimer -= Time.deltaTime;
+
+          
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+            if (stunTimer <= 0f)
+            {   
+                isStuned = false;
+                rb.linearVelocity = Vector3.zero;
+                rb.isKinematic = true;          
+                agent.isStopped = false;        
+            }
+
+            return; 
+        }
+        onAnimLomotion();
+       if(playerInRange)
         {
             Debug.Log("NavMesh Path is complete.");
         }
@@ -274,7 +310,55 @@ public class EnemyAI : MonoBehaviour, IDamage
         }
         }
 
-        IEnumerator flashRed()
+        else
+            agent.SetDestination(gameManager.instance.player.transform.position);
+    }
+
+    public void Stun(float duration,Vector3 force)
+    {
+        if (isStuned)
+        {
+            return;
+        }
+        isStuned = true;
+        stunTimer = duration;
+        knockbackfoce = force;
+        
+        agent.isStopped = true;
+        rb.isKinematic = false;
+        rb.AddForce(force,ForceMode.Impulse);
+    }
+
+   
+
+    IEnumerator flashRed()
+    {
+        model.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        model.material.color = colorOriginal;
+    }
+
+    void shoot()
+    {
+        aud.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
+        shootTimer = 0;
+        animator.SetTrigger("shoot");
+    }
+    public void createBullet()
+    {
+            Instantiate(bullet, shootPos.position, transform.rotation);
+        
+    }
+
+    void faceTarget()
+    {
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
+    }
+
+    void checkRoam()
+    {
+        if (roamTimer >= roamPauseTime && agent.remainingDistance < 0.01f)
         {
             model.material.color = Color.red;
             yield return new WaitForSeconds(0.1f);
