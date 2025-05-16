@@ -288,6 +288,26 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
         }
     }
 
+    public void Stun(float duration, Vector3 knockbackDIR)
+    {
+        StartCoroutine(StunCuroutine(duration, knockbackDIR));
+    }
+
+    IEnumerator StunCuroutine(float duration, Vector3 knockbackDIR)
+    {
+        AGENT.isStopped = true; //stop movement
+
+        float timer = 0f;
+        while (timer < duration)
+        {
+            transform.rotation = Quaternion.LookRotation(-knockbackDIR); //Face player
+            transform.position += knockbackDIR * Time.deltaTime; //Move away
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        AGENT.isStopped = false; //resume movement
+    }
+
     IEnumerator flashDAMAGE_color()
     {
         MODEL.material.color = Color.red;

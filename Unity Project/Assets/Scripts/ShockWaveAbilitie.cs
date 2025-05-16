@@ -62,6 +62,14 @@ public class ShockWaveAbilitie : MonoBehaviour
                 stomper.TakeDamage(damage);
                 stomper.Stun(duration, dir * knockback);
             }
+
+            MiniBoss2_Rager_AI rager = e.GetComponent<MiniBoss2_Rager_AI>();
+            if (rager != null)
+            {
+                Vector3 dir = (rager.transform.position - transform.position).normalized;
+                rager.TakeDamage(damage);
+                rager.Stun(duration, dir * knockback);
+            }
         }
     }
 }
