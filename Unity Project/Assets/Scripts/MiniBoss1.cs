@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class finalBossAI : MonoBehaviour
+public class MiniBoss1 : MonoBehaviour
 {
     [SerializeField] Renderer mModel;
     [SerializeField] Transform headPos;
