@@ -70,8 +70,7 @@ public class Spawner : MonoBehaviour
         GameObject enemyClone = Instantiate(objectsToSpawn[enemyArrayIndex], finalPos, spawnPos[arrayPos].rotation);
         spawnList.Add(enemyClone);
 
-        gameManager.instance.AddEnemy(enemyClone);
-        enemyClone.GetComponent<EnemyAI>().whereICameFrom = this;
+        gameManager.instance.AddEnemy(enemyClone);        
         spawnCount++;
         spawnTimer = 0;
     }

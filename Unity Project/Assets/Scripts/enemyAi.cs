@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.AI;
-
 
 public class EnemyAI : MonoBehaviour, IDamage
 {
@@ -12,29 +12,34 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
-    [Range(0,100)] [SerializeField] int HP;
+    [Range(0, 100)][SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
-    [Range(0,180)][SerializeField] int fov;
+    [Range(0, 180)][SerializeField] int fov;
     [SerializeField] int animTranSpeed;
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
-    [Range(0,25)] [SerializeField] float shootRate;
-    [Range(0,45)] [SerializeField] int shootFOV;
-
-    [Header("===== Cover System =====")]
-    [SerializeField] float detectionRange = 20f;
-    [SerializeField] float coverDistance = 5f;
-    [SerializeField] LayerMask coverMask;
-    private bool isTakingCover = false;
-    private Vector3 coverPosition;
+    [Range(0, 25)][SerializeField] float shootRate;
+    [Range(0, 45)][SerializeField] int shootFOV;    
+    public float stunTimer;    
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
-    [Range(0, 100)] [SerializeField] float audShootVol;
+    [Range(0, 100)][SerializeField] float audShootVol;
     [SerializeField] AudioClip[] audHurt;
-    [Range(0, 100)] [SerializeField] float audHurtVol;
+    [Range(0, 100)][SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
-    [Range(0, 100)] [SerializeField] float audStepVol;
+    [Range(0, 100)][SerializeField] float audStepVol;
+
+    [Header("===== Cover System =====")]
+    [SerializeField] List<Transform> coverPoints;
+    [SerializeField] float coverSwitchDelay = 2f;
+    [SerializeField] bool useCoverSystem = true;
+    [SerializeField] float peekDistance = 0.75f;
+    [SerializeField] float peekSpeed = 5f;
+    [SerializeField] float coverDetectionRadius = 20f;
+
+    private Transform currentCoverPoint;
+    private float coverSwitchTimer;
 
     [SerializeField] Collider knife;
     [SerializeField] Transform shootPos;
@@ -46,126 +51,255 @@ public class EnemyAI : MonoBehaviour, IDamage
     float angleToPlayer;
     float stoppingDistOrig;
     bool isPlayingStep;
+    bool isTakingCover = false;
+    bool isAtCover;
+    bool isStuned;
+    Rigidbody rb;
 
-    public Spawner whereICameFrom;
+    private enum CoverState { MovingToCover, AtCover, SwitchingCover }
+    private CoverState currentCoverState = CoverState.MovingToCover;
+    
 
+    [SerializeField] float coverDamageCooldown = 1.5f;
+    private float lastDamageTime = -100f;
 
     Color colorOriginal;
 
     Vector3 playerDir;
     Vector3 startingPos;
+    Vector3 coverPosition;
+    Vector3 knockbackfoce;
 
 
     void Start()
     {
-        colorOriginal = model.material.color;        
+        colorOriginal = model.material.color;
         startingPos = transform.position;
         stoppingDistOrig = agent.stoppingDistance;
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
     }
 
     void Update()
     {
-        onAnimLomotion();
+        if (agent.pathStatus == NavMeshPathStatus.PathComplete)
+        if (isStuned)
+        {
+            stunTimer -= Time.deltaTime;
+
+          
+            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+            if (stunTimer <= 0f)
+            {   
+                isStuned = false;
+                rb.linearVelocity = Vector3.zero;
+                rb.isKinematic = true;          
+                agent.isStopped = false;        
+            }
+
+            return; 
+        }        
+
        if(playerInRange)
         {
-            if(CanSeePlayer())
-            {
-                if(ShouldTakeCover())
-                {
-                    FindCover();
-                }
-                else
-                {
-                    agent.SetDestination(gameManager.instance.transform.position);
-                }
-            }
-            else
-            {
-                checkRoam();
-            }
+            Debug.Log("NavMesh Path is complete.");
         }
-       else
+        else if (agent.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            Debug.Log("NavMesh Path is partial.");
+        }
+        else if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
+        {
+            Debug.Log("NavMesh Path is invalid.");
+        }
+
+
+        if (isTakingCover)
+        {
+            HandleCoverBehavior();
+            return;
+        }
+
+        onAnimLocomotion();
+
+        if (agent.remainingDistance < 0.01f)
+            roamTimer += Time.deltaTime;
+
+        if (playerInRange && !CanSeePlayer())
+        {
+            checkRoam();
+        }
+        else if (!playerInRange)
         {
             checkRoam();
         }
     }
-    void onAnimLomotion()
+    
+
+    void HandleCoverBehavior()
     {
-        float agentSpeedCur = agent.velocity.normalized.magnitude;
-        float animSpeedCur = animator.GetFloat("speed");
-
-        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
-        bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
-
-        if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
+        switch (currentCoverState)
         {
-            StartCoroutine(playStep());
+            case CoverState.MovingToCover:
+                MoveToCover();
+                break;
+
+            case CoverState.AtCover:
+                StayAtCover();
+                break;
+
+            case CoverState.SwitchingCover:
+                SwitchCover();
+                break;
         }
     }
 
-    bool ShouldTakeCover()
+    void MoveToCover()
     {
-        return HP <= 50 || Vector3.Distance(transform.position, gameManager.instance.player.transform.position) <= detectionRange;
-    }
-
-    IEnumerator playStep()
-    {
-        isPlayingStep = true;
-
-        if (audStep.Length > 0)
+        if (currentCoverPoint == null)
         {
-            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+            currentCoverPoint = GetRandomCoverPoint();
+            agent.SetDestination(currentCoverPoint.position);
+            Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
         }
 
-        yield return new WaitForSeconds(0.3f);
+        if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
+        {
+            Debug.Log("Enemy reached cover.");
+            currentCoverState = CoverState.AtCover;
+            coverSwitchTimer = 0;
+        }
+    }
 
-        isPlayingStep = false;
-    }
-    public void OnTriggerEnter(Collider other)
+    void StayAtCover()
     {
-        if (other.CompareTag("Player"))
+        coverSwitchTimer += Time.deltaTime;
+
+        if (!CanSeePlayer())
         {
-            playerInRange = true;
+            Debug.Log("Can't see player, switching cover.");
+            currentCoverState = CoverState.SwitchingCover;
+            return;
+        }
+
+        faceTarget();
+        shootTimer += Time.deltaTime;
+        if (shootTimer >= shootRate)
+        {
+            shoot();
+        }
+
+        if (coverSwitchTimer >= coverSwitchDelay)
+        {
+            currentCoverState = CoverState.SwitchingCover;
+            Debug.Log("Switchign cover after delay");
         }
     }
-    public void OnTriggerExit(Collider other)
+
+    void SwitchCover()
     {
-        if (other.CompareTag("Player"))
-        {
-            playerInRange = false;
-            agent.stoppingDistance = 0;
-        }
+        currentCoverPoint = GetRandomCoverPoint();
+        agent.SetDestination(currentCoverPoint.position);
+        currentCoverState = CoverState.MovingToCover;
+        Debug.Log($"Switching to new cover point: {currentCoverPoint.name}");
     }
+    Transform GetRandomCoverPoint()
+    {
+        if (coverPoints.Count == 0)
+        {
+            Debug.LogWarning("No cover points assigned.");
+            return transform;
+        }
+        Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
+        Debug.Log($"Selected Cover Point: {selectedCover.name} at {selectedCover.position}");
+        return selectedCover;
+    }
+
+
+        void onAnimLocomotion()
+        {
+            float agentSpeedCur = agent.velocity.normalized.magnitude;
+            float animSpeedCur = animator.GetFloat("speed");
+
+            animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
+            bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
+
+            if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
+            {
+                StartCoroutine(playStep());
+            }
+        }
+
+        IEnumerator playStep()
+        {
+            isPlayingStep = true;
+
+            if (audStep.Length > 0)
+            {
+                aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+            }
+
+            yield return new WaitForSeconds(0.3f);
+
+            isPlayingStep = false;
+        }
+
+        public void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerInRange = true;
+            }
+        }
+        public void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                playerInRange = false;
+                agent.stoppingDistance = 0;
+            }
+        }
+
     public void TakeDamage(int amount)
     {
         HP -= amount;
-        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
         StartCoroutine(flashRed());
+
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
 
         if (HP <= 0)
         {
-            if(whereICameFrom != null )
-            {
-                whereICameFrom.spawnList.Remove(gameObject);
-                whereICameFrom.spawnList.RemoveAll(e => e == null);
-                whereICameFrom.GetComponent<Spawner>().checkEnemyTotal();
-            }
-            else
-            {
-                Debug.LogWarning($"{name} has no spawner reference! Cannot update spawnList or unlock doors.");
-            }
-            
-            
-            
-            gameManager.instance.RemoveEnemy(gameObject);
-
-            
             Destroy(gameObject);
+            return;
         }
 
-        else
-            agent.SetDestination(gameManager.instance.player.transform.position);
+        if (Time.time - lastDamageTime >= coverDamageCooldown)
+        {
+            lastDamageTime = Time.time;
+            isTakingCover = true;
+            currentCoverState = CoverState.MovingToCover;
+            currentCoverPoint = GetRandomCoverPoint();
+            agent.SetDestination(currentCoverPoint.position);
+        }
     }
+
+    public void Stun(float duration,Vector3 force)
+    {
+        if (isStuned)
+        {
+            return;
+        }
+        isStuned = true;
+        stunTimer = duration;
+        knockbackfoce = force;
+        
+        agent.isStopped = true;
+        rb.isKinematic = false;
+        rb.AddForce(force,ForceMode.Impulse);
+    }
+
+   
 
     IEnumerator flashRed()
     {
@@ -182,160 +316,87 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
     public void createBullet()
     {
-            Instantiate(bullet, shootPos.position, transform.rotation);
+            Instantiate(bullet, shootPos.position, transform.rotation);        
+    }             
         
-    }
 
-    void faceTarget()
-    {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
-        transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
-    }
-
-    void checkRoam()
-    {
-        if (roamTimer >= roamPauseTime && agent.remainingDistance < 0.01f)
+        void faceTarget()
         {
-            roam();
+            Vector3 playerDirection = (gameManager.instance.player.transform.position - transform.position).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * faceTargetSpeed);
         }
-    }
-    void roam()
-    {
-        roamTimer = 0;
-        agent.stoppingDistance = 0;
 
-        Vector3 randomPos = Random.insideUnitSphere * roamDist;
-        randomPos += startingPos;
+        void checkRoam()
+        {
+            roamTimer += Time.deltaTime;
+            if (roamTimer >= roamPauseTime)
+            {
+                roamTimer = 0;
+                roam();
+            }
+        }
+        void roam()
+        {
+            Vector3 randomPos = Random.insideUnitSphere * roamDist + startingPos;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPos, out hit, roamDist, 1))
+            {
+                agent.SetDestination(hit.position);
+            }
+        }
 
-        NavMeshHit hit;
-        NavMesh.SamplePosition(randomPos, out hit, roamDist, 1);
-        agent.SetDestination(hit.position);
-    }
+        bool CanSeePlayer()
+        {
 
-    bool CanSeePlayer()
-    {
-        playerDir = (gameManager.instance.player.transform.position - headPos.position);
+        if (gameManager.instance.player == null)
+        {
+            Debug.Log("Player not found.");
+            return false;
+        }
+
+        // Calculate direction to player
+        playerDir = (gameManager.instance.player.transform.position - headPos.position).normalized;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
-        Debug.DrawRay(headPos.position, playerDir);
+        
+        if (angleToPlayer > fov)
+        {
+            Debug.Log("Player is outside of FOV.");
+            return false;
+        }
+        
+        Vector3 rayOrigin = headPos.position;
+        Vector3 targetPoint = gameManager.instance.player.transform.position + Vector3.up * 1.5f;
+        Debug.DrawRay(rayOrigin, (targetPoint - rayOrigin).normalized * 50f, Color.red);
 
         RaycastHit hit;
-        if (Physics.Raycast(headPos.position, playerDir, out hit))
+        int layerMask = ~(1 << LayerMask.NameToLayer("Ground")); // Ignore ground
+
+        if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask))
         {
-            if (hit.collider.CompareTag("Player") && angleToPlayer <= fov)
+            Debug.Log($"Raycast hit: {hit.collider.name}");
+            if (hit.collider.CompareTag("Player"))
             {
-                agent.SetDestination(gameManager.instance.player.transform.position);
-
-                if (agent.remainingDistance <= agent.stoppingDistance)
-                {
-                    faceTarget();
-                }
-
-                shootTimer += Time.deltaTime;
-
-                if (angleToPlayer <= shootFOV && shootTimer >= shootRate)
-                {
-                    shoot();
-                }
-                agent.stoppingDistance = stoppingDistOrig;
+                Debug.Log("Player is in sight!");
                 return true;
-            }
-        }
-        agent.stoppingDistance = 0;
-        return false;
-    }
-
-    public void SwordColOn()
-    {
-        knife.enabled = true;
-    }
-
-    public void SwordColOff()
-    {
-        knife.enabled = false;
-    }
-
-    public void FindCover()
-    {
-        Collider[] coverSpots = Physics.OverlapSphere(transform.position, coverDistance, coverMask);
-        Transform bestCover = null;
-        float bestCoverScore = Mathf.NegativeInfinity;
-
-        foreach (Collider cover in coverSpots)
-        {
-            Vector3 directionToCover = gameManager.instance.player.transform.position - cover.transform.position;
-            if (Physics.Raycast(cover.transform.position, directionToCover, out RaycastHit hit))
-            {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    continue;
-                }
-            }
-
-            float distanceToPlayer = Vector3.Distance(gameManager.instance.player.transform.position, cover.transform.position);
-            float distanceToEnemy = Vector3.Distance(transform.position, cover.transform.position);
-            float coverScore = distanceToPlayer - distanceToEnemy;
-
-            if (coverScore > bestCoverScore)
-            {
-                bestCoverScore = coverScore;
-                bestCover = cover.transform;
-            }
-        }
-
-        if (bestCover != null)
-        {
-            Debug.Log($"Enemy taking cover at {bestCover.position}");
-            isTakingCover = true;
-            coverPosition = bestCover.position;
-            agent.SetDestination(coverPosition);
-            StartCoroutine(CoverBehavior());
-        }
-        else
-        {
-            Debug.Log("No suitable cover found.");
-        }
-    }
-
-    IEnumerator CoverBehavior()
-    {
-       while (isTakingCover)
-        {
-            float distanceToCover = Vector3.Distance(transform.position, coverPosition);
-
-            if (distanceToCover <= 1f)
-            {
-                faceTarget();
-                shootTimer += Time.deltaTime;
-
-                if (shootTimer >= shootRate)
-                {
-                    shoot();
-                    shootTimer = 0f;
-
-                    if (Random.value > 0.5f)
-                    {
-                        Debug.Log("Enemy is peeking to shoot.");                       
-                    }
-                    else
-                    {
-                        Debug.Log("Enemy is hiding");
-                    }
-                }
             }
             else
             {
-                agent.SetDestination(coverPosition);
+                Debug.Log($"Raycast blocked by: {hit.collider.name}");
             }
-
-            if (Vector3.Distance(transform.position, gameManager.instance.player.transform.position) <= 5f)
-            {
-                Debug.Log("Player is too close. Leaving cover.");
-                isTakingCover = false;
-                break;
-            }
-            yield return null;
         }
 
-        isTakingCover = false;
+        Debug.Log("Player is not in sight.");
+        return false;
     }
- }
+
+        public void SwordColOn()
+        {
+            knife.enabled = true;
+        }
+
+        public void SwordColOff()
+        {
+            knife.enabled = false;
+        }    
+    }

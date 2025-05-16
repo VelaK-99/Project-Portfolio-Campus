@@ -630,7 +630,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void UpdatePlayerUI()
     {
-        gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;
+        gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;        
+
         if (arsenal.Count > 0)
         {
             gameManager.instance.CurrentAmmo.text = arsenal[gunListPos].currentAmmo.ToString("F0");
@@ -638,7 +639,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             Hotkey_slots_UI.instance.UpdateAmmo(arsenal[gunListPos]);
             Hotkey_slots_UI.instance.SetSLOT(arsenal[gunListPos]);
-        }
+        }     
     }
 
     IEnumerator FlashDamageScreen()
@@ -932,6 +933,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if(speed < 0.5f) { speed = 0f; }
         animator.SetFloat("speed", speed);
+        Debug.Log("Speed: " + speed);
     }
-
 }
