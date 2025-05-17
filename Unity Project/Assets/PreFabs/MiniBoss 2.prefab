@@ -2533,10 +2533,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1314390167449778251}
   - component: {fileID: 6704497330403742417}
-  - component: {fileID: 3400363661615443830}
   - component: {fileID: 8787988818383758128}
-  - component: {fileID: 3089516538386675545}
   - component: {fileID: 7364568218637245395}
+  - component: {fileID: 3089516538386675545}
+  - component: {fileID: 3400363661615443830}
   - component: {fileID: 4584089330228780512}
   m_Layer: 3
   m_Name: MiniBoss2 (Rager)
@@ -2611,28 +2611,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.05
---- !u!95 &3400363661615443830
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7476299853359841870}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 1497d8501c220f54aa06e10f16eeba81, type: 3}
-  m_Controller: {fileID: 9100000, guid: ae0609d4c173b0c44a843ab914c86fa5, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &8787988818383758128
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2655,27 +2633,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!135 &3089516538386675545
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7476299853359841870}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 16
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &7364568218637245395
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2699,6 +2656,49 @@ CapsuleCollider:
   m_Height: 2.68
   m_Direction: 1
   m_Center: {x: 0, y: 1.29, z: 0}
+--- !u!135 &3089516538386675545
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476299853359841870}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 16
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &3400363661615443830
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7476299853359841870}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 1497d8501c220f54aa06e10f16eeba81, type: 3}
+  m_Controller: {fileID: 9100000, guid: ae0609d4c173b0c44a843ab914c86fa5, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &4584089330228780512
 AudioSource:
   m_ObjectHideFlags: 0

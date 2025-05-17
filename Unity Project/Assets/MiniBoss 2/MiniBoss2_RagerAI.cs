@@ -173,7 +173,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
         float AGENT_speedCUR = AGENT.velocity.normalized.magnitude;
         float anim_speedCUR = anim.GetFloat("Speed");
 
-        anim.SetFloat("Speed", Mathf.Lerp(anim_speedCUR, AGENT_speedCUR, Time.deltaTime * animTRANspeed));
+        anim.SetFloat("Speed2", Mathf.Lerp(anim_speedCUR, AGENT_speedCUR, Time.deltaTime * animTRANspeed));
         bool isMoving = AGENT.velocity.magnitude > 0.1f && AGENT.remainingDistance > AGENT.stoppingDistance;
 
         if (isMoving && !isPlayingStep)
