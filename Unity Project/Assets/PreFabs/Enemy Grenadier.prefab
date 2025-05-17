@@ -378,16 +378,14 @@ MonoBehaviour:
   audStepVol: 0.1
   coverPoints: []
   coverSwitchDelay: 2
-  useCoverSystem: 1
+  useCoverSystem: 0
   peekDistance: 0.75
   peekSpeed: 5
   coverDetectionRadius: 20
   knife: {fileID: 0}
   shootPos: {fileID: 3523957986135192304}
   bullet: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
-  joltLine: {fileID: 1361752395861416868}
   coverDamageCooldown: 1.5
-  hasBeenJolted: 0
 --- !u!95 &1131864792578107568
 Animator:
   serializedVersion: 7

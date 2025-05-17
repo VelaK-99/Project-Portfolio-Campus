@@ -31,13 +31,14 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] AudioClip[] audStep;
     [Range(0, 100)][SerializeField] float audStepVol;
 
-    [Header("===== Cover System =====")]
+    [Header("===== Cover System =====")]    
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
     [SerializeField] float peekDistance = 0.75f;
     [SerializeField] float peekSpeed = 5f;
     [SerializeField] float coverDetectionRadius = 20f;
+    
 
     private Transform currentCoverPoint;
     private float coverSwitchTimer;
@@ -56,6 +57,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     bool isTakingCover = false;
     bool isAtCover;
     bool isStuned;
+    bool isFrozen = false;
+    float freezeTimer = 0f;
     Rigidbody rb;
 
     private enum CoverState { MovingToCover, AtCover, SwitchingCover }
@@ -85,60 +88,80 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
 
     void Update()
     {
-        if (agent.pathStatus == NavMeshPathStatus.PathComplete)
-        if (isStuned)
+        if (isFrozen)
         {
-            stunTimer -= Time.deltaTime;
-
-          
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
-
-            if (stunTimer <= 0f)
-            {   
-                isStuned = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.isKinematic = true;          
-                agent.isStopped = false;        
+            freezeTimer -= Time.deltaTime;
+            if (freezeTimer <= 0f)
+            {
+                Unfreeze();
             }
-
-            return; 
-        }        
-
-       if(playerInRange)
-        {
-            Debug.Log("NavMesh Path is complete.");
-        }
-        else if (agent.pathStatus == NavMeshPathStatus.PathPartial)
-        {
-            Debug.Log("NavMesh Path is partial.");
-        }
-        else if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
-        {
-            Debug.Log("NavMesh Path is invalid.");
-        }
-
-
-        if (isTakingCover)
-        {
-            HandleCoverBehavior();
             return;
         }
 
-        onAnimLocomotion();
+        if (agent.pathStatus == NavMeshPathStatus.PathComplete)
+            if (isStuned)
+            {
+                stunTimer -= Time.deltaTime;
 
-        if (agent.remainingDistance < 0.01f)
-            roamTimer += Time.deltaTime;
 
-        if (playerInRange && !CanSeePlayer())
+                rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+                if (stunTimer <= 0f)
+                {
+                    isStuned = false;
+                    rb.linearVelocity = Vector3.zero;
+                    rb.isKinematic = true;
+                    agent.isStopped = false;
+                }
+
+                return;
+            }
+
+        if (useCoverSystem && coverPoints.Count > 0)
         {
-            checkRoam();
+            if (isTakingCover)
+            {
+                HandleCoverBehavior();
+            }
+            else
+            {
+                EngagePlayer();
+            }
         }
-        else if (!playerInRange)
+        else
         {
+            // No cover system - just engage player directly
+            EngagePlayer();
+        }
+
+        onAnimLocomotion();
+    }
+
+
+    void EngagePlayer()
+    {
+        // If the player is within range and the enemy can see them
+        if (CanSeePlayer())
+        {
+            // Move towards the player
+            agent.SetDestination(gameManager.instance.player.transform.position);
+
+            // Face the player
+            faceTarget();
+
+            // Shoot at the player if within shooting range
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootRate)
+            {
+                shoot();
+            }
+        }
+        else
+        {
+            // If the player is not visible, the enemy roams
             checkRoam();
         }
     }
-    
 
     void HandleCoverBehavior()
     {
@@ -163,8 +186,24 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         if (currentCoverPoint == null)
         {
             currentCoverPoint = GetRandomCoverPoint();
+            if (currentCoverPoint == null)
+            {
+                Debug.LogWarning("No Available cover. staying in place");
+
+                isTakingCover = false;
+                return;
+            }
+
             agent.SetDestination(currentCoverPoint.position);
             Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
+        }
+
+        faceTarget();
+
+        shootTimer += Time.deltaTime;
+        if (shootTimer >= shootRate)
+        {
+            shoot();
         }
 
         if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
@@ -196,28 +235,38 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         if (coverSwitchTimer >= coverSwitchDelay)
         {
             currentCoverState = CoverState.SwitchingCover;
-            Debug.Log("Switchign cover after delay");
+            Debug.Log("Switching cover after delay");
         }
     }
 
     void SwitchCover()
-    {
+    {        
         currentCoverPoint = GetRandomCoverPoint();
+        if (currentCoverPoint == null)
+        {
+            Debug.LogWarning("No available cover to switch to.");
+            isTakingCover = false;
+            return;
+        }
+
         agent.SetDestination(currentCoverPoint.position);
         currentCoverState = CoverState.MovingToCover;
         Debug.Log($"Switching to new cover point: {currentCoverPoint.name}");
     }
+
     Transform GetRandomCoverPoint()
     {
         if (coverPoints.Count == 0)
         {
             Debug.LogWarning("No cover points assigned.");
-            return transform;
-        }
+            return null;
+        }   
+
         Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
+        coverPoints.Add(selectedCover);
         Debug.Log($"Selected Cover Point: {selectedCover.name} at {selectedCover.position}");
         return selectedCover;
-    }
+    } 
 
 
         void onAnimLocomotion()
@@ -280,10 +329,28 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         if (Time.time - lastDamageTime >= coverDamageCooldown)
         {
             lastDamageTime = Time.time;
-            isTakingCover = true;
-            currentCoverState = CoverState.MovingToCover;
-            currentCoverPoint = GetRandomCoverPoint();
-            agent.SetDestination(currentCoverPoint.position);
+
+            if (useCoverSystem && coverPoints.Count > 0)
+            {
+                isTakingCover = true;
+                currentCoverPoint = GetRandomCoverPoint();
+
+                if (currentCoverPoint != null)
+                {
+                    agent.SetDestination(currentCoverPoint.position);
+                    currentCoverState = CoverState.MovingToCover;
+                    Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
+                }
+                else
+                {
+                    Debug.LogWarning("No available cover. Staying exposed.");
+                }
+            }
+            else
+            {
+                Debug.Log("Cover system disabled or no cover points. Engaging without cover.");
+                isTakingCover = false;
+            }
         }
     }
 
@@ -302,7 +369,38 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         rb.AddForce(force,ForceMode.Impulse);
     }
 
-   
+    public void ApplyFreeze(float duration)
+    {
+        if (isFrozen) return;
+
+        isFrozen = true;
+        freezeTimer = duration;
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+    }
+
+    private void Unfreeze()
+    {
+        isFrozen = false;
+
+        if(agent != null)
+        {
+            agent.isStopped = false;
+        }
+        if(animator != null)
+        {
+            animator.enabled = true;
+        }
+    }
+
+
 
     IEnumerator flashRed()
     {
@@ -319,11 +417,17 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     }
     public void createBullet()
     {
-            Instantiate(bullet, shootPos.position, transform.rotation);        
-    }             
-        
+        // Calculate direction to player but ignore Y-axis (horizontal only)
+        Vector3 playerPosition = gameManager.instance.player.transform.position;
+        Vector3 shootDirection = (new Vector3(playerPosition.x, shootPos.position.y, playerPosition.z) - shootPos.position).normalized;
 
-        void faceTarget()
+        // Instantiate bullet and make it face the player
+        GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
+    }
+
+
+
+    void faceTarget()
         {
             Vector3 playerDirection = (gameManager.instance.player.transform.position - transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
