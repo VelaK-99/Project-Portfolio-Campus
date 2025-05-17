@@ -37,6 +37,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] float peekDistance = 0.75f;
     [SerializeField] float peekSpeed = 5f;
     [SerializeField] float coverDetectionRadius = 20f;
+    
 
     private Transform currentCoverPoint;
     private float coverSwitchTimer;
@@ -99,21 +100,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             }
 
             return; 
-        }        
-
-       if(playerInRange)
-        {
-            Debug.Log("NavMesh Path is complete.");
-        }
-        else if (agent.pathStatus == NavMeshPathStatus.PathPartial)
-        {
-            Debug.Log("NavMesh Path is partial.");
-        }
-        else if (agent.pathStatus == NavMeshPathStatus.PathInvalid)
-        {
-            Debug.Log("NavMesh Path is invalid.");
-        }
-
+        }   
 
         if (isTakingCover)
         {
@@ -134,8 +121,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         {
             checkRoam();
         }
-    }
-    
+    }      
 
     void HandleCoverBehavior()
     {
@@ -160,8 +146,24 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (currentCoverPoint == null)
         {
             currentCoverPoint = GetRandomCoverPoint();
+            if (currentCoverPoint == null)
+            {
+                Debug.LogWarning("No Available cover. staying in place");
+
+                isTakingCover = false;
+                return;
+            }
+
             agent.SetDestination(currentCoverPoint.position);
             Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
+        }
+
+        faceTarget();
+
+        shootTimer += Time.deltaTime;
+        if (shootTimer >= shootRate)
+        {
+            shoot();
         }
 
         if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
@@ -193,28 +195,38 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (coverSwitchTimer >= coverSwitchDelay)
         {
             currentCoverState = CoverState.SwitchingCover;
-            Debug.Log("Switchign cover after delay");
+            Debug.Log("Switching cover after delay");
         }
     }
 
     void SwitchCover()
-    {
+    {        
         currentCoverPoint = GetRandomCoverPoint();
+        if (currentCoverPoint == null)
+        {
+            Debug.LogWarning("No available cover to switch to.");
+            isTakingCover = false;
+            return;
+        }
+
         agent.SetDestination(currentCoverPoint.position);
         currentCoverState = CoverState.MovingToCover;
         Debug.Log($"Switching to new cover point: {currentCoverPoint.name}");
     }
+
     Transform GetRandomCoverPoint()
     {
         if (coverPoints.Count == 0)
         {
             Debug.LogWarning("No cover points assigned.");
-            return transform;
-        }
+            return null;
+        }   
+
         Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
+        coverPoints.Add(selectedCover);
         Debug.Log($"Selected Cover Point: {selectedCover.name} at {selectedCover.position}");
         return selectedCover;
-    }
+    } 
 
 
         void onAnimLocomotion()
@@ -277,10 +289,19 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (Time.time - lastDamageTime >= coverDamageCooldown)
         {
             lastDamageTime = Time.time;
-            isTakingCover = true;
-            currentCoverState = CoverState.MovingToCover;
+            isTakingCover = true;            
             currentCoverPoint = GetRandomCoverPoint();
-            agent.SetDestination(currentCoverPoint.position);
+
+            if(currentCoverPoint != null)
+            {
+                agent.SetDestination(currentCoverPoint.position);
+                currentCoverState = CoverState.MovingToCover;
+                Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
+            }
+            else
+            {
+                Debug.LogWarning("No available cover. Staying exposed.");
+            }
         }
     }
 
@@ -316,11 +337,17 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
     public void createBullet()
     {
-            Instantiate(bullet, shootPos.position, transform.rotation);        
-    }             
-        
+        // Calculate direction to player but ignore Y-axis (horizontal only)
+        Vector3 playerPosition = gameManager.instance.player.transform.position;
+        Vector3 shootDirection = (new Vector3(playerPosition.x, shootPos.position.y, playerPosition.z) - shootPos.position).normalized;
 
-        void faceTarget()
+        // Instantiate bullet and make it face the player
+        GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
+    }
+
+
+
+    void faceTarget()
         {
             Vector3 playerDirection = (gameManager.instance.player.transform.position - transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
