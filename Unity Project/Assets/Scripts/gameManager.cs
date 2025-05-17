@@ -17,6 +17,8 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    public GameObject painelSettings;
+
 
     [Header("===== Player Stats =====")]
     [SerializeField] public TMP_Text TotalAmmo;

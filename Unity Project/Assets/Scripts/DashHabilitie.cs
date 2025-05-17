@@ -8,6 +8,8 @@ public class DashAbility : MonoBehaviour
     [SerializeField] float dashCooldown;
     [SerializeField] int maxDashes;
 
+    public bool canActive;
+
     CharacterController controller;
     Vector3 dashDirection;
     bool isDashing = false;
@@ -29,25 +31,29 @@ public class DashAbility : MonoBehaviour
         controller = GetComponent<CharacterController>();
         availableDashes = maxDashes;
         cooldownTimers = new float[maxDashes];
+        canActive = false;
     }
 
     void Update()
     {
-        if (!isDashing)
-            HandleDoubleTap();
-
-        HandleCooldowns();
-
-        if (isDashing)
+        if (canActive)
         {
-            controller.Move(dashDirection * dashSpeed * Time.deltaTime);
-            dashTimer -= Time.deltaTime;
+            if (!isDashing)
+                HandleDoubleTap();
 
-            if (dashTimer <= 0f)
+            HandleCooldowns();
+
+            if (isDashing)
             {
-                isDashing = false;
+                controller.Move(dashDirection * dashSpeed * Time.deltaTime);
+                dashTimer -= Time.deltaTime;
+
+                if (dashTimer <= 0f)
+                {
+                    isDashing = false;
+                }
+
             }
-                
         }
     }
 
