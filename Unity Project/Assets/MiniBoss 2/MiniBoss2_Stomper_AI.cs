@@ -31,6 +31,9 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     [SerializeField] float HP;
 
     [Header("===== Enemy Stats =====")]
+
+    [SerializeField] MiniBoss2_Shockwave ShockwaveScript;
+
     /// <summary>
     /// The position of where projectiles come from, generally attached to the hand
     /// </summary>
@@ -130,7 +133,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Start()
     {
 
         colorORIGINAL = MODEL.material.color;
@@ -151,6 +154,8 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     {
 
         animLOCOmotion();
+
+
 
         if (AGENT.remainingDistance < 0.01f)
         {
@@ -179,6 +184,11 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         if (isMoving && !isPlayingStep)
         {
             StartCoroutine(playStep());
+        }
+
+        if (ShockwaveScript != null)
+        {
+            ShockwaveScript.TryShockwave();
         }
     }
 

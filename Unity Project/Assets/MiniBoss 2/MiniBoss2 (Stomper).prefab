@@ -705,19 +705,21 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 536509110269032174}
+  - component: {fileID: -8877343480653734839}
   - component: {fileID: 4513155616514132192}
+  - component: {fileID: 5013404107623993370}
   - component: {fileID: 974501578185902237}
   - component: {fileID: 98002301925540112}
   - component: {fileID: 3876418623346817271}
-  - component: {fileID: 5013404107623993370}
   - component: {fileID: 3294511436705627634}
+  - component: {fileID: 6657822827925498553}
   m_Layer: 3
   m_Name: MiniBoss2 (Stomper)
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &536509110269032174
 Transform:
   m_ObjectHideFlags: 0
@@ -726,7 +728,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6796791172111584224}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7986092, z: -0, w: 0.6018499}
+  m_LocalRotation: {x: 0, y: -0.79860926, z: 0, w: 0.6018499}
   m_LocalPosition: {x: -128.52, y: 0.55, z: -156.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -738,6 +740,30 @@ Transform:
   - {fileID: 7081220545445932994}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -105.995, z: 0}
+--- !u!114 &-8877343480653734839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796791172111584224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c34169024c62143a1bcb9ea9a6ff88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StomperANIM: {fileID: 5013404107623993370}
+  animTRANspeed: 5
+  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
+  radius: 10
+  knockback: 10
+  damage: 20
+  cooldown: 3
+  duration: 0.5
+  aud: {fileID: 3294511436705627634}
+  audShock:
+  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
+  audShockVol: 0.25
 --- !u!114 &4513155616514132192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,10 +781,11 @@ MonoBehaviour:
   headPOSITON: {fileID: 7577514475279815491}
   anim: {fileID: 5013404107623993370}
   animTRANspeed: 6
-  HP: 25
+  HP: 40
+  ShockwaveScript: {fileID: -8877343480653734839}
   shootPOS: {fileID: 2322066185492874319}
   BULLET: {fileID: 136685076838340184, guid: 9350077f4f8233744a3a8d7c8c7af74c, type: 3}
-  shootRATE: 0.08
+  shootRATE: 2
   faceTARGETspeed: 8
   FOV: 60
   shootFOV: 50
@@ -784,6 +811,34 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.05
+--- !u!95 &5013404107623993370
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796791172111584224}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 1497d8501c220f54aa06e10f16eeba81, type: 3}
+  m_Controller: {fileID: 9100000, guid: ae0609d4c173b0c44a843ab914c86fa5, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bip001'\n\tTransform 'Bip001 R Foot'\n\tTransform
+    'Bip001 R Toe0'\n\tTransform 'Bip001 R UpperArm'\n\tTransform 'Bip001 R Calf'\n\tTransform
+    'Bip001 L Toe0'\n\tTransform 'Bip001 Head'\n\tTransform 'Bip001 L UpperArm'\n\tTransform
+    'Bip001 Neck'\n\tTransform 'Bip001 Spine'\n\tand more ...\n\tFrom animation clip
+    'Mutant Jumping'"
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &974501578185902237
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -825,7 +880,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15.82
+  m_Radius: 23.54
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &3876418623346817271
 CapsuleCollider:
@@ -850,29 +905,104 @@ CapsuleCollider:
   m_Height: 2.68
   m_Direction: 1
   m_Center: {x: 0, y: 1.27, z: 0}
---- !u!95 &5013404107623993370
-Animator:
-  serializedVersion: 7
+--- !u!82 &3294511436705627634
+AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6796791172111584224}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 1497d8501c220f54aa06e10f16eeba81, type: 3}
-  m_Controller: {fileID: 9100000, guid: ae0609d4c173b0c44a843ab914c86fa5, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!82 &3294511436705627634
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &6657822827925498553
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

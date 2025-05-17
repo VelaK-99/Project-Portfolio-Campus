@@ -128,6 +128,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     Vector3 moveDir;
     Vector3 playerVel;
 
+    bool canMOVE;
+
     bool isPlayingStep;
     bool isShotgun;
     bool isSprinting;
@@ -173,6 +175,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        canMOVE = true;
         animator = GetComponent<Animator>();
         HPOrig = HP;
         spawnPlayer();
@@ -318,6 +321,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Movement()
     {
+        if (!canMOVE) return;
+
         if (controller.isGrounded)
         {
             if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
@@ -615,6 +620,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gameManager.instance.youLose();
         }
     }
+
+
+    public void Stun(float duration, Vector3 knockbackDIR)
+    {
+        StartCoroutine(StunCuroutine(duration, knockbackDIR));
+    }
+
+    IEnumerator StunCuroutine(float duration, Vector3 knockbackDIR)
+    {
+        canMOVE = false; //halt movement
+
+        float timer = 0f;
+        Vector3 velocity = knockbackDIR;
+
+        while (timer < duration)
+        {
+            controller.Move(velocity * Time.deltaTime); //Move away
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        canMOVE = true; //resume movement
+    }
+
 
     public int getOrigHP()
     {

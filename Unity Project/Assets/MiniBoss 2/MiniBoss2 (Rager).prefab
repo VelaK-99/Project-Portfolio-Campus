@@ -754,10 +754,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2530573711109905936}
   - component: {fileID: 5506831195196277015}
+  - component: {fileID: 3140683441999962510}
   - component: {fileID: 8918145887461476953}
   - component: {fileID: 4226881824805692}
   - component: {fileID: 8825672085415151956}
-  - component: {fileID: 3140683441999962510}
   - component: {fileID: 8228699476889029480}
   m_Layer: 3
   m_Name: MiniBoss2 (Rager)
@@ -774,7 +774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3175914883642129413}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7046591, z: -0, w: 0.7095461}
+  m_LocalRotation: {x: 0, y: -0.70465904, z: 0, w: 0.70954615}
   m_LocalPosition: {x: -121.90285, y: 0, z: -154.95625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -832,6 +832,28 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.05
+--- !u!95 &3140683441999962510
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175914883642129413}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: f4209d51d1ad0434299f2d498ee076ba, type: 3}
+  m_Controller: {fileID: 9100000, guid: fa187cf29442468448f3143a9e3b4b4d, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &8918145887461476953
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -898,28 +920,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 16
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &3140683441999962510
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3175914883642129413}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 1497d8501c220f54aa06e10f16eeba81, type: 3}
-  m_Controller: {fileID: 9100000, guid: fa187cf29442468448f3143a9e3b4b4d, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!82 &8228699476889029480
 AudioSource:
   m_ObjectHideFlags: 0
