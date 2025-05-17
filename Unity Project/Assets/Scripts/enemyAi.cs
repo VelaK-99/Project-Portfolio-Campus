@@ -158,6 +158,14 @@ public class EnemyAI : MonoBehaviour, IDamage
             Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
         }
 
+        faceTarget();
+
+        shootTimer += Time.deltaTime;
+        if (shootTimer >= shootRate)
+        {
+            shoot();
+        }
+
         if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
         {
             Debug.Log("Enemy reached cover.");
@@ -329,11 +337,17 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
     public void createBullet()
     {
-            Instantiate(bullet, shootPos.position, transform.rotation);        
-    }             
-        
+        // Calculate direction to player but ignore Y-axis (horizontal only)
+        Vector3 playerPosition = gameManager.instance.player.transform.position;
+        Vector3 shootDirection = (new Vector3(playerPosition.x, shootPos.position.y, playerPosition.z) - shootPos.position).normalized;
 
-        void faceTarget()
+        // Instantiate bullet and make it face the player
+        GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
+    }
+
+
+
+    void faceTarget()
         {
             Vector3 playerDirection = (gameManager.instance.player.transform.position - transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
