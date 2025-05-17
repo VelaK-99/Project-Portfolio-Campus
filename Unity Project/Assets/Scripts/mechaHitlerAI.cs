@@ -32,11 +32,15 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
     [SerializeField] float fireRate;
     [SerializeField] float GoIntoDPSPhaseEvery;
     [SerializeField] float Phase2Multiplier = 5f;
+
+
     private float fireTimer;
     private float mortarTimer;
     private float dpsPhaseCooldown;
     private bool IsInDpsPhase = false;
     private bool IsDead = false;
+    public bool IsActive = false;
+
     private Color origColor;
 
     [Header("===== Freeze Stuff =====")]
@@ -88,13 +92,13 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
             dpsPhaseCooldown += Time.deltaTime;
         }
 
-        if (mortarTimer >= mortarInterval && !IsInDpsPhase && !IsDead)
+        if (mortarTimer >= mortarInterval && !IsInDpsPhase && !IsDead && IsActive)
         {
             FireMortar();
             mortarTimer = 0f;
         }
 
-        if (fireTimer >= fireRate && !IsInDpsPhase && !IsDead)
+        if (fireTimer >= fireRate && !IsInDpsPhase && !IsDead && IsActive)
         {
             if (distance <= rangeForBullets)
             {

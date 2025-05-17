@@ -7387,7 +7387,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1942245534}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7006687193353461027, guid: be05aa02b76c83d4c8032b1f23b23110, type: 3}
       propertyPath: m_Name
@@ -13854,6 +13854,10 @@ PrefabInstance:
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8280381488094341783, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -30870,6 +30874,7 @@ MonoBehaviour:
   dashTime: 1
   dashCooldown: 0
   maxDashes: 2
+  canActive: 0
   aud: {fileID: 1055911750}
   audDash:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
@@ -45910,10 +45915,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2652211127919047741, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'audioSource.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1055911750}
     - target: {fileID: 3367599166809508274, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 26623
       objectReference: {fileID: 0}
+    - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 1055911750}
     - target: {fileID: 5728478022085132002, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Name
       value: UI
@@ -45922,7 +45935,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 3774252925608991323, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2622150118193915194, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1564495813}
     m_AddedComponents: []
@@ -56768,11 +56781,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1242911441}
   m_SourcePrefab: {fileID: 100100000, guid: 8a08a6f6cc3a982489dad9e423c0dec6, type: 3}
---- !u!224 &1942245534 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2622150118193915194, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-  m_PrefabInstance: {fileID: 1548428277}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1943585986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56781,6 +56789,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5335087881832148575, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1228320149099689256, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 342.925
