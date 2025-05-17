@@ -30,7 +30,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audStep;
     [Range(0, 100)][SerializeField] float audStepVol;
 
-    [Header("===== Cover System =====")]
+    [Header("===== Cover System =====")]    
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
@@ -84,44 +84,69 @@ public class EnemyAI : MonoBehaviour, IDamage
     void Update()
     {
         if (agent.pathStatus == NavMeshPathStatus.PathComplete)
-        if (isStuned)
-        {
-            stunTimer -= Time.deltaTime;
+            if (isStuned)
+            {
+                stunTimer -= Time.deltaTime;
 
-          
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
 
-            if (stunTimer <= 0f)
-            {   
-                isStuned = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.isKinematic = true;          
-                agent.isStopped = false;        
+                rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+                if (stunTimer <= 0f)
+                {
+                    isStuned = false;
+                    rb.linearVelocity = Vector3.zero;
+                    rb.isKinematic = true;
+                    agent.isStopped = false;
+                }
+
+                return;
             }
 
-            return; 
-        }   
-
-        if (isTakingCover)
+        if (useCoverSystem && coverPoints.Count > 0)
         {
-            HandleCoverBehavior();
-            return;
+            if (isTakingCover)
+            {
+                HandleCoverBehavior();
+            }
+            else
+            {
+                EngagePlayer();
+            }
+        }
+        else
+        {
+            // No cover system - just engage player directly
+            EngagePlayer();
         }
 
         onAnimLocomotion();
+    }
 
-        if (agent.remainingDistance < 0.01f)
-            roamTimer += Time.deltaTime;
 
-        if (playerInRange && !CanSeePlayer())
+    void EngagePlayer()
+    {
+        // If the player is within range and the enemy can see them
+        if (CanSeePlayer())
         {
+            // Move towards the player
+            agent.SetDestination(gameManager.instance.player.transform.position);
+
+            // Face the player
+            faceTarget();
+
+            // Shoot at the player if within shooting range
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootRate)
+            {
+                shoot();
+            }
+        }
+        else
+        {
+            // If the player is not visible, the enemy roams
             checkRoam();
         }
-        else if (!playerInRange)
-        {
-            checkRoam();
-        }
-    }      
+    }
 
     void HandleCoverBehavior()
     {
@@ -289,18 +314,27 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (Time.time - lastDamageTime >= coverDamageCooldown)
         {
             lastDamageTime = Time.time;
-            isTakingCover = true;            
-            currentCoverPoint = GetRandomCoverPoint();
 
-            if(currentCoverPoint != null)
+            if (useCoverSystem && coverPoints.Count > 0)
             {
-                agent.SetDestination(currentCoverPoint.position);
-                currentCoverState = CoverState.MovingToCover;
-                Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
+                isTakingCover = true;
+                currentCoverPoint = GetRandomCoverPoint();
+
+                if (currentCoverPoint != null)
+                {
+                    agent.SetDestination(currentCoverPoint.position);
+                    currentCoverState = CoverState.MovingToCover;
+                    Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
+                }
+                else
+                {
+                    Debug.LogWarning("No available cover. Staying exposed.");
+                }
             }
             else
             {
-                Debug.LogWarning("No available cover. Staying exposed.");
+                Debug.Log("Cover system disabled or no cover points. Engaging without cover.");
+                isTakingCover = false;
             }
         }
     }
