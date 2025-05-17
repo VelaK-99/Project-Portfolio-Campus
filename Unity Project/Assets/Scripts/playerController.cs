@@ -89,6 +89,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 recoilDirection;
     private Vector3 currentRecoil;
 
+    [SerializeField] FreezeAbility freezeAbility;
+    
+
 
     float bobFrequency = 4f;
     float bobAmplitude = 0.03f;
@@ -223,6 +226,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Movement();
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (freezeAbility != null)
+            {
+                freezeAbility.ActivateFreeze();
+            }
+        }
+
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
 
@@ -310,7 +321,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         CameraBobbing();
-    }
+    }    
 
     void Movement()
     {
@@ -630,7 +641,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void UpdatePlayerUI()
     {
-        gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;
+        gameManager.instance.playerHPBar.fillAmount = (float)HP / HPOrig;        
+
         if (arsenal.Count > 0)
         {
             gameManager.instance.CurrentAmmo.text = arsenal[gunListPos].currentAmmo.ToString("F0");
@@ -638,7 +650,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             Hotkey_slots_UI.instance.UpdateAmmo(arsenal[gunListPos]);
             Hotkey_slots_UI.instance.SetSLOT(arsenal[gunListPos]);
-        }
+        }     
     }
 
     IEnumerator FlashDamageScreen()
@@ -933,5 +945,4 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         if(speed < 0.5f) { speed = 0f; }
         animator.SetFloat("speed", speed);
     }
-
 }

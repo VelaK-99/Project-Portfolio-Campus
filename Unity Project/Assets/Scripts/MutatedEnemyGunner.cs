@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
@@ -16,14 +17,17 @@ public class MutatedEnemyGunner : MonoBehaviour
     [SerializeField] int burstCount;
     [SerializeField] float burstDelay;
     [SerializeField] Animator animator;
-    [SerializeField] Transform[] patrolPoints;
-
-    enum State { Patrolling, Chasing, Shooting, Retreating, Dead }
-    State mCurrentState;
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip[] audShoot;
+    [Range(0, 100)][SerializeField] float audShootVol;
+    [SerializeField] AudioClip[] audHurt;
+    [Range(0, 100)][SerializeField] float audHurtVol;
+    [SerializeField] AudioClip[] audStep;
+    [Range(0, 100)][SerializeField] float audStepVol;
 
     NavMeshAgent mAgent;
     float mNextFireTime;
-    int mCurrentPatrolIndex;
+    bool isPlayingStep;
 
     void Start()
     {
@@ -41,8 +45,26 @@ public class MutatedEnemyGunner : MonoBehaviour
 
         if (health <= lowHealthThreshold)
         {
-            RetreatFromPlayer();
-            return;
+            mAgent.SetDestination(player.position);
+            animator.SetBool("isMoving", true);
+
+            Vector3 direction = (player.position - transform.position).normalized;
+            direction.y = 0;
+            transform.forward = direction;
+
+            if (Time.time >= mNextFireTime)
+            {
+                Shoot();
+                mNextFireTime = Time.time + 1f / fireRate;
+            }
+
+            animator.SetBool("isShooting", true);
+
+
+            if (mAgent.velocity.magnitude > 0.1f && mAgent.remainingDistance > mAgent.stoppingDistance && !isPlayingStep)
+            {
+                StartCoroutine(playStep());
+            }
         }
 
         switch (mCurrentState)
@@ -95,53 +117,15 @@ public class MutatedEnemyGunner : MonoBehaviour
 
     void Patrol()
     {
-        if (patrolPoints.Length == 0) return;
+        aud.PlayOneShot(audShoot[Random.Range(0, audShoot.Length)], audShootVol);
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
 
-        if (!mAgent.pathPending && mAgent.remainingDistance < 0.5f)
-        {
-            GoToNextPatrolPoint();
-        }
-    }
-
-    void GoToNextPatrolPoint()
-    {
-        if (patrolPoints.Length == 0) return;
-
-        mAgent.destination = patrolPoints[mCurrentPatrolIndex].position;
-        mCurrentPatrolIndex = (mCurrentPatrolIndex + 1) % patrolPoints.Length;
-        animator.SetBool("isMoving", true);
-    }
-
-    IEnumerator FireBurst()
-    {
-        animator.SetBool("isShooting", true);
-
-        for (int i = 0; i < burstCount; i++)
-        {
-            Vector3 spread = firePoint.forward;
-            spread += firePoint.right * Random.Range(-0.1f, 0.1f);
-            spread += firePoint.up * Random.Range(-0.1f, 0.1f);
-
-            Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(spread));
-            yield return new WaitForSeconds(burstDelay);
-        }
-
-        animator.SetBool("isShooting", false);
-    }
-
-    void RetreatFromPlayer()
-    {
-        Vector3 direction = (transform.position - player.position).normalized;
-        Vector3 retreatPosition = transform.position + direction * retreatDistance;
-
-        mAgent.SetDestination(retreatPosition);
-        mCurrentState = State.Retreating;
-        animator.SetBool("isMoving", true);
     }
 
     public void TakeDamage(int damage)
     {
         health -= damage;
+        aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
         if (health <= 0)
         {
             Die();
@@ -154,5 +138,19 @@ public class MutatedEnemyGunner : MonoBehaviour
         animator.SetTrigger("die");
         mAgent.enabled = false;
         this.enabled = false;
+    }
+
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+
+        if (audStep.Length > 0)
+        {
+            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
+        }
+
+        yield return new WaitForSeconds(0.3f);
+
+        isPlayingStep = false;
     }
 }
