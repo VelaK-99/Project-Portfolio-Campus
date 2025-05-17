@@ -55,6 +55,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool isTakingCover = false;
     bool isAtCover;
     bool isStuned;
+    bool isFrozen = false;
+    float freezeTimer = 0f;
     Rigidbody rb;
 
     private enum CoverState { MovingToCover, AtCover, SwitchingCover }
@@ -83,6 +85,16 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void Update()
     {
+        if (isFrozen)
+        {
+            freezeTimer -= Time.deltaTime;
+            if (freezeTimer <= 0f)
+            {
+                Unfreeze();
+            }
+            return;
+        }
+
         if (agent.pathStatus == NavMeshPathStatus.PathComplete)
             if (isStuned)
             {
@@ -354,7 +366,38 @@ public class EnemyAI : MonoBehaviour, IDamage
         rb.AddForce(force,ForceMode.Impulse);
     }
 
-   
+    public void ApplyFreeze(float duration)
+    {
+        if (isFrozen) return;
+
+        isFrozen = true;
+        freezeTimer = duration;
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+    }
+
+    private void Unfreeze()
+    {
+        isFrozen = false;
+
+        if(agent != null)
+        {
+            agent.isStopped = false;
+        }
+        if(animator != null)
+        {
+            animator.enabled = true;
+        }
+    }
+
+
 
     IEnumerator flashRed()
     {
