@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class mechaHitlerAI : MonoBehaviour, IDamage
+public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
 {
     [Header("===== Dependencies =====")]
     private Transform PlayerPos;
     [SerializeField] Animator animator;
     [SerializeField] Renderer model;
+    [SerializeField] AudioSource bulletAudio;
+    [SerializeField] AudioSource missileAudio;
+    [SerializeField] AudioSource mortarAudio;
+    [SerializeField] AudioSource DeathAudio;
 
     [Header("===== Weapons =====")]
     [SerializeField] GameObject bullet;
@@ -32,13 +36,19 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
     private float mortarTimer;
     private float dpsPhaseCooldown;
     private bool IsInDpsPhase = false;
+    private bool IsDead = false;
+    private Color origColor;
 
+    public int CurrentHealth => Health;
+
+    public int MaxHealth => originalHealth;
 
     void Start()
     {
+        gameManager.instance.ShowBossHealthBar(this);
+
         originalHealth = Health;
         animator = GetComponent<Animator>();
-        animator.SetTrigger("SpawnedIn");
     }
 
     // Update is called once per frame
@@ -48,9 +58,10 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
         faceTarget();
         float distance = Vector3.Distance(transform.position, PlayerPos.position);
 
-        if(Health <= (originalHealth / 2))
+        if (Health <= (originalHealth / 2))
         {
-            model.material.color = Color.red;
+            origColor = model.material.color;
+            model.material.color = Color.Lerp(origColor, Color.red, Time.deltaTime * 1);
             mortarTimer += Time.deltaTime * Phase2Multiplier;
             fireTimer += Time.deltaTime * Phase2Multiplier;
             dpsPhaseCooldown += Time.deltaTime / Phase2Multiplier;
@@ -62,20 +73,20 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
             dpsPhaseCooldown += Time.deltaTime;
         }
 
-        if(mortarTimer >= mortarInterval)
+        if (mortarTimer >= mortarInterval && !IsInDpsPhase && !IsDead)
         {
             FireMortar();
             mortarTimer = 0f;
         }
 
-        if(fireTimer >= fireRate && !IsInDpsPhase)
+        if (fireTimer >= fireRate && !IsInDpsPhase && !IsDead)
         {
-            if(distance <= rangeForBullets)
+            if (distance <= rangeForBullets)
             {
                 FireSmallCannon();
             }
 
-            else if(distance <= rangeForMissiles)
+            else if (distance <= rangeForMissiles)
             {
                 FireBigCannon();
             }
@@ -83,7 +94,7 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
             fireTimer = 0f;
         }
 
-        if(dpsPhaseCooldown >= GoIntoDPSPhaseEvery)
+        if (dpsPhaseCooldown >= GoIntoDPSPhaseEvery)
         {
             StartCoroutine(DpsPhase());
         }
@@ -93,7 +104,9 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
     {
         animator.SetTrigger("FireSmallCannon");
 
-        foreach(Transform pos in bulletPos)
+        if (bulletAudio != null) { bulletAudio.Play(); }
+
+        foreach (Transform pos in bulletPos)
         {
             Vector3 targetDir = (PlayerPos.position + Vector3.up * 1.5f) - pos.position;
             Quaternion rot = Quaternion.LookRotation(targetDir);
@@ -106,7 +119,9 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
     {
         animator.SetTrigger("FireBigCannon");
 
-        foreach(Transform pos in missilePos)
+        if (missileAudio != null) { missileAudio.Play(); }
+
+        foreach (Transform pos in missilePos)
         {
             Vector3 targetDir = (PlayerPos.position + Vector3.up * 2.5f) - pos.position;
             Quaternion rot = Quaternion.LookRotation(targetDir);
@@ -117,7 +132,9 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
 
     void FireMortar()
     {
-        Vector3 targetDir = (PlayerPos.position + Vector3.up * 2.5f) - rocketPos.position;
+        if (mortarAudio != null) { mortarAudio.Play(); }
+
+        Vector3 targetDir = (PlayerPos.position + Vector3.up * 1f) - rocketPos.position;
         Quaternion rot = Quaternion.LookRotation(targetDir);
 
         Instantiate(rocket, rocketPos.position, rot);
@@ -130,11 +147,21 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
         IsInDpsPhase = false;
     }
 
+    IEnumerator MechDeath()
+    {
+        IsDead = true;
+        if (DeathAudio != null) { DeathAudio.Play(); }
+        animator.SetTrigger("Death");
+        yield return new WaitForSeconds(1.5f);
+        gameManager.instance.youWin();
+        Destroy(gameObject);
+    }
+
     void faceTarget()
     {
-        Vector3 directionToLook = new Vector3 (PlayerPos.position.x, PlayerPos.position.y - 3f, PlayerPos.position.z) - transform.position;
+        Vector3 directionToLook = new Vector3(PlayerPos.position.x, PlayerPos.position.y - 3f, PlayerPos.position.z) - transform.position;
         Quaternion rot = Quaternion.LookRotation(directionToLook);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 20f);
     }
 
     void ShootBigCanonA()
@@ -163,7 +190,7 @@ public class mechaHitlerAI : MonoBehaviour, IDamage
 
         if (Health < 0)
         {
-            Destroy(gameObject);
+            StartCoroutine(MechDeath());
         }
     }
 }
