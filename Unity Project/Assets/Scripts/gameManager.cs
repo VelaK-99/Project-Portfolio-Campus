@@ -141,7 +141,7 @@ public class gameManager : MonoBehaviour
     {
         if (slotINDEX == index)
         {
-            //Deselect if some key is pressed again
+            //Deselect if same key is pressed again
             EventSystem.current.SetSelectedGameObject(null);
             slotINDEX = -1;
         }
