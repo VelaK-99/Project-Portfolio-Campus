@@ -3,74 +3,40 @@ using UnityEngine;
 
 public class pickups : MonoBehaviour
 {
-    enum pickupType { healthPack, ammoPack, Pistol, AssaultRifle, Shotgun, Sniper }
+    [SerializeField] gunStats gun;
+    enum pickupType { healthPack, ammoPack, gun }
     [SerializeField] int healthAmount;
     [SerializeField] int ammoAmount;
     [SerializeField] pickupType type;
     [SerializeField] float destroyTime;
 
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        if (type == pickupType.healthPack || type == pickupType.ammoPack)
-        {
-            Destroy(gameObject, destroyTime);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        PlayerScript player = other.GetComponent<PlayerScript>();
+        IPickup pickupable = other.GetComponent<IPickup>();
 
-        if (other.CompareTag("Player"))
+        if (pickupable != null && type == pickupType.healthPack)
         {
-            if (player != null && type == pickupType.healthPack)
+            if (gameManager.instance.playerScript.getOrigHP() > gameManager.instance.playerScript.getCurHP())
             {
-                if (gameManager.instance.playerScript.getOrigHP() > gameManager.instance.playerScript.getCurHP())
-                {
-                    player.AddHealth(healthAmount);
-                    Destroy(gameObject);
-                }
-            }
-
-            if (player != null && type == pickupType.ammoPack)
-            {
-                player.AddAmmo(ammoAmount);
+                pickupable.HealthPickup(healthAmount);
                 Destroy(gameObject);
+                gameManager.instance.playerScript.UpdatePlayerUI();
             }
+        }
 
-            if(player != null && type == pickupType.Pistol)
-            {
-                player.UpdateWeapon(1, 25, 0.5f, 1.2f, 7);
-                Destroy(gameObject);
-            }
+        if (pickupable != null && type == pickupType.ammoPack)
+        {
+            pickupable.AmmoPickup(ammoAmount);
+            Destroy(gameObject);
+        }
 
-            if(player != null && type == pickupType.AssaultRifle)
-            {
-                player.UpdateWeapon(1, 35, 0.1f, 2.5f, 30);
-                Destroy(gameObject);
-            }
-
-            if (player != null && type == pickupType.Shotgun)
-            {
-                player.UpdateWeapon(15, 15, 1.2f, 3.8f, 8);
-                player.isShotgun = true;
-                Destroy(gameObject);
-            }
-
-            if (player != null && type == pickupType.Sniper)
-            {
-                player.UpdateWeapon(30, 70, 2, 3f, 5);
-                Destroy(gameObject);
-            }
+        if (pickupable != null && type == pickupType.gun)
+        {
+            gun.currentAmmo = gun.ammoCapacity;
+            gun.totalAmmo = gun.maxAmmo;
+            pickupable.GetGunStats(gun);
+            Destroy(gameObject);
         }
     }
 }

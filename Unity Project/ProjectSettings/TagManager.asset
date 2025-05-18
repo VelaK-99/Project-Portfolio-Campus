@@ -3,25 +3,33 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Inventory.UI
+  - Inventory.slot
+  - Enemy
+  - Player Spawn Pos
+  - enemy bullet
+  - Cover
+  - Mecha Hitler
+  - Ability
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - Player
-  - Enemy
-  - EnemyBullet
+  - Enemy Bullet
+  - Pickup
+  - Door
+  - Weapon
+  - Ceiling
+  - Cover
   - Traps
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Spawners
+  - Ground
+  - Ability
   - 
   - 
   - 

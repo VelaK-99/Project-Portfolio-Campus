@@ -4,8 +4,17 @@ using UnityEngine.SceneManagement;
 public class MenuButton : MonoBehaviour
 {
     [SerializeField] private string sceneName;
+    [SerializeField] private GameObject Start_button;
     [SerializeField] private GameObject painelMenu;
     [SerializeField] private GameObject painelSettings;
+
+
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true;
+    }
 
 
     public void Play()

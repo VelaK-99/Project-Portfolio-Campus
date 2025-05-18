@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2065079032905953212}
   - component: {fileID: 5367848089126402624}
   - component: {fileID: 8737536358016183581}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RefillStash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.52, y: 1, z: -9.73}
-  m_LocalScale: {x: 1.2, y: 1.5, z: 1.2}
+  m_LocalScale: {x: 1.2, y: 1.9, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae5369591e964646956e8f20f1b1cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  refillText: {fileID: 0}
 --- !u!33 &2065079032905953212
 MeshFilter:
   m_ObjectHideFlags: 0
