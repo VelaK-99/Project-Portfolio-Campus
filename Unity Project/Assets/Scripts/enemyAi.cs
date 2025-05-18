@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour, IDamage
+public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
 {
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
     [SerializeField] Transform headPos;
+    [SerializeField] public Transform torsoPos;
     [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
@@ -45,6 +46,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Collider knife;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
+    public LineRenderer joltLine;
 
     float shootTimer;
     bool playerInRange;
@@ -65,6 +67,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     [SerializeField] float coverDamageCooldown = 1.5f;
     private float lastDamageTime = -100f;
+    public bool hasBeenJolted;
 
     Color colorOriginal;
 
@@ -502,5 +505,75 @@ public class EnemyAI : MonoBehaviour, IDamage
         public void SwordColOff()
         {
             knife.enabled = false;
-        }    
+        }
+
+
+    public void JoltEffect(int joltAmount, int joltChainLength)
+    {
+        if (joltChainLength == 0)
+        {
+            StartCoroutine(ResetJolt());
+            return;
+        }
+        else
+        {
+            if(joltLine) joltLine.SetPosition(0, torsoPos.position);
+            GameObject closestEnemy = null;
+            Collider[] hitColliders = Physics.OverlapSphere(headPos.position, 5);
+            float shortestDistance = Mathf.Infinity;
+            EnemyAI enemyCheck = null;
+            foreach (var hit in hitColliders)
+            {
+                if (hit.CompareTag("Enemy"))
+                {
+                    enemyCheck = hit.GetComponent<EnemyAI>();
+                    float distance = Vector3.Distance(headPos.position, hit.transform.position);
+                    if (enemyCheck != null && distance < shortestDistance && !enemyCheck.hasBeenJolted)
+                    {
+                        shortestDistance = distance;
+                        closestEnemy = hit.gameObject;
+                    }
+                }
+            }
+            StartCoroutine(DelayJolt(closestEnemy, joltAmount, joltChainLength));
+            StartCoroutine(ResetJolt());
+        }
     }
+
+    IEnumerator ResetJolt()
+    {
+        yield return new WaitForSeconds(2f);
+        hasBeenJolted = false;
+    }
+
+    IEnumerator DelayJolt(GameObject closestEnemy, int joltAmount, int joltChainLength)
+    {
+        yield return new WaitForSeconds(0.2f);
+        if (closestEnemy != null)
+        {
+            if(joltLine) joltLine.SetPosition(1, closestEnemy.transform.position);
+            StartCoroutine(ShowJolt());
+            IDamage dmg = closestEnemy.GetComponent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(joltAmount / 2);
+            }
+            IElectricJolt jolt = closestEnemy.GetComponent<IElectricJolt>();
+            if (jolt != null)
+            {
+                EnemyAI enemyScript = closestEnemy.GetComponent<EnemyAI>();
+                if (enemyScript != null)
+                {
+                    enemyScript.hasBeenJolted = true;
+                }
+                jolt.JoltEffect(joltAmount / 2, joltChainLength - 1);
+            }
+        }
+    }
+    IEnumerator ShowJolt()
+    {
+        joltLine.enabled = true;
+        yield return new WaitForSeconds(0.05f);
+        joltLine.enabled = false;
+    }
+}
