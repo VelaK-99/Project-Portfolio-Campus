@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class buttonFunctions : MonoBehaviour
 {
@@ -20,7 +21,16 @@ public class buttonFunctions : MonoBehaviour
         gameManager.instance.playerScript.spawnPlayer();
         gameManager.instance.stateUnpause();
     }
+    public void OpenSetting()
+    {
+       
+        gameManager.instance.painelSettings.SetActive(true);
+    }
+    public void CloseSetting()
+    {
 
+        gameManager.instance.painelSettings.SetActive(false);
+    }
     public void Quit()
     {
 #if UNITY_EDITOR

@@ -12,47 +12,55 @@ public class gameManager : MonoBehaviour
 
     public static gameManager instance;
 
+    [Header ("===== Menu =====")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    public GameObject painelSettings;
+
+
+    [Header("===== Player Stats =====")]
     [SerializeField] public TMP_Text TotalAmmo;
     [SerializeField] public TMP_Text CurrentAmmo;
-
-    public GameObject emptyGunText;
-    public GameObject playerSpawnPos;
-    public GameObject checkpointPopup;
-    public GameObject enemyCountTextObject;
-    public GameObject reloadGunText;
-    public GameObject reloadingGunText;
-    [SerializeField] TMP_Text RoomCount;
-    public int currentRoom = 1;
-
-    [SerializeField] GameObject hotkeyBAR;
-
-    public GameObject[] InventorySLOTS;
-    public int slotINDEX = -1;
-
-    public GameObject interactUI;
-    [SerializeField] TMP_Text interactionText; // Changeable text that you can use InteractTextUpdate()
-
     public GameObject player;
     public PlayerScript playerScript;
     public Image playerHPBar;
     public GameObject playerDamageScreen;
 
+    [Header("===== Weapon Satats =====")]
+    public GameObject emptyGunText;
+    public GameObject playerSpawnPos;
+    public GameObject checkpointPopup;
+    public GameObject reloadGunText;
+    public GameObject reloadingGunText;
+
+    [Header("===== Enemy Stats =====")]
+    [SerializeField] TMP_Text RoomCount;
+    public int currentRoom = 1;
     public int totalSpawners;
     private int clearedSpawners;
+    public List<GameObject> totalEnemies = new List<GameObject>();
 
-    public List<GameObject> totalEnemies = new List<GameObject> ();
-    
+    [Header("===== Inventory =====")]
+    [SerializeField] GameObject hotkeyBAR;
+    public GameObject[] InventorySLOTS;
+    public int slotINDEX = -1;
+
+    [Header("===== Interacts =====")]
+    public GameObject interactUI;
+    [SerializeField] TMP_Text interactionText; // Changeable text that you can use InteractTextUpdate()
+
+    [Header("===== MiniBoss/Boss Fight =====")]
+    public GameObject bossHealthBar;
+
+
 
     public bool isPaused;
-
     float timeScaleOrig;    
-
     float gameGoalCount;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
     void Awake()
     {
         instance = this;
@@ -68,7 +76,6 @@ public class gameManager : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -130,10 +137,6 @@ public class gameManager : MonoBehaviour
     }
 
     
-    /// <summary>
-    /// Function for deselecting(unequipping) selected object
-    /// </summary>
-    /// <param name="index"></param>
     public void ToggleSlot(int index)
     {
         if (slotINDEX == index)
@@ -225,6 +228,15 @@ public class gameManager : MonoBehaviour
         if(clearedSpawners >= totalSpawners && totalEnemies.Count <= 0)
         {
             youWin();
+        }
+    }
+
+    public void ShowBossHealthBar(IBoss boss)
+    {
+        if (bossHealthBar != null)
+        {
+            bossHealthBar.SetActive(true);
+            bossHealthBar.GetComponent<BossHealthBar>().AssignBoss(boss);
         }
     }
 }

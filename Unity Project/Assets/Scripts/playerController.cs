@@ -90,6 +90,9 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] Vector3 recoilDirection;
     private Vector3 currentRecoil;
 
+    [SerializeField] FreezeAbility freezeAbility;
+    
+
 
     float bobFrequency = 4f;
     float bobAmplitude = 0.03f;
@@ -230,6 +233,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Movement();
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (freezeAbility != null)
+            {
+                freezeAbility.ActivateFreeze();
+            }
+        }
+
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * shootDist, Color.red);
         Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * interactDist, Color.green);
 
@@ -317,7 +328,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         CameraBobbing();
-    }
+    }    
 
     void Movement()
     {
@@ -965,6 +976,5 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if(speed < 0.5f) { speed = 0f; }
         animator.SetFloat("speed", speed);
-        Debug.Log("Speed: " + speed);
     }
 }
