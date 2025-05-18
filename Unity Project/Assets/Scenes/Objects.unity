@@ -306,6 +306,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 742717534439473124, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: aud
       value: 
@@ -331,6 +335,14 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: startingWeapon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: arsenal.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: audHurt.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -345,6 +357,10 @@ PrefabInstance:
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: audReload.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: 'arsenal.Array.data[0]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: 'audHurt.Array.data[0]'
@@ -426,6 +442,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3454883062502723278, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.x
       value: -79.76776
@@ -464,6 +484,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424852505936751362, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510576526682019096, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

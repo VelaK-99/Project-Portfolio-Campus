@@ -785,7 +785,7 @@ MonoBehaviour:
   ShockwaveScript: {fileID: -8877343480653734839}
   shootPOS: {fileID: 2322066185492874319}
   BULLET: {fileID: 136685076838340184, guid: 9350077f4f8233744a3a8d7c8c7af74c, type: 3}
-  shootRATE: 2
+  shootRATE: 0.5
   faceTARGETspeed: 8
   FOV: 60
   shootFOV: 50
@@ -880,7 +880,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 23.54
+  m_Radius: 24.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &3876418623346817271
 CapsuleCollider:

@@ -124,14 +124,16 @@ GameObject:
   - component: {fileID: 6668166344820973566}
   - component: {fileID: 78840824528912962}
   - component: {fileID: 7490013305132701509}
+  - component: {fileID: 5472847630261547905}
   - component: {fileID: 3600726058604760712}
   - component: {fileID: 796805182874584243}
+  - component: {fileID: 7723484838638572073}
   - component: {fileID: 1040891745825612889}
   - component: {fileID: 5688579929998117802}
+  - component: {fileID: 4189608926211743870}
   - component: {fileID: 8280381488094341783}
   - component: {fileID: 8878020144247688959}
   - component: {fileID: 1184489777773560118}
-  - component: {fileID: 7723484838638572073}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -209,6 +211,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5472847630261547905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
+  radius: 7
+  knockback: 10
+  damage: 10
+  cooldown: 2
+  duration: 0.5
+  aud: {fileID: 0}
+  audShock:
+  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
+  audShockVol: 0.2
 --- !u!114 &3600726058604760712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,10 +271,34 @@ MonoBehaviour:
   dashTime: 0.5
   dashCooldown: 1
   maxDashes: 2
+  canActive: 0
   aud: {fileID: 8280381488094341783}
   audDash:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
   audDashVol: 0
+--- !u!114 &7723484838638572073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 1
+  joltChainLength: 2
+  damageAmount: 10
+  coolDownTimer: 1
+  electricCastDistance: 15
+  joltLine: {fileID: 8946086278971867706}
+  joltOrigin: {fileID: 1150382071403561616}
+  aud: {fileID: 8280381488094341783}
+  audJolt:
+  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
+  audJoltVol: 0.25
 --- !u!114 &1040891745825612889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +318,8 @@ MonoBehaviour:
   aud: {fileID: 8280381488094341783}
   animator: {fileID: 8878020144247688959}
   animTranSpeed: 6
-  HP: 100
+  headPosition: {fileID: 1150382071403470632}
+  HP: 50
   speed: 5
   sprintMod: 3
   jumpSpeed: 12
@@ -279,15 +328,13 @@ MonoBehaviour:
   jetMax: 1
   gravity: 35
   interactDist: 3
-  arsenal:
-  - {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
-  hotkey_Slots:
-  - {fileID: 0}
+  arsenal: []
+  hotkey_Slots: []
   gunModel: {fileID: 6027848457595790386}
   laserOrigin: {fileID: 8225238743407447842}
   laserDuration: 0.05
   laserLine: {fileID: 1184489777773560118}
-  startingWeapon: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
+  startingWeapon: {fileID: 0}
   cam: {fileID: 7491251138447997815}
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   grenadeSpawnPoint: {fileID: 7491251138447997815}
@@ -352,6 +399,103 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.25, z: 0}
+--- !u!82 &4189608926211743870
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!82 &8280381488094341783
 AudioSource:
   m_ObjectHideFlags: 0
@@ -578,41 +722,6 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &7723484838638572073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnlocked: 1
-  joltChainLength: 2
-  damageAmount: 10
-  coolDownTimer: 1
-  electricCastDistance: 15
-  joltLine: {fileID: 8946086278971867706}
-  joltOrigin: {fileID: 1150382071403561616}
-  aud: {fileID: 8280381488094341783}
-  audJolt:
-  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
-  audJoltVol: 0.25
-  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radius: 10
-  knockback: 50
-  damage: 1
-  cooldown: 12
-  duration: 6
-  aud: {fileID: 8280381488094341783}
-  audShock:
-  - {fileID: 8300000, guid: c0cae6912e1322e47bc9be15d515041c, type: 3}
-  audShockVol: 0
 --- !u!1 &5064615751079096023
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,6 +1089,11 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &1150382071403470632 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100102, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
+  m_PrefabInstance: {fileID: 1150382071403436078}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1150382071403561616 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400062, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
@@ -1045,6 +1159,10 @@ PrefabInstance:
     - target: {fileID: 2859585617945746231, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639122857141436183, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
+      propertyPath: gun
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_Name
@@ -1130,6 +1248,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DualPOS
       objectReference: {fileID: 0}
+    - target: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7112671836918191081, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1200,6 +1322,10 @@ PrefabInstance:
     - target: {fileID: 2859585617945746231, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639122857141436183, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
+      propertyPath: gun
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_Name
