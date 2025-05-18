@@ -130,7 +130,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         }
         else
         {
-            // No cover system - just engage player directly
+            
             EngagePlayer();
         }
 
@@ -140,16 +140,16 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
 
     void EngagePlayer()
     {
-        // If the player is within range and the enemy can see them
+        
         if (CanSeePlayer())
         {
-            // Move towards the player
+            
             agent.SetDestination(gameManager.instance.player.transform.position);
 
-            // Face the player
+            
             faceTarget();
 
-            // Shoot at the player if within shooting range
+            
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootRate)
             {
@@ -157,8 +157,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             }
         }
         else
-        {
-            // If the player is not visible, the enemy roams
+        {            
             checkRoam();
         }
     }
@@ -338,17 +337,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
                 if (currentCoverPoint != null)
                 {
                     agent.SetDestination(currentCoverPoint.position);
-                    currentCoverState = CoverState.MovingToCover;
-                    Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
-                }
-                else
-                {
-                    Debug.LogWarning("No available cover. Staying exposed.");
-                }
+                    currentCoverState = CoverState.MovingToCover;                    
+                }                
             }
             else
-            {
-                Debug.Log("Cover system disabled or no cover points. Engaging without cover.");
+            {                
                 isTakingCover = false;
             }
         }
@@ -417,11 +410,10 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     }
     public void createBullet()
     {
-        // Calculate direction to player but ignore Y-axis (horizontal only)
+        
         Vector3 playerPosition = gameManager.instance.player.transform.position;
         Vector3 shootDirection = (new Vector3(playerPosition.x, shootPos.position.y, playerPosition.z) - shootPos.position).normalized;
-
-        // Instantiate bullet and make it face the player
+        
         GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
     }
 
@@ -461,14 +453,12 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             Debug.Log("Player not found.");
             return false;
         }
-
-        // Calculate direction to player
+        
         playerDir = (gameManager.instance.player.transform.position - headPos.position).normalized;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
         
         if (angleToPlayer > fov)
-        {
-            Debug.Log("Player is outside of FOV.");
+        {            
             return false;
         }
         
@@ -480,11 +470,9 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         int layerMask = ~(1 << LayerMask.NameToLayer("Ground")); // Ignore ground
 
         if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask))
-        {
-            Debug.Log($"Raycast hit: {hit.collider.name}");
+        {            
             if (hit.collider.CompareTag("Player"))
-            {
-                Debug.Log("Player is in sight!");
+            {                
                 return true;
             }
             else
@@ -492,7 +480,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
                 Debug.Log($"Raycast blocked by: {hit.collider.name}");
             }
         }
-
         Debug.Log("Player is not in sight.");
         return false;
     }

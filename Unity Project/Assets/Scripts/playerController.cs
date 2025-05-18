@@ -512,23 +512,23 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             targetPoint = hit.point;
         }
 
-        // Instantiate the Electric Orb
+        
         GameObject orb = Instantiate(arsenal[gunListPos].electricOrbPrefab, shootPoint.position, Quaternion.identity);
 
-        // Calculate direction towards the target point
+        
         Vector3 direction = (targetPoint - shootPoint.position).normalized;
 
-        // Orient the orb towards the target
+        
         orb.transform.rotation = Quaternion.LookRotation(direction);
 
-        // Apply movement
+        
         Rigidbody rb = orb.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.linearVelocity = direction * arsenal[gunListPos].electricOrbSpeed;
         }
 
-        // Set orb damage and lifetime
+        
         ElectricGun orbScript = orb.GetComponent<ElectricGun>();
         if (orbScript != null)
         {
