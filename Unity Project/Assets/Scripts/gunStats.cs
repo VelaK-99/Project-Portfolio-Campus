@@ -21,4 +21,10 @@ public class gunStats : ScriptableObject
     public ParticleSystem hitEffect;
     public AudioClip[] shootSounds;
     [Range(0,1)]public float shootSoundVol;
+
+    public bool isElectricOrb;
+    public GameObject electricOrbPrefab;
+    public float electricOrbSpeed;
+    public float electricOrbLifetime;
+    public int electricOrbDamage;
 }

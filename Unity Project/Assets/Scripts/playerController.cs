@@ -445,6 +445,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Shoot()
     {
+        if (arsenal[gunListPos].isElectricOrb)
+        {
+            ShootElectricOrb();
+            return;
+        }
+
         if (arsenal[gunListPos].GunName == "Laser")
         {
             laserLine.SetPosition(0, laserOrigin.position);
@@ -478,7 +484,49 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
         //DUALshoot();
         ApplyRecoil();
-    } 
+    }
+
+    void ShootElectricOrb()
+    {
+        shootTimer = 0;
+        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+
+        Transform shootPoint = Camera.main.transform; // Change this to your actual shoot point if it's a separate object
+
+        // Raycast from the center of the screen (crosshair)
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        Vector3 targetPoint = ray.GetPoint(arsenal[gunListPos].shootDist); // Default direction
+
+        if (Physics.Raycast(ray, out hit, arsenal[gunListPos].shootDist))
+        {
+            targetPoint = hit.point;
+        }
+
+        // Instantiate the Electric Orb
+        GameObject orb = Instantiate(arsenal[gunListPos].electricOrbPrefab, shootPoint.position, Quaternion.identity);
+
+        // Calculate direction towards the target point
+        Vector3 direction = (targetPoint - shootPoint.position).normalized;
+
+        // Orient the orb towards the target
+        orb.transform.rotation = Quaternion.LookRotation(direction);
+
+        // Apply movement
+        Rigidbody rb = orb.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = direction * arsenal[gunListPos].electricOrbSpeed;
+        }
+
+        // Set orb damage and lifetime
+        ElectricGun orbScript = orb.GetComponent<ElectricGun>();
+        if (orbScript != null)
+        {
+            orbScript.SetDamage(arsenal[gunListPos].electricOrbDamage);
+            orbScript.SetLifetime(arsenal[gunListPos].electricOrbLifetime);
+        }
+    }
 
     /*
     void DUALshoot()
@@ -509,7 +557,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
     }
     */
-    
+
     void ShootShotgun()
     {
         shootTimer = 0;
