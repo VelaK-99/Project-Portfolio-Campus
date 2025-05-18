@@ -43,6 +43,11 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
 
     private Color origColor;
 
+    [Header("===== Freeze Stuff =====")]
+    private bool isFrozen = false;
+    private float freezeTimer = 0f;
+    FreezeAbility freezeAbility;
+
     public int CurrentHealth => Health;
 
     public int MaxHealth => originalHealth;
@@ -58,6 +63,16 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
     // Update is called once per frame
     void Update()
     {
+        if (isFrozen)
+        {
+            freezeTimer -= Time.deltaTime;
+            if (freezeTimer <= 0f)
+            {
+                Unfreeze();
+            }
+            return;
+        }
+
         PlayerPos = gameManager.instance.player.transform;
         faceTarget();
         float distance = Vector3.Distance(transform.position, PlayerPos.position);
@@ -102,6 +117,31 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
         {
             StartCoroutine(DpsPhase());
         }
+    }
+
+    public void ApplyFreeze(float duration)
+    {
+        if (isFrozen) return;
+
+        isFrozen = true;
+        freezeTimer = duration;
+
+        animator.enabled = false;
+        
+    }
+
+    public void Unfreeze()
+    {
+        isFrozen = false;
+        animator.enabled = true;
+        this.enabled = true;
+    }
+
+    IEnumerator freezeBlue()
+    {
+        model.material.color = Color.cyan;
+        yield return new WaitForSeconds(freezeAbility.bossFreezeDuration);
+        model.material.color = origColor;
     }
 
     void FireSmallCannon()
@@ -192,7 +232,7 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
     {
         Health -= amount;
 
-        if (Health < 0)
+        if (Health <= 0)
         {
             StartCoroutine(MechDeath());
         }

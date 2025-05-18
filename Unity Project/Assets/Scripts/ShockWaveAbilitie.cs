@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ShockWaveAbilitie : MonoBehaviour
 {
-
+    [SerializeField] GameObject SHOCKWAVEparticles;
     [SerializeField] float radius;
     [SerializeField] float knockback;
     [SerializeField] int damage;
@@ -20,7 +20,7 @@ public class ShockWaveAbilitie : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+      
     }
 
     // Update is called once per frame
@@ -38,30 +38,47 @@ public class ShockWaveAbilitie : MonoBehaviour
             Debug.Log("using");
             aud.PlayOneShot(audShock[Random.Range(0, audShock.Length)], audShockVol);
         }
-      
-       
+    }
+
+    /// <summary>
+    /// Helps to visualize if radius is wrong
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     void Shock()
     {
+        Instantiate(SHOCKWAVEparticles, transform.position, Quaternion.identity);
+
         Collider[] enamies = Physics.OverlapSphere(transform.position, radius);
         foreach (Collider e in enamies)
         {
             EnemyAI enemy = e.GetComponent<EnemyAI>();
-           
-
             if (enemy != null)
             {
                 Vector3 dir = (enemy.transform.position - transform.position).normalized;
                 enemy.TakeDamage(damage);
-                enemy.Stun(duration,dir*knockback);
-               
-               
+                enemy.Stun(duration, dir * knockback);
+            }
 
+            MiniBoss2_Stomper_AI stomper = e.GetComponent<MiniBoss2_Stomper_AI>();
+            if (stomper != null)
+            {
+                Vector3 dir = (stomper.transform.position - transform.position).normalized;
+                stomper.TakeDamage(damage);
+                stomper.Stun(duration, dir * knockback);
+            }
+
+            MiniBoss2_Rager_AI rager = e.GetComponent<MiniBoss2_Rager_AI>();
+            if (rager != null)
+            {
+                Vector3 dir = (rager.transform.position - transform.position).normalized;
+                rager.TakeDamage(damage);
+                rager.Stun(duration, dir * knockback);
             }
         }
-    
-}
-
-
+    }
 }

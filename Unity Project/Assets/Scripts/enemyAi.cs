@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour, IDamage
+public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
 {
     [SerializeField] Renderer model;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
     [SerializeField] Transform headPos;
+    [SerializeField] public Transform torsoPos;
     [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
@@ -30,7 +31,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] AudioClip[] audStep;
     [Range(0, 100)][SerializeField] float audStepVol;
 
-    [Header("===== Cover System =====")]
+    [Header("===== Cover System =====")]    
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
@@ -45,6 +46,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Collider knife;
     [SerializeField] Transform shootPos;
     [SerializeField] GameObject bullet;
+    public LineRenderer joltLine;
 
     float shootTimer;
     bool playerInRange;
@@ -55,6 +57,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool isTakingCover = false;
     bool isAtCover;
     bool isStuned;
+    bool isFrozen = false;
+    float freezeTimer = 0f;
     Rigidbody rb;
 
     private enum CoverState { MovingToCover, AtCover, SwitchingCover }
@@ -63,6 +67,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     [SerializeField] float coverDamageCooldown = 1.5f;
     private float lastDamageTime = -100f;
+    public bool hasBeenJolted;
 
     Color colorOriginal;
 
@@ -83,45 +88,79 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void Update()
     {
-        if (agent.pathStatus == NavMeshPathStatus.PathComplete)
-        if (isStuned)
+        if (isFrozen)
         {
-            stunTimer -= Time.deltaTime;
-
-          
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
-
-            if (stunTimer <= 0f)
-            {   
-                isStuned = false;
-                rb.linearVelocity = Vector3.zero;
-                rb.isKinematic = true;          
-                agent.isStopped = false;        
+            freezeTimer -= Time.deltaTime;
+            if (freezeTimer <= 0f)
+            {
+                Unfreeze();
             }
-
-            return; 
-        }   
-
-        if (isTakingCover)
-        {
-            HandleCoverBehavior();
             return;
         }
 
+        if (agent.pathStatus == NavMeshPathStatus.PathComplete)
+            if (isStuned)
+            {
+                stunTimer -= Time.deltaTime;
+
+
+                rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+                if (stunTimer <= 0f)
+                {
+                    isStuned = false;
+                    rb.linearVelocity = Vector3.zero;
+                    rb.isKinematic = true;
+                    agent.isStopped = false;
+                }
+
+                return;
+            }
+
+        if (useCoverSystem && coverPoints.Count > 0)
+        {
+            if (isTakingCover)
+            {
+                HandleCoverBehavior();
+            }
+            else
+            {
+                EngagePlayer();
+            }
+        }
+        else
+        {
+            
+            EngagePlayer();
+        }
+
         onAnimLocomotion();
+    }
 
-        if (agent.remainingDistance < 0.01f)
-            roamTimer += Time.deltaTime;
 
-        if (playerInRange && !CanSeePlayer())
+    void EngagePlayer()
+    {
+        
+        if (CanSeePlayer())
         {
+            
+            agent.SetDestination(gameManager.instance.player.transform.position);
+
+            
+            faceTarget();
+
+            
+            shootTimer += Time.deltaTime;
+            if (shootTimer >= shootRate)
+            {
+                shoot();
+            }
+        }
+        else
+        {            
             checkRoam();
         }
-        else if (!playerInRange)
-        {
-            checkRoam();
-        }
-    }      
+    }
 
     void HandleCoverBehavior()
     {
@@ -289,18 +328,21 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (Time.time - lastDamageTime >= coverDamageCooldown)
         {
             lastDamageTime = Time.time;
-            isTakingCover = true;            
-            currentCoverPoint = GetRandomCoverPoint();
 
-            if(currentCoverPoint != null)
+            if (useCoverSystem && coverPoints.Count > 0)
             {
-                agent.SetDestination(currentCoverPoint.position);
-                currentCoverState = CoverState.MovingToCover;
-                Debug.Log($"Taking Cover: Moving to {currentCoverPoint.position}");
+                isTakingCover = true;
+                currentCoverPoint = GetRandomCoverPoint();
+
+                if (currentCoverPoint != null)
+                {
+                    agent.SetDestination(currentCoverPoint.position);
+                    currentCoverState = CoverState.MovingToCover;                    
+                }                
             }
             else
-            {
-                Debug.LogWarning("No available cover. Staying exposed.");
+            {                
+                isTakingCover = false;
             }
         }
     }
@@ -320,7 +362,38 @@ public class EnemyAI : MonoBehaviour, IDamage
         rb.AddForce(force,ForceMode.Impulse);
     }
 
-   
+    public void ApplyFreeze(float duration)
+    {
+        if (isFrozen) return;
+
+        isFrozen = true;
+        freezeTimer = duration;
+
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+    }
+
+    private void Unfreeze()
+    {
+        isFrozen = false;
+
+        if(agent != null)
+        {
+            agent.isStopped = false;
+        }
+        if(animator != null)
+        {
+            animator.enabled = true;
+        }
+    }
+
+
 
     IEnumerator flashRed()
     {
@@ -337,11 +410,10 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
     public void createBullet()
     {
-        // Calculate direction to player but ignore Y-axis (horizontal only)
+        
         Vector3 playerPosition = gameManager.instance.player.transform.position;
         Vector3 shootDirection = (new Vector3(playerPosition.x, shootPos.position.y, playerPosition.z) - shootPos.position).normalized;
-
-        // Instantiate bullet and make it face the player
+        
         GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
     }
 
@@ -381,14 +453,12 @@ public class EnemyAI : MonoBehaviour, IDamage
             Debug.Log("Player not found.");
             return false;
         }
-
-        // Calculate direction to player
+        
         playerDir = (gameManager.instance.player.transform.position - headPos.position).normalized;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
         
         if (angleToPlayer > fov)
-        {
-            Debug.Log("Player is outside of FOV.");
+        {            
             return false;
         }
         
@@ -400,11 +470,9 @@ public class EnemyAI : MonoBehaviour, IDamage
         int layerMask = ~(1 << LayerMask.NameToLayer("Ground")); // Ignore ground
 
         if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask))
-        {
-            Debug.Log($"Raycast hit: {hit.collider.name}");
+        {            
             if (hit.collider.CompareTag("Player"))
-            {
-                Debug.Log("Player is in sight!");
+            {                
                 return true;
             }
             else
@@ -412,7 +480,6 @@ public class EnemyAI : MonoBehaviour, IDamage
                 Debug.Log($"Raycast blocked by: {hit.collider.name}");
             }
         }
-
         Debug.Log("Player is not in sight.");
         return false;
     }
@@ -425,5 +492,75 @@ public class EnemyAI : MonoBehaviour, IDamage
         public void SwordColOff()
         {
             knife.enabled = false;
-        }    
+        }
+
+
+    public void JoltEffect(int joltAmount, int joltChainLength)
+    {
+        if (joltChainLength == 0)
+        {
+            StartCoroutine(ResetJolt());
+            return;
+        }
+        else
+        {
+            if(joltLine) joltLine.SetPosition(0, torsoPos.position);
+            GameObject closestEnemy = null;
+            Collider[] hitColliders = Physics.OverlapSphere(headPos.position, 5);
+            float shortestDistance = Mathf.Infinity;
+            EnemyAI enemyCheck = null;
+            foreach (var hit in hitColliders)
+            {
+                if (hit.CompareTag("Enemy"))
+                {
+                    enemyCheck = hit.GetComponent<EnemyAI>();
+                    float distance = Vector3.Distance(headPos.position, hit.transform.position);
+                    if (enemyCheck != null && distance < shortestDistance && !enemyCheck.hasBeenJolted)
+                    {
+                        shortestDistance = distance;
+                        closestEnemy = hit.gameObject;
+                    }
+                }
+            }
+            StartCoroutine(DelayJolt(closestEnemy, joltAmount, joltChainLength));
+            StartCoroutine(ResetJolt());
+        }
     }
+
+    IEnumerator ResetJolt()
+    {
+        yield return new WaitForSeconds(2f);
+        hasBeenJolted = false;
+    }
+
+    IEnumerator DelayJolt(GameObject closestEnemy, int joltAmount, int joltChainLength)
+    {
+        yield return new WaitForSeconds(0.2f);
+        if (closestEnemy != null)
+        {
+            if(joltLine) joltLine.SetPosition(1, closestEnemy.transform.position);
+            StartCoroutine(ShowJolt());
+            IDamage dmg = closestEnemy.GetComponent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(joltAmount / 2);
+            }
+            IElectricJolt jolt = closestEnemy.GetComponent<IElectricJolt>();
+            if (jolt != null)
+            {
+                EnemyAI enemyScript = closestEnemy.GetComponent<EnemyAI>();
+                if (enemyScript != null)
+                {
+                    enemyScript.hasBeenJolted = true;
+                }
+                jolt.JoltEffect(joltAmount / 2, joltChainLength - 1);
+            }
+        }
+    }
+    IEnumerator ShowJolt()
+    {
+        joltLine.enabled = true;
+        yield return new WaitForSeconds(0.05f);
+        joltLine.enabled = false;
+    }
+}

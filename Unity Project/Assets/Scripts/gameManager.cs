@@ -68,17 +68,13 @@ public class gameManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
-    }
 
-    /*
-    private void Start()
-    {
-        foreach (GameObject slot in InventorySLOTS)
+        if (playerSpawnPos == null)
         {
-            slot.SetActive(false);
+            Debug.LogWarning(" 'PlayerSpawnPos' GameObject is missing in the scene! Camera may default at (0, 0, 0)!");
         }
     }
-    */
+
 
     void Update()
     {
@@ -115,6 +111,7 @@ public class gameManager : MonoBehaviour
             }
         }
         
+        
         if (Input.GetButtonDown("TAB"))
         {
             if (hotkeyBAR.activeSelf == true)
@@ -127,6 +124,7 @@ public class gameManager : MonoBehaviour
             }
         }
         
+
         //Preventing deselection from mouse clicks by reapplying selection
         if (slotINDEX >= 0)
         {
@@ -143,7 +141,7 @@ public class gameManager : MonoBehaviour
     {
         if (slotINDEX == index)
         {
-            //Deselect if some key is pressed again
+            //Deselect if same key is pressed again
             EventSystem.current.SetSelectedGameObject(null);
             slotINDEX = -1;
         }
@@ -172,7 +170,8 @@ public class gameManager : MonoBehaviour
         Time.timeScale = timeScaleOrig;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        menuActive.SetActive(false);        
+        menuActive.SetActive(false);
+        //menuActive = null;
     } // Returns game to default state when unpaused
 
      
