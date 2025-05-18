@@ -252,7 +252,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
-  iceAbilityEffect: {fileID: 780004250685938436, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
+  iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
   shootOrigin: {fileID: 4607292940424205001}
 --- !u!114 &796805182874584243
 MonoBehaviour:
@@ -270,7 +270,7 @@ MonoBehaviour:
   dashTime: 0.5
   dashCooldown: 1
   maxDashes: 2
-  canActive: 0
+  canActive: 1
   aud: {fileID: 8280381488094341783}
   audDash:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
