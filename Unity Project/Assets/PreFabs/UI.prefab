@@ -1191,7 +1191,6 @@ RectTransform:
   - {fileID: 3284880674753684434}
   - {fileID: 311338916925707270}
   - {fileID: 5741021565404559707}
-  - {fileID: 1693220588071296066}
   m_Father: {fileID: 2622150118193915194}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -1691,17 +1690,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2985182327148696503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 3.637979e-12, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.19, y: 1.82, z: 1.19}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1203636656755902974}
-  m_Father: {fileID: 8815443694480340857}
+  m_Father: {fileID: 5741021565404559707}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40}
+  m_AnchoredPosition: {x: 0, y: -27.03297}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2021528427718865977
@@ -1830,6 +1829,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7633389560002983492}
+  - {fileID: 1693220588071296066}
   m_Father: {fileID: 8815443694480340857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2693,16 +2693,22 @@ MonoBehaviour:
   menuPause: {fileID: 5121604089730219475}
   menuWin: {fileID: 1847332785660245695}
   menuLose: {fileID: 1087374436561891212}
+  painelSettings: {fileID: 0}
   TotalAmmo: {fileID: 6949219076252958636}
   CurrentAmmo: {fileID: 8661574380878623079}
+  player: {fileID: 0}
+  playerScript: {fileID: 0}
+  playerHPBar: {fileID: 7406489259080966556}
+  playerDamageScreen: {fileID: 8050635610496304568}
   emptyGunText: {fileID: 8065615282916377985}
   playerSpawnPos: {fileID: 0}
   checkpointPopup: {fileID: 5725526629650051435}
-  enemyCountTextObject: {fileID: 0}
   reloadGunText: {fileID: 1015054159648843103}
   reloadingGunText: {fileID: 7118073790077923249}
   RoomCount: {fileID: 5326019725147211315}
   currentRoom: 1
+  totalSpawners: 0
+  totalEnemies: []
   hotkeyBAR: {fileID: 9120358797474114064}
   InventorySLOTS:
   - {fileID: 0}
@@ -2711,12 +2717,7 @@ MonoBehaviour:
   slotINDEX: -1
   interactUI: {fileID: 5007635875431710017}
   interactionText: {fileID: 1929360013114938662}
-  player: {fileID: 0}
-  playerScript: {fileID: 0}
-  playerHPBar: {fileID: 7406489259080966556}
-  playerDamageScreen: {fileID: 8050635610496304568}
-  totalSpawners: 0
-  totalEnemies: []
+  bossHealthBar: {fileID: 0}
   isPaused: 0
 --- !u!1 &3819082183986702817
 GameObject:
@@ -3764,6 +3765,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4049170583863873365}
   - {fileID: 6405935658207841688}
   - {fileID: 4203901165091400037}
   - {fileID: 2217637722554902030}
@@ -3775,7 +3777,6 @@ RectTransform:
   - {fileID: 4491251892859046279}
   - {fileID: 2796776832956883478}
   - {fileID: 6379241037231818314}
-  - {fileID: 4049170583863873365}
   - {fileID: 812744028952452833}
   - {fileID: 5535806560522134509}
   - {fileID: 3099105199354718873}
