@@ -199,11 +199,6 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         {
             StartCoroutine(playStep());
         }
-
-        if (ShockwaveScript != null)
-        {
-            ShockwaveScript.TryShockwave();
-        }
     }
 
     void checkROAM()
@@ -261,6 +256,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
                 if (AGENT.remainingDistance <= AGENT.stoppingDistance)
                 {
                     faceTARGET();
+                    ShockwaveScript.TryShockwave();
                 }
 
                 shootTIMER += Time.deltaTime;
@@ -269,6 +265,10 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
                 {
                     enemySHOOT();
                 }
+
+              
+                    
+              
 
                 AGENT.stoppingDistance = stoppingDistance_ORIGINAL;
 
