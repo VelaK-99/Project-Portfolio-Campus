@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] AudioSource aud;
     [SerializeField] Animator animator;
     [SerializeField] int animTranSpeed;
+    public GameObject headPosition;
 
     [Header("===== Stats =====")]
     [Range(1, 100)][SerializeField] int HP;
@@ -131,6 +132,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     Vector3 moveDir;
     Vector3 playerVel;
 
+    bool canMOVE;
+
     bool isPlayingStep;
     bool isShotgun;
     bool isSprinting;
@@ -199,6 +202,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        canMOVE = true;
         animator = GetComponent<Animator>();
         HPOrig = HP;
         spawnPlayer();
@@ -223,9 +227,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (cam != null)
         {
+            cam.localPosition = new Vector3(0, 2.21f, 0);
             camOriginalPos = cam.localPosition;
             camDefaultPos = camOriginalPos;
             camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
+            Debug.Log("Initialized camDefaultPos to: " + cam.localPosition);
         }
 
         baseSpeed = speed;
@@ -253,6 +259,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Camera Local Position: " + cam.localPosition);
 
         OnAnimLocomotion();
 
@@ -353,31 +360,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         CameraBobbing();
-
-        if (isRaging)
-        {
-            rageTimer -= Time.deltaTime;
-            if (rageTimer <= 0f)
-            {
-                EndRage();
-            }
-        }
-
-
-            if(Input.GetButtonDown("Rage") && currentRage >= maxRage)
-{
-            StartRage();
-            currentRage = 0f;
-            rageUI.UpdateRageBar(currentRage, maxRage);
-        }
-
-    }
+    }    
 
     // Call this method whenever player does or takes damage to gain rage
  
 
     void Movement()
     {
+        if (!canMOVE) return;
+
         if (controller.isGrounded)
         {
             if (moveDir.normalized.magnitude > 0.3f && !isPlayingStep)
@@ -486,8 +477,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         if (Input.GetButtonDown("Sprint"))
         {
+            Debug.Log("KeyPressed");
             isSprinting = true;
             speed *= sprintMod;
+            Debug.Log("SpeedChanged");
         }
         else if (Input.GetButtonUp("Sprint"))
         {
@@ -498,6 +491,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void Shoot()
     {
+        if (arsenal[gunListPos].isElectricOrb)
+        {
+            ShootElectricOrb();
+            return;
+        }
+
         if (arsenal[gunListPos].GunName == "Laser")
         {
             laserLine.SetPosition(0, laserOrigin.position);
@@ -531,7 +530,49 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
         //DUALshoot();
         ApplyRecoil();
-    } 
+    }
+
+    void ShootElectricOrb()
+    {
+        shootTimer = 0;
+        aud.PlayOneShot(arsenal[gunListPos].shootSounds[Random.Range(0, arsenal[gunListPos].shootSounds.Length)], arsenal[gunListPos].shootSoundVol);
+
+        Transform shootPoint = Camera.main.transform; // Change this to your actual shoot point if it's a separate object
+
+        // Raycast from the center of the screen (crosshair)
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+        Vector3 targetPoint = ray.GetPoint(arsenal[gunListPos].shootDist); // Default direction
+
+        if (Physics.Raycast(ray, out hit, arsenal[gunListPos].shootDist))
+        {
+            targetPoint = hit.point;
+        }
+
+        
+        GameObject orb = Instantiate(arsenal[gunListPos].electricOrbPrefab, shootPoint.position, Quaternion.identity);
+
+        
+        Vector3 direction = (targetPoint - shootPoint.position).normalized;
+
+        
+        orb.transform.rotation = Quaternion.LookRotation(direction);
+
+        
+        Rigidbody rb = orb.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = direction * arsenal[gunListPos].electricOrbSpeed;
+        }
+
+        
+        ElectricGun orbScript = orb.GetComponent<ElectricGun>();
+        if (orbScript != null)
+        {
+            orbScript.SetDamage(arsenal[gunListPos].electricOrbDamage);
+            orbScript.SetLifetime(arsenal[gunListPos].electricOrbLifetime);
+        }
+    }
 
     /*
     void DUALshoot()
@@ -562,7 +603,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
     }
     */
-    
+
     void ShootShotgun()
     {
         shootTimer = 0;
@@ -675,6 +716,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             gameManager.instance.youLose();
         }
     }
+
+
+    public void Stun(float duration, Vector3 knockbackDIR)
+    {
+        StartCoroutine(StunCuroutine(duration, knockbackDIR));
+    }
+
+    IEnumerator StunCuroutine(float duration, Vector3 knockbackDIR)
+    {
+        canMOVE = false; //halt movement
+
+        float timer = 0f;
+        Vector3 velocity = knockbackDIR;
+
+        while (timer < duration)
+        {
+            controller.Move(velocity * Time.deltaTime); //Move away
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        canMOVE = true; //resume movement
+    }
+
 
     public int getOrigHP()
     {
@@ -902,7 +966,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         // Keep camera fixed
-        if (cam != null)
+        if (cam != null && isAiming)
         {
             cam.localPosition = camDefaultPos;
         }
