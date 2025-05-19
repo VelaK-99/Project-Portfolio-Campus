@@ -26,15 +26,12 @@ public class Hotkey_Bar : MonoBehaviour
         }
     }
 
-    /*
-    private void Start()
+    
+    void Start()
     {
-        foreach (var slot in slots_ui)
-        {
-           slot.SetSLOT(null); //clear all UI on start
-        }
+        playerSCRIPT = gameManager.instance.playerScript;
     }
-    */
+    
 
     // Update is called once per frame
     void Update()
@@ -72,7 +69,7 @@ public class Hotkey_Bar : MonoBehaviour
         {
             {
                 activeSLOT = index;
-                playerSCRIPT.ChangeGun(index);
+                playerSCRIPT.ChangeGun(activeSLOT);
                 refreshUI();
             }
         }
