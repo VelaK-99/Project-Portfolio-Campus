@@ -442,8 +442,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         if (Input.GetButtonDown("Sprint"))
         {
+            Debug.Log("KeyPressed");
             isSprinting = true;
             speed *= sprintMod;
+            Debug.Log("SpeedChanged");
         }
         else if (Input.GetButtonUp("Sprint"))
         {
