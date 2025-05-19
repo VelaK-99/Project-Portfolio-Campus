@@ -27,6 +27,7 @@ public class gameManager : MonoBehaviour
     public PlayerScript playerScript;
     public Image playerHPBar;
     public GameObject playerDamageScreen;
+    public GameObject playerRageScreen;
 
     [Header("===== Weapon Satats =====")]
     public GameObject emptyGunText;

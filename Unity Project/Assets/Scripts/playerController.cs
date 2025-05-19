@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio;
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
@@ -160,6 +161,29 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public float gunAimSpeed = 10f;
     private Vector3 gunOriginalPos;
 
+    [Header("===== Rage =====")]
+    [SerializeField] RageUI rageUI;
+    public float moveSpeed;
+    public float gunDamage;
+    public float fireRate;
+
+    public float maxRage = 100f;
+    public float currentRage = 0f;
+    public float rageDuration = 5f; // how long rage lasts 
+    public float rageDamageMultiplier = 2f;
+    public float rageSpeedMultiplier = 1.5f;
+
+    private bool isRaging = false;
+    private float rageTimer = 0f;
+
+    public float normalSpeed = 5f;
+    private float currentSpeed;
+
+    private float normalDamage = 10f;
+    private float currentDamage;
+
+
+
     /*
     /// <summary>
     /// Assign in the inspector
@@ -215,8 +239,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             bobcamOriginalPos = cam.localPosition;
         }
-    
-}
+
+        currentDamage = normalDamage;
+        currentSpeed = normalSpeed;
+        currentRage = 0f;
+
+        // Ensure rage screen is off at start
+        if (gameManager.instance.playerRageScreen != null)
+            gameManager.instance.playerRageScreen.SetActive(false);
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -321,7 +353,28 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         CameraBobbing();
-    }    
+
+        if (isRaging)
+        {
+            rageTimer -= Time.deltaTime;
+            if (rageTimer <= 0f)
+            {
+                EndRage();
+            }
+        }
+
+
+            if(Input.GetButtonDown("Rage") && currentRage >= maxRage)
+{
+            StartRage();
+            currentRage = 0f;
+            rageUI.UpdateRageBar(currentRage, maxRage);
+        }
+
+    }
+
+    // Call this method whenever player does or takes damage to gain rage
+ 
 
     void Movement()
     {
@@ -945,4 +998,75 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         if(speed < 0.5f) { speed = 0f; }
         animator.SetFloat("speed", speed);
     }
+
+    //public void ActivateRage(float duration)
+    //{
+    //    StartCoroutine(RageRoutine(duration));
+    //}
+
+    //IEnumerator RageRoutine(float duration)
+    //{
+      
+    //    float originalSpeed = moveSpeed;
+    //    float originalDamage = gunDamage;
+    //    float originalFireRate = fireRate;
+
+    //    moveSpeed *= 2;
+    //    gunDamage *= 2;
+    //    fireRate /= 2;
+
+    //    // Turn on rage UI
+    //    gameManager.instance.playerRageScreen.SetActive(true);
+
+    //    yield return new WaitForSeconds(duration);
+
+    //    // Reset stats
+    //    moveSpeed = originalSpeed;
+    //    gunDamage = originalDamage;
+    //    fireRate = originalFireRate;
+
+    //    // Turn off rage UI
+    //    gameManager.instance.playerRageScreen.SetActive(false);
+    //}
+
+   public void GainRage(float amount)
+{
+    if (isRaging) return;
+
+    currentRage = Mathf.Min(currentRage + amount, maxRage);
+    rageUI.UpdateRageBar(currentRage, maxRage);
 }
+
+    void StartRage()
+    {
+        isRaging = true;
+        rageTimer = rageDuration;
+        currentRage = 0f;
+
+        // Boost damage and speed
+        currentDamage = normalDamage * rageDamageMultiplier;
+        currentSpeed = normalSpeed * rageSpeedMultiplier;
+
+        // Show rage red border
+        if (gameManager.instance.playerRageScreen != null)
+            gameManager.instance.playerRageScreen.SetActive(true);
+
+    
+    }
+
+    void EndRage()
+    {
+        isRaging = false;
+
+        // Reset damage and speed
+        currentDamage = normalDamage;
+        currentSpeed = normalSpeed;
+
+        // Hide rage UI
+        if (gameManager.instance.playerRageScreen != null)
+            gameManager.instance.playerRageScreen.SetActive(false);
+
+
+    }
+
+    }

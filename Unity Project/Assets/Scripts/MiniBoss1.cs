@@ -8,7 +8,7 @@ public class MiniBoss1 : MonoBehaviour
     [SerializeField] Transform mShootPos;
     [SerializeField] GameObject mBullet;
     [SerializeField] Transform mBarrel;
-  //  [SerializeField] Animator animator;
+
 
 
     [Header("===== Stats =====")]
@@ -80,7 +80,6 @@ public class MiniBoss1 : MonoBehaviour
         Vector3 barrelDir = (player.position - mBarrel.position).normalized;
         Quaternion pitchRotation = Quaternion.LookRotation(barrelDir);
 
-        // Only pitch rotation (X axis), keep turret’s current Y
         mBarrel.localRotation = Quaternion.Lerp(mBarrel.localRotation, Quaternion.Euler(pitchRotation.eulerAngles.x, 0, 0), Time.deltaTime * mFaceTargetSpeed);
     }
 
@@ -140,16 +139,16 @@ public class MiniBoss1 : MonoBehaviour
 
     void FireAtLockedPosition()
     {
-      //  animator.SetTrigger("shoot");
+   
 
-        // You can instantiate a bullet OR do an instant explosion
+   
         Instantiate(mExplosionPrefab, mLockedTargetPos, Quaternion.identity);
 
     }
 
     void RotateToLockedPosition()
     {
-        // -------- Turret Yaw (Horizontal) --------
+       
         Vector3 turretDir = mLockedTargetPos - mTurretTop.position;
         turretDir.y = 0;
         if (turretDir != Vector3.zero)
@@ -158,7 +157,6 @@ public class MiniBoss1 : MonoBehaviour
             mTurretTop.rotation = Quaternion.Lerp(mTurretTop.rotation, yawRotation, Time.deltaTime * mFaceTargetSpeed);
         }
 
-        // -------- Barrel Pitch (Vertical) --------
         Vector3 barrelDir = mLockedTargetPos - mBarrel.position;
         Quaternion pitchRotation = Quaternion.LookRotation(barrelDir);
 
