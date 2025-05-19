@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 8280381488094341783}
   - component: {fileID: 8878020144247688959}
   - component: {fileID: 1184489777773560118}
-  - component: {fileID: 7723484838638572073}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -329,15 +328,14 @@ MonoBehaviour:
   jetMax: 1
   gravity: 35
   interactDist: 3
-  arsenal:
-  - {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
+  arsenal: []
   hotkey_Slots:
   - {fileID: 0}
   gunModel: {fileID: 6027848457595790386}
   laserOrigin: {fileID: 8225238743407447842}
   laserDuration: 0.05
   laserLine: {fileID: 1184489777773560118}
-  startingWeapon: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
+  startingWeapon: {fileID: 0}
   cam: {fileID: 7491251138447997815}
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   grenadeSpawnPoint: {fileID: 7491251138447997815}
@@ -372,11 +370,21 @@ MonoBehaviour:
   adsCamPos: {x: 0, y: 1, z: 0.3}
   recoilDirection: {x: 0, y: 0, z: 0}
   freezeAbility: {fileID: 3600726058604760712}
-  playerSpawnPos: {fileID: 2738997210081090733}
+  playerSpawnPos: {fileID: 0}
   gun: {fileID: 4241756268025260782}
   hipFirePos: {x: 0.4, y: -0.3, z: 0.6}
   adsGunPos: {x: 0.2, y: -0.15, z: 0.8}
   gunAimSpeed: 10
+  rageUI: {fileID: 0}
+  moveSpeed: 0
+  gunDamage: 0
+  fireRate: 0
+  maxRage: 100
+  currentRage: 0
+  rageDuration: 5
+  rageDamageMultiplier: 2
+  rageSpeedMultiplier: 1.5
+  normalSpeed: 5
 --- !u!143 &5688579929998117802
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1157,11 +1165,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
---- !u!1 &2738997210081090733 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 672344834664098411, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-  m_PrefabInstance: {fileID: 3411047238167934662}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4003717572943725591 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
