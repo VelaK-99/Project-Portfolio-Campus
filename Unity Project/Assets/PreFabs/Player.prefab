@@ -124,11 +124,11 @@ GameObject:
   - component: {fileID: 6668166344820973566}
   - component: {fileID: 78840824528912962}
   - component: {fileID: 7490013305132701509}
-  - component: {fileID: 1040891745825612889}
   - component: {fileID: 5472847630261547905}
   - component: {fileID: 3600726058604760712}
   - component: {fileID: 796805182874584243}
   - component: {fileID: 7723484838638572073}
+  - component: {fileID: 1040891745825612889}
   - component: {fileID: 5688579929998117802}
   - component: {fileID: 4189608926211743870}
   - component: {fileID: 8280381488094341783}
@@ -156,7 +156,6 @@ Transform:
   m_Children:
   - {fileID: 1150382071403561626}
   - {fileID: 7491251138447997815}
-  - {fileID: 4003717572943725591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &78840824528912962
@@ -212,6 +211,94 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5472847630261547905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
+  radius: 7
+  knockback: 10
+  damage: 10
+  cooldown: 2
+  duration: 0.5
+  aud: {fileID: 4189608926211743870}
+  audShock:
+  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
+  audShockVol: 0.2
+--- !u!114 &3600726058604760712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b1c2cf1e14c60458e6c295d3a45e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeDuration: 5
+  bossFreezeDuration: 2
+  burstDuration: 1.5
+  freezeRange: 20
+  freezeAngle: 45
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
+  shootOrigin: {fileID: 4607292940424205001}
+--- !u!114 &796805182874584243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd02723da067714ea54901d34740090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashSpeed: 15
+  dashTime: 0.5
+  dashCooldown: 1
+  maxDashes: 2
+  canActive: 1
+  aud: {fileID: 8280381488094341783}
+  audDash:
+  - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
+  audDashVol: 0.2
+--- !u!114 &7723484838638572073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 1
+  joltChainLength: 2
+  damageAmount: 10
+  coolDownTimer: 1
+  electricCastDistance: 15
+  joltLine: {fileID: 8946086278971867706}
+  joltOrigin: {fileID: 1150382071403561616}
+  aud: {fileID: 8280381488094341783}
+  audJolt:
+  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
+  audJoltVol: 0.25
 --- !u!114 &1040891745825612889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +335,7 @@ MonoBehaviour:
   laserOrigin: {fileID: 8225238743407447842}
   laserDuration: 0.05
   laserLine: {fileID: 1184489777773560118}
-  startingWeapon: {fileID: 0}
+  startingWeapon: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
   cam: {fileID: 7491251138447997815}
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   grenadeSpawnPoint: {fileID: 7491251138447997815}
@@ -298,94 +385,6 @@ MonoBehaviour:
   rageDamageMultiplier: 2
   rageSpeedMultiplier: 1.5
   normalSpeed: 5
---- !u!114 &5472847630261547905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
-  radius: 7
-  knockback: 10
-  damage: 10
-  cooldown: 2
-  duration: 0.5
-  aud: {fileID: 8280381488094341783}
-  audShock:
-  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
-  audShockVol: 0.2
---- !u!114 &3600726058604760712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b1c2cf1e14c60458e6c295d3a45e8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  freezeDuration: 5
-  bossFreezeDuration: 2
-  burstDuration: 1.5
-  freezeRange: 20
-  freezeAngle: 45
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
-  shootOrigin: {fileID: 4607292940424205001}
---- !u!114 &796805182874584243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdd02723da067714ea54901d34740090, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashSpeed: 15
-  dashTime: 0.5
-  dashCooldown: 1
-  maxDashes: 2
-  canActive: 1
-  aud: {fileID: 8280381488094341783}
-  audDash:
-  - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
-  audDashVol: 100
---- !u!114 &7723484838638572073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnlocked: 1
-  joltChainLength: 2
-  damageAmount: 10
-  coolDownTimer: 1
-  electricCastDistance: 15
-  joltLine: {fileID: 8946086278971867706}
-  joltOrigin: {fileID: 1150382071403561616}
-  aud: {fileID: 8280381488094341783}
-  audJolt:
-  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
-  audJoltVol: 0.25
 --- !u!143 &5688579929998117802
 CharacterController:
   m_ObjectHideFlags: 0
@@ -883,7 +882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100052, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 100062, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
       propertyPath: m_Layer
@@ -1201,72 +1200,6 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
   m_PrefabInstance: {fileID: 2122030100266775001}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &3411047238167934662
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6668166344820973566}
-    m_Modifications:
-    - target: {fileID: 672344834664098411, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_Name
-      value: player spawn pos
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9877315
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.15616168
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
---- !u!4 &4003717572943725591 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
-  m_PrefabInstance: {fileID: 3411047238167934662}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4093327157183152371
 PrefabInstance:
