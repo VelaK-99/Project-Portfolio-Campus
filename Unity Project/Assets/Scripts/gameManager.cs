@@ -66,16 +66,15 @@ public class gameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
+        player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<PlayerScript>();
     }
 
 
     void Update()
     {
-        
         if (Input.GetButtonDown("num1"))
         {
             ToggleSlot(0);

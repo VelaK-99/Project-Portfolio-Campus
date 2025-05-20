@@ -17,12 +17,12 @@ public class pickups : MonoBehaviour
 
         if (pickupable != null && type == pickupType.healthPack)
         {
-            //if (gameManager.instance.playerScript.getCurHP() < gameManager.instance.playerScript.getOrigHP())
-            //{
+            if (gameManager.instance.playerScript.getCurHP() < gameManager.instance.playerScript.getOrigHP())
+            {
                 pickupable.HealthPickup(healthAmount);
                 Destroy(gameObject);
                 gameManager.instance.playerScript.UpdatePlayerUI();
-            //}
+            }
         }
 
         if (pickupable != null && type == pickupType.ammoPack)

@@ -202,6 +202,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager.instance.playerScript = this;
         canMOVE = true;
         animator = GetComponent<Animator>();
         HPOrig = HP;

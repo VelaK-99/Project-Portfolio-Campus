@@ -124,11 +124,11 @@ GameObject:
   - component: {fileID: 6668166344820973566}
   - component: {fileID: 78840824528912962}
   - component: {fileID: 7490013305132701509}
+  - component: {fileID: 1040891745825612889}
   - component: {fileID: 5472847630261547905}
   - component: {fileID: 3600726058604760712}
   - component: {fileID: 796805182874584243}
   - component: {fileID: 7723484838638572073}
-  - component: {fileID: 1040891745825612889}
   - component: {fileID: 5688579929998117802}
   - component: {fileID: 4189608926211743870}
   - component: {fileID: 8280381488094341783}
@@ -212,94 +212,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5472847630261547905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
-  radius: 7
-  knockback: 10
-  damage: 10
-  cooldown: 2
-  duration: 0.5
-  aud: {fileID: 8280381488094341783}
-  audShock:
-  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
-  audShockVol: 0.2
---- !u!114 &3600726058604760712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b1c2cf1e14c60458e6c295d3a45e8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  freezeDuration: 5
-  bossFreezeDuration: 2
-  burstDuration: 1.5
-  freezeRange: 20
-  freezeAngle: 45
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  iceAbilityEffect: {fileID: 780004250685938436, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
-  shootOrigin: {fileID: 4607292940424205001}
---- !u!114 &796805182874584243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdd02723da067714ea54901d34740090, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dashSpeed: 15
-  dashTime: 0.5
-  dashCooldown: 1
-  maxDashes: 2
-  canActive: 1
-  aud: {fileID: 8280381488094341783}
-  audDash:
-  - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
-  audDashVol: 100
---- !u!114 &7723484838638572073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnlocked: 1
-  joltChainLength: 2
-  damageAmount: 10
-  coolDownTimer: 1
-  electricCastDistance: 15
-  joltLine: {fileID: 8946086278971867706}
-  joltOrigin: {fileID: 1150382071403561616}
-  aud: {fileID: 8280381488094341783}
-  audJolt:
-  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
-  audJoltVol: 0.25
 --- !u!114 &1040891745825612889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +298,94 @@ MonoBehaviour:
   rageDamageMultiplier: 2
   rageSpeedMultiplier: 1.5
   normalSpeed: 5
+--- !u!114 &5472847630261547905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41894193ee55e1048a18d27ad993b9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
+  radius: 7
+  knockback: 10
+  damage: 10
+  cooldown: 2
+  duration: 0.5
+  aud: {fileID: 8280381488094341783}
+  audShock:
+  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
+  audShockVol: 0.2
+--- !u!114 &3600726058604760712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b1c2cf1e14c60458e6c295d3a45e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeDuration: 5
+  bossFreezeDuration: 2
+  burstDuration: 1.5
+  freezeRange: 20
+  freezeAngle: 45
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
+  shootOrigin: {fileID: 4607292940424205001}
+--- !u!114 &796805182874584243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd02723da067714ea54901d34740090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashSpeed: 15
+  dashTime: 0.5
+  dashCooldown: 1
+  maxDashes: 2
+  canActive: 1
+  aud: {fileID: 8280381488094341783}
+  audDash:
+  - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
+  audDashVol: 100
+--- !u!114 &7723484838638572073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933247356161788255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 1
+  joltChainLength: 2
+  damageAmount: 10
+  coolDownTimer: 1
+  electricCastDistance: 15
+  joltLine: {fileID: 8946086278971867706}
+  joltOrigin: {fileID: 1150382071403561616}
+  aud: {fileID: 8280381488094341783}
+  audJolt:
+  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
+  audJoltVol: 0.25
 --- !u!143 &5688579929998117802
 CharacterController:
   m_ObjectHideFlags: 0
