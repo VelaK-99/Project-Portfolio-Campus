@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fb4aa39712c834bbcc719db96c805c, type: 3}
   m_Name: Stats - Electric Orb Gun
   m_EditorClassIdentifier: 
-  model: {fileID: 1431398106292329444, guid: d185ec54f08a24f43a6be6d8677180b8, type: 3}
-  Image: {fileID: 21300000, guid: 5596c9baf43f3f94b832ae078bf24162, type: 3}
-  shootDmg: 1
+  model: {fileID: 100000, guid: a20359f598082d9428b881e62fdec31f, type: 3}
+  Image: {fileID: 0}
+  shootDmg: 5
   shootDist: 5
-  shootRate: 0.1
+  shootRate: 1
   reloadSpeed: 0.5
   ammoCapacity: 5
-  currentAmmo: 5
+  currentAmmo: 10
   totalAmmo: 10
   maxAmmo: 10
   GunName: Orb Gun
@@ -27,10 +27,10 @@ MonoBehaviour:
   isSciFi: 1
   hitEffect: {fileID: 5396372950321188654, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
   shootSounds:
-  - {fileID: 8300000, guid: c0cae6912e1322e47bc9be15d515041c, type: 3}
+  - {fileID: 8300000, guid: 1562f02afc09c974796f65b4af84e9ef, type: 3}
   shootSoundVol: 0
   isElectricOrb: 1
   electricOrbPrefab: {fileID: 2207340517920156908, guid: 45e07f7cb180a184592a511a5ad0fe6b, type: 3}
-  electricOrbSpeed: 2
-  electricOrbLifetime: 10
-  electricOrbDamage: 15
+  electricOrbSpeed: 10
+  electricOrbLifetime: 2
+  electricOrbDamage: 1

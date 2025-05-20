@@ -4,8 +4,9 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using JetBrains.Annotations;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
-public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
+public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage, IElectricJolt
 {
     MiniBoss2_Stomper_AI instance;
 
@@ -14,6 +15,8 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     /// Used to tie in a model/mesh for the enemy AI script
     /// </summary>
     [SerializeField] Renderer MODEL;
+
+    [SerializeField] Rigidbody rb;
 
     /// <summary>
     /// This is tied to NavMeshSurface to allow Unity's pathfinding
@@ -24,7 +27,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     /// Where the new raycast will come from
     /// </summary>
     [SerializeField] Transform headPOSITON;
-
+    [SerializeField] public Transform torsoPos;
 
     /// <summary>
     /// The controller that is attached to the mesh
@@ -72,7 +75,35 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
 
 
+    [Header("===== Cover System =====")]
+    [SerializeField] List<Transform> coverPoints;
+    [SerializeField] float coverSwitchDelay = 2f;
+    [SerializeField] bool useCoverSystem = true;
+    [SerializeField] float peekDistance = 0.75f;
+    [SerializeField] float peekSpeed = 5f;
+    [SerializeField] float coverDetectionRadius = 20f;
 
+    public LineRenderer joltLine;
+    bool isTakingCover = false;
+    bool isAtCover;
+    bool isStuned;
+    bool isFrozen = false;
+    public float stunTimer;
+    float freezeTimer = 0f;
+
+    private Transform currentCoverPoint;
+    private float coverSwitchTimer;
+
+
+    private enum CoverState { MovingToCover, AtCover, SwitchingCover }
+    private CoverState currentCoverState = CoverState.MovingToCover;
+
+
+    [SerializeField] float coverDamageCooldown = 1.5f;
+    private float lastDamageTime = -100f;
+    public bool hasBeenJolted;
+
+    Vector3 knockbackfoce;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioSource Audio;
@@ -123,6 +154,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     bool isPlayingStep;
 
 
+    /*
     /// <summary>
     /// Creating a vector3 for the playerDIRECTION, further defined in void Update: 
     // playerDIRECTION = (Game_Management.INSTANCE.PLAYER.transform.position - transform.position);
@@ -138,8 +170,13 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     /// The original color of the mesh
     /// </summary>
     Color colorORIGINAL;
+    */
 
+    Color colorOriginal;
 
+    Vector3 playerDir;
+    Vector3 startingPos;
+    Vector3 coverPosition;
 
 
 
@@ -147,6 +184,14 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
+
+        colorOriginal = MODEL.material.color;
+        startingPos = transform.position;
+        stoppingDistance_ORIGINAL = AGENT.stoppingDistance;
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+
+        /*
        // WINcondition(twin);
 
         colorORIGINAL = MODEL.material.color;
@@ -161,12 +206,65 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         stoppingDistance_ORIGINAL = AGENT.stoppingDistance;
 
 
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        */
     }
 
     // Update is called once per frame
     void Update()
     {
+        animLOCOmotion();
 
+        if (isFrozen)
+        {
+            freezeTimer -= Time.deltaTime;
+            if (freezeTimer <= 0f)
+            {
+                Unfreeze();
+            }
+            return;
+        }
+
+        if (AGENT.pathStatus == NavMeshPathStatus.PathComplete)
+            if (isStuned)
+            {
+                stunTimer -= Time.deltaTime;
+
+
+                rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, Time.deltaTime * 5f);
+
+                if (stunTimer <= 0f)
+                {
+                    isStuned = false;
+                    rb.linearVelocity = Vector3.zero;
+                    rb.isKinematic = true;
+                    AGENT.isStopped = false;
+                }
+
+                return;
+            }
+
+        if (useCoverSystem && coverPoints.Count > 0)
+        {
+            if (isTakingCover)
+            {
+                HandleCoverBehavior();
+            }
+            else
+            {
+                EngagePlayer();
+            }
+        }
+        else
+        {
+
+            EngagePlayer();
+        }
+
+        //onAnimLocomotion();
+
+        /*
         animLOCOmotion();
 
 
@@ -184,7 +282,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         {
             checkROAM();
         }
-
+        */
     }
 
     void animLOCOmotion()
@@ -201,6 +299,27 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         }
     }
 
+    void checkRoam()
+    {
+        roamTIMER += Time.deltaTime;
+        if (roamTIMER >= roam_PAUSEtime)
+        {
+            roamTIMER = 0;
+            roam();
+        }
+    }
+
+    void roam()
+    {
+        Vector3 randomPos = Random.insideUnitSphere * roam_DISTANCE + startingPos;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPos, out hit, roam_DISTANCE, 1))
+        {
+            AGENT.SetDestination(hit.position);
+        }
+    }
+
+    /*
     void checkROAM()
     {
         if (roamTIMER >= roam_PAUSEtime && AGENT.remainingDistance <= 0.01f)
@@ -217,7 +336,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
         ///selecting a random position based on the applied roam_DISTANCE
         Vector3 ranPOS = Random.insideUnitSphere * roam_DISTANCE;
-        ranPOS += startingPOSITION;
+        ranPOS += startingPos;
 
         ///To know exactly where the mesh is at, to go only on the map where a NavMesh is at
         NavMeshHit hit;
@@ -228,9 +347,179 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         //The location in which the NPC should go
         AGENT.SetDestination(hit.position);
     }
+    */
 
 
+    void EngagePlayer()
+    {
 
+        if (CanSeePlayer())
+        {
+
+            AGENT.SetDestination(gameManager.instance.player.transform.position);
+
+
+            faceTARGET();
+            ShockwaveScript.TryShockwave();
+
+            shootTIMER += Time.deltaTime;
+            if (shootTIMER >= shootRATE)
+            {
+                enemySHOOT();
+            }
+        }
+        else
+        {
+            checkRoam();
+        }
+    }
+
+    void HandleCoverBehavior()
+    {
+        switch (currentCoverState)
+        {
+            case CoverState.MovingToCover:
+                MoveToCover();
+                break;
+
+            case CoverState.AtCover:
+                StayAtCover();
+                break;
+
+            case CoverState.SwitchingCover:
+                SwitchCover();
+                break;
+        }
+    }
+
+    void MoveToCover()
+    {
+        if (currentCoverPoint == null)
+        {
+            currentCoverPoint = GetRandomCoverPoint();
+            if (currentCoverPoint == null)
+            {
+                Debug.LogWarning("No Available cover. staying in place");
+
+                isTakingCover = false;
+                return;
+            }
+
+            AGENT.SetDestination(currentCoverPoint.position);
+            Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
+        }
+
+        faceTARGET();
+
+        shootTIMER += Time.deltaTime;
+        if (shootTIMER >= shootRATE)
+        {
+            enemySHOOT();
+        }
+
+        if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
+        {
+            Debug.Log("Enemy reached cover.");
+            currentCoverState = CoverState.AtCover;
+            coverSwitchTimer = 0;
+        }
+    }
+
+    void StayAtCover()
+    {
+        coverSwitchTimer += Time.deltaTime;
+
+        if (!CanSeePlayer())
+        {
+            Debug.Log("Can't see player, switching cover.");
+            currentCoverState = CoverState.SwitchingCover;
+            return;
+        }
+
+        faceTARGET();
+        shootTIMER += Time.deltaTime;
+        if (shootTIMER >= shootRATE)
+        {
+            enemySHOOT();
+        }
+
+        if (coverSwitchTimer >= coverSwitchDelay)
+        {
+            currentCoverState = CoverState.SwitchingCover;
+            Debug.Log("Switching cover after delay");
+        }
+    }
+
+    void SwitchCover()
+    {
+        currentCoverPoint = GetRandomCoverPoint();
+        if (currentCoverPoint == null)
+        {
+            Debug.LogWarning("No available cover to switch to.");
+            isTakingCover = false;
+            return;
+        }
+
+        AGENT.SetDestination(currentCoverPoint.position);
+        currentCoverState = CoverState.MovingToCover;
+        Debug.Log($"Switching to new cover point: {currentCoverPoint.name}");
+    }
+
+    Transform GetRandomCoverPoint()
+    {
+        if (coverPoints.Count == 0)
+        {
+            Debug.LogWarning("No cover points assigned.");
+            return null;
+        }
+
+        Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
+        coverPoints.Add(selectedCover);
+        Debug.Log($"Selected Cover Point: {selectedCover.name} at {selectedCover.position}");
+        return selectedCover;
+    }
+
+
+    bool CanSeePlayer()
+    {
+
+        if (gameManager.instance.player == null)
+        {
+            Debug.Log("Player not found.");
+            return false;
+        }
+
+        playerDir = (gameManager.instance.player.transform.position - headPOSITON.position).normalized;
+        angleTO_PLAYER = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
+
+        if (angleTO_PLAYER > FOV)
+        {
+            return false;
+        }
+
+        Vector3 rayOrigin = headPOSITON.position;
+        Vector3 targetPoint = gameManager.instance.player.transform.position + new Vector3(-0.5f, 1.5f, 0);
+        Debug.DrawRay(rayOrigin, (targetPoint - rayOrigin).normalized * 50f, Color.red);
+
+        RaycastHit hit;
+        int layerMask = ~(1 << LayerMask.NameToLayer("Ground")); // Ignore ground
+
+        if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                return true;
+            }
+            else
+            {
+                Debug.Log($"Raycast blocked by: {hit.collider.name}");
+            }
+        }
+        Debug.Log("Player is not in sight.");
+        return false;
+    }
+
+    /*
     bool CANsee_PLAYER()
     {
         Vector3 targetPos = gameManager.instance.player.transform.position + new Vector3(-0.5f, 1.5f, 0);
@@ -279,7 +568,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         AGENT.stoppingDistance = 0;
         return false;
     }
-
+    */
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -306,6 +595,28 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
         AGENT.SetDestination(gameManager.instance.player.transform.position);
 
+
+        if (Time.time - lastDamageTime >= coverDamageCooldown)
+        {
+            lastDamageTime = Time.time;
+
+            if (useCoverSystem && coverPoints.Count > 0)
+            {
+                isTakingCover = true;
+                currentCoverPoint = GetRandomCoverPoint();
+
+                if (currentCoverPoint != null)
+                {
+                    AGENT.SetDestination(currentCoverPoint.position);
+                    currentCoverState = CoverState.MovingToCover;
+                }
+            }
+            else
+            {
+                isTakingCover = false;
+            }
+        }
+
         if (HP <= 0)
         {
             //gameManager.instance.CountSpawner(); //Removing the gameGOALcount per enemy removed
@@ -316,6 +627,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
                 SceneManager.LoadScene(scenename);
             }
         }
+
     }
 
     /*
@@ -329,6 +641,56 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         }
     }
     */
+
+
+    public void ApplyFreeze(float duration)
+    {
+        if (isFrozen) return;
+
+        isFrozen = true;
+        freezeTimer = duration;
+
+        if (AGENT != null)
+        {
+            AGENT.isStopped = true;
+        }
+        if (anim != null)
+        {
+            anim.enabled = false;
+        }
+    }
+
+    private void Unfreeze()
+    {
+        isFrozen = false;
+
+        if (AGENT != null)
+        {
+            AGENT.isStopped = false;
+        }
+        if (anim != null)
+        {
+            anim.enabled = true;
+        }
+    }
+
+
+    public void Stun(float duration, Vector3 force)
+    {
+        if (isStuned)
+        {
+            return;
+        }
+        isStuned = true;
+        stunTimer = duration;
+        knockbackfoce = force;
+
+        AGENT.isStopped = true;
+        rb.isKinematic = false;
+        rb.AddForce(force, ForceMode.Impulse);
+    }
+
+    /*
     public void Stun(float duration, Vector3 knockbackDIR)
     {
         StartCoroutine(StunCuroutine(duration, knockbackDIR));
@@ -348,12 +710,13 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         }
         AGENT.isStopped = false; //resume movement
     }
+    */
 
     IEnumerator flashDAMAGE_color()
     {
         MODEL.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        MODEL.material.color = colorORIGINAL;
+        MODEL.material.color = colorOriginal;
     }
 
     void enemySHOOT()
@@ -385,9 +748,10 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
     void faceTARGET()
     {
+        Vector3 playerDir = (gameManager.instance.player.transform.position - transform.position).normalized;
         //This will fix the enemy jitters. Basically says face the player's x position and y position,
         //but do not use the player's y position
-        Quaternion ROTATION = Quaternion.LookRotation(new Vector3(playerDIRECTION.x, transform.position.y, playerDIRECTION.z));
+        Quaternion ROTATION = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, ROTATION, Time.deltaTime * faceTARGETspeed);
 
         //The problem with this code below is that it will cause an immediate snap
@@ -408,4 +772,72 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         isPlayingStep = false;
     }
 
+    public void JoltEffect(int joltAmount, int joltChainLength)
+    {
+        if (joltChainLength == 0)
+        {
+            StartCoroutine(ResetJolt());
+            return;
+        }
+        else
+        {
+            if (joltLine) joltLine.SetPosition(0, torsoPos.position);
+            GameObject closestEnemy = null;
+            Collider[] hitColliders = Physics.OverlapSphere(headPOSITON.position, 5);
+            float shortestDistance = Mathf.Infinity;
+            EnemyAI enemyCheck = null;
+            foreach (var hit in hitColliders)
+            {
+                if (hit.CompareTag("Enemy"))
+                {
+                    enemyCheck = hit.GetComponent<EnemyAI>();
+                    float distance = Vector3.Distance(headPOSITON.position, hit.transform.position);
+                    if (enemyCheck != null && distance < shortestDistance && !enemyCheck.hasBeenJolted)
+                    {
+                        shortestDistance = distance;
+                        closestEnemy = hit.gameObject;
+                    }
+                }
+            }
+            StartCoroutine(DelayJolt(closestEnemy, joltAmount, joltChainLength));
+            StartCoroutine(ResetJolt());
+        }
+    }
+
+    IEnumerator ResetJolt()
+    {
+        yield return new WaitForSeconds(2f);
+        hasBeenJolted = false;
+    }
+
+    IEnumerator DelayJolt(GameObject closestEnemy, int joltAmount, int joltChainLength)
+    {
+        yield return new WaitForSeconds(0.2f);
+        if (closestEnemy != null)
+        {
+            if (joltLine) joltLine.SetPosition(1, closestEnemy.transform.position);
+            StartCoroutine(ShowJolt());
+            IDamage dmg = closestEnemy.GetComponent<IDamage>();
+            if (dmg != null)
+            {
+                dmg.TakeDamage(joltAmount / 2);
+            }
+            IElectricJolt jolt = closestEnemy.GetComponent<IElectricJolt>();
+            if (jolt != null)
+            {
+                EnemyAI enemyScript = closestEnemy.GetComponent<EnemyAI>();
+                if (enemyScript != null)
+                {
+                    enemyScript.hasBeenJolted = true;
+                }
+                jolt.JoltEffect(joltAmount / 2, joltChainLength - 1);
+            }
+        }
+    }
+    IEnumerator ShowJolt()
+    {
+        joltLine.enabled = true;
+        yield return new WaitForSeconds(0.05f);
+        joltLine.enabled = false;
+    }
 }

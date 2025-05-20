@@ -124,10 +124,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   damage: 10
-  lifeTime: 5
+  lifetime: 5
   hitLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 131072
 --- !u!54 &7132326674054433091
 Rigidbody:
   m_ObjectHideFlags: 0
