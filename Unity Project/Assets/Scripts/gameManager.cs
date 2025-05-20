@@ -18,6 +18,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     public GameObject painelSettings;
+    [SerializeField] private GameObject firstButtonMenu;
 
 
     [Header("===== Player Stats =====")]
@@ -27,6 +28,7 @@ public class gameManager : MonoBehaviour
     public PlayerScript playerScript;
     public Image playerHPBar;
     public GameObject playerDamageScreen;
+    public GameObject playerRageScreen;
 
     [Header("===== Weapon Satats =====")]
     public GameObject emptyGunText;
@@ -97,6 +99,7 @@ public class gameManager : MonoBehaviour
                 statePause();
                 menuActive = menuPause;
                 menuActive.SetActive(true);
+                EventSystem.current.SetSelectedGameObject(firstButtonMenu);
             }
             else if (menuActive == menuPause)
             {

@@ -546,6 +546,37 @@ Transform:
   - {fileID: 2623373325657987608}
   m_Father: {fileID: 4129258639138034905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5382378089270229090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8892433720323117930}
+  m_Layer: 3
+  m_Name: DetectionCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8892433720323117930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382378089270229090}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0817611, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536509110269032174}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5496023369167879030
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +742,7 @@ GameObject:
   - component: {fileID: 974501578185902237}
   - component: {fileID: 98002301925540112}
   - component: {fileID: 3876418623346817271}
+  - component: {fileID: 7378871556836190288}
   - component: {fileID: 3294511436705627634}
   - component: {fileID: 6657822827925498553}
   m_Layer: 3
@@ -738,6 +770,8 @@ Transform:
   - {fileID: 3330116981945959}
   - {fileID: 7577514475279815491}
   - {fileID: 7081220545445932994}
+  - {fileID: 1279144166929052247}
+  - {fileID: 8892433720323117930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -105.995, z: 0}
 --- !u!114 &-8877343480653734839
@@ -777,8 +811,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 85246281640510069}
+  rb: {fileID: 7378871556836190288}
   AGENT: {fileID: 974501578185902237}
   headPOSITON: {fileID: 7577514475279815491}
+  torsoPos: {fileID: 3330116981945959}
   anim: {fileID: 5013404107623993370}
   animTRANspeed: 6
   HP: 40
@@ -791,6 +827,16 @@ MonoBehaviour:
   shootFOV: 50
   roam_DISTANCE: 10
   roam_PAUSEtime: 2
+  coverPoints: []
+  coverSwitchDelay: 2
+  useCoverSystem: 1
+  peekDistance: 0.75
+  peekSpeed: 5
+  coverDetectionRadius: 20
+  joltLine: {fileID: 0}
+  stunTimer: 0
+  coverDamageCooldown: 1.5
+  hasBeenJolted: 0
   Audio: {fileID: 3294511436705627634}
   audShoot:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
@@ -811,6 +857,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.05
+  scenename: Level4
+  twin: {fileID: 0}
 --- !u!95 &5013404107623993370
 Animator:
   serializedVersion: 7
@@ -828,13 +876,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'Bip001'\n\tTransform 'Bip001 R Foot'\n\tTransform
-    'Bip001 R Toe0'\n\tTransform 'Bip001 R UpperArm'\n\tTransform 'Bip001 R Calf'\n\tTransform
-    'Bip001 L Toe0'\n\tTransform 'Bip001 Head'\n\tTransform 'Bip001 L UpperArm'\n\tTransform
-    'Bip001 Neck'\n\tTransform 'Bip001 Spine'\n\tand more ...\n\tFrom animation clip
-    'Mutant Jumping'"
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -905,6 +947,33 @@ CapsuleCollider:
   m_Height: 2.68
   m_Direction: 1
   m_Center: {x: 0, y: 1.27, z: 0}
+--- !u!54 &7378871556836190288
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6796791172111584224}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!82 &3294511436705627634
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1770,4 +1839,35 @@ Transform:
   m_Children:
   - {fileID: 1105231850529139623}
   m_Father: {fileID: 1028932415564192182}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8728178322743066654
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1279144166929052247}
+  m_Layer: 17
+  m_Name: BodyCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1279144166929052247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8728178322743066654}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0817611, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 536509110269032174}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
