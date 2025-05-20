@@ -228,7 +228,7 @@ MonoBehaviour:
   damage: 10
   cooldown: 2
   duration: 0.5
-  aud: {fileID: 0}
+  aud: {fileID: 8280381488094341783}
   audShock:
   - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
   audShockVol: 0.2
@@ -274,7 +274,7 @@ MonoBehaviour:
   aud: {fileID: 8280381488094341783}
   audDash:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
-  audDashVol: 0
+  audDashVol: 100
 --- !u!114 &7723484838638572073
 MonoBehaviour:
   m_ObjectHideFlags: 0

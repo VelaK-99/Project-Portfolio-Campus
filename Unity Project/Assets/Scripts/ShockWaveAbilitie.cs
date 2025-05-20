@@ -17,12 +17,6 @@ public class ShockWaveAbilitie : MonoBehaviour
 
     bool canUse;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-      
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -35,7 +29,6 @@ public class ShockWaveAbilitie : MonoBehaviour
         {
             Shock();
             cooldownTimer = cooldown;
-            Debug.Log("using");
             aud.PlayOneShot(audShock[Random.Range(0, audShock.Length)], audShockVol);
         }
     }

@@ -68,11 +68,6 @@ public class gameManager : MonoBehaviour
         playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
-
-        if (playerSpawnPos == null)
-        {
-            Debug.LogWarning(" 'PlayerSpawnPos' GameObject is missing in the scene! Camera may default at (0, 0, 0)!");
-        }
     }
 
 
