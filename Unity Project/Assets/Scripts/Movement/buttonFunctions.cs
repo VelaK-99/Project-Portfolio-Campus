@@ -1,10 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public class buttonFunctions : MonoBehaviour
 {
+    [SerializeField] private GameObject firstButtonMenu;
+    [SerializeField] private GameObject firstButtonSet;
     public AudioSource audioSource;
+
+
+   
+
 
     public void ClickSound()
     {
@@ -36,11 +43,13 @@ public class buttonFunctions : MonoBehaviour
     {
         ClickSound();
         gameManager.instance.painelSettings.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(firstButtonSet);
     }
     public void CloseSetting()
     {
         ClickSound();
         gameManager.instance.painelSettings.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(firstButtonMenu);
     }
     public void Quit()
     {
