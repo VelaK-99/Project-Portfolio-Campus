@@ -15,6 +15,8 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     /// </summary>
     [SerializeField] Renderer MODEL;
 
+    [SerializeField] Rigidbody rb;
+
     /// <summary>
     /// This is tied to NavMeshSurface to allow Unity's pathfinding
     /// </summary>
