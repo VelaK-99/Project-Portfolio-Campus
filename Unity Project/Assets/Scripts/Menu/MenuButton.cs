@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class MenuButton : MonoBehaviour
 {
     [SerializeField] private string sceneName;
-    [SerializeField] private GameObject Start_button;
     [SerializeField] private GameObject painelMenu;
     [SerializeField] private GameObject painelSettings;
+    [SerializeField] private GameObject firstButtonMenu;
+    [SerializeField] private GameObject firstButtonSet;
+    public AudioSource audioSource;
 
 
 
@@ -14,28 +17,45 @@ public class MenuButton : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None; 
         Cursor.visible = true;
+
+        if (firstButtonMenu != null)
+        {
+            EventSystem.current.SetSelectedGameObject(firstButtonMenu);
+        }
+    }
+
+    public void ClickSound()
+    {
+        if (audioSource != null)
+            audioSource.Play();
     }
 
 
     public void Play()
     {
+        ClickSound();
         SceneManager.LoadScene(sceneName);
     }
 
     public void OpenSetting()
     {
+        ClickSound();
         painelMenu.SetActive(false);
         painelSettings.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(firstButtonSet);
     }
 
     public void CloseSetting()
     {
+        ClickSound();
         painelSettings.SetActive(false);
         painelMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(firstButtonMenu);
     }
 
     public void Quit()
     {
+        ClickSound();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

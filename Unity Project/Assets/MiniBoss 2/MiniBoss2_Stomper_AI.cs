@@ -1,9 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using JetBrains.Annotations;
+using System.Runtime.CompilerServices;
 
 public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 {
+    MiniBoss2_Stomper_AI instance;
+
     [Header("===== Model Info =====")]
     /// <summary>
     /// Used to tie in a model/mesh for the enemy AI script
@@ -28,7 +33,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
     [SerializeField] float animTRANspeed;
 
-    [SerializeField] float HP;
+    [SerializeField] public float HP;
 
     [Header("===== Enemy Stats =====")]
 
@@ -66,6 +71,9 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     [SerializeField] int roam_PAUSEtime;
 
 
+
+
+
     [Header("===== Audio =====")]
     [SerializeField] AudioSource Audio;
     [SerializeField] AudioClip[] audShoot;
@@ -74,6 +82,10 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     [Range(0f, 2f)][SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
     [Range(0f, 2f)][SerializeField] float audStepVol;
+
+    [Header("===== Next Scene Win =====")]
+    [SerializeField] private string scenename;
+    [SerializeField] MiniBoss2_Rager_AI twin;
 
     /// <summary>
     /// For melee collisions
@@ -135,13 +147,15 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
+       // WINcondition(twin);
 
         colorORIGINAL = MODEL.material.color;
 
         //Left out to allow for the spawner to update the game goal
         //Game_Management.INSTANCE.updateGAMEgoal(1); //adding 1 to the gameGOALamount
         //referencing amount of enemies
-
+       
+        instance = this;
 
         startingPOSITION = transform.position;
         stoppingDistance_ORIGINAL = AGENT.stoppingDistance;
@@ -184,11 +198,6 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         if (isMoving && !isPlayingStep)
         {
             StartCoroutine(playStep());
-        }
-
-        if (ShockwaveScript != null)
-        {
-            ShockwaveScript.TryShockwave();
         }
     }
 
@@ -247,6 +256,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
                 if (AGENT.remainingDistance <= AGENT.stoppingDistance)
                 {
                     faceTARGET();
+                    ShockwaveScript.TryShockwave();
                 }
 
                 shootTIMER += Time.deltaTime;
@@ -255,6 +265,10 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
                 {
                     enemySHOOT();
                 }
+
+              
+                    
+              
 
                 AGENT.stoppingDistance = stoppingDistance_ORIGINAL;
 
@@ -285,6 +299,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
 
     public void TakeDamage(int amount)
     {
+
         HP -= amount;
         StartCoroutine(flashDAMAGE_color());
         Audio.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
@@ -295,9 +310,25 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage
         {
             //gameManager.instance.CountSpawner(); //Removing the gameGOALcount per enemy removed
             Destroy(gameObject); //takes whatever object this script is referencing and deletes from scene
+
+            if (twin.HP == 0 || twin == null)
+            {
+                SceneManager.LoadScene(scenename);
+            }
         }
     }
 
+    /*
+    public void WINcondition(MiniBoss2_Rager_AI twinRager)
+    {
+        twinRager = GetComponent<MiniBoss2_Rager_AI>();
+
+        if (HP <= 0 || instance == null  && twinRager.HP <= 0 || twinRager == null)
+        {
+            SceneManager.LoadScene(scenename);
+        }
+    }
+    */
     public void Stun(float duration, Vector3 knockbackDIR)
     {
         StartCoroutine(StunCuroutine(duration, knockbackDIR));

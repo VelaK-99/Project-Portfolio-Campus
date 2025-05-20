@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 {
+    MiniBoss2_Rager_AI instance;
+
     [Header("===== Model Info =====")]
     /// <summary>
     /// Used to tie in a model/mesh for the enemy AI script
@@ -28,7 +31,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
     [SerializeField] float animTRANspeed;
 
-    [SerializeField] float HP;
+    [SerializeField] public float HP;
 
     [Header("===== Enemy Stats =====")]
     /// <summary>
@@ -71,6 +74,10 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     [Range(0f, 2f)][SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
     [Range(0f, 2f)][SerializeField] float audStepVol;
+
+    [Header("===== Next Scene Win =====")]
+    [SerializeField] private string scenename;
+    [SerializeField] MiniBoss2_Stomper_AI twin;
 
     /// <summary>
     /// For melee collisions
@@ -285,6 +292,11 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
         {
             //gameManager.instance.CountSpawner(); //Removing the gameGOALcount per enemy removed
             Destroy(gameObject); //takes whatever object this script is referencing and deletes from scene
+        }
+
+        if (twin.HP == 0 || twin == null)
+        {
+            SceneManager.LoadScene(scenename);
         }
     }
 

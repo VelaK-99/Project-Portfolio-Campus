@@ -49,11 +49,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rb: {fileID: 2778486063238554784}
-  explosionRad: 0
+  explosionRad: 1
   fuseTime: 0
   explosionEffect: {fileID: 0}
   damageAmount: 1
-  damageRate: 0
+  damageRate: 3
   speed: 25
   destroyTime: 3
   meleeTimer: 0
