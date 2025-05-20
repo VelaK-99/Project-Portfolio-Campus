@@ -41,7 +41,7 @@ public class MiniBoss2_Shockwave : MonoBehaviour
     {
             if (cooldownTimer <= 0f && player != null && Vector3.Distance(transform.position, player.transform.position) <= radius)
             {
-                StomperANIM.SetBool("Shockwave2", true);
+                StomperANIM.SetTrigger("Shockwave");
                 cooldownTimer = cooldown;
                 return true;
             }

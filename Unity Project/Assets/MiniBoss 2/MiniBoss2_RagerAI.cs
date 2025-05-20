@@ -28,7 +28,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
     [SerializeField] float animTRANspeed;
 
-    [SerializeField] float HP;
+    [SerializeField] public float HP;
 
     [Header("===== Enemy Stats =====")]
     /// <summary>
