@@ -26,6 +26,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     /// </summary>
     [SerializeField] Transform headPOSITON;
     [SerializeField] public Transform torsoPos;
+    [SerializeField] GameObject Sparks;
 
     /// <summary>
     /// The controller that is attached to the mesh
@@ -86,6 +87,8 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     bool isFrozen = false;
     public float stunTimer;
     float freezeTimer = 0f;
+
+    bool enraged;
 
     private Transform currentCoverPoint;
     private float coverSwitchTimer;
@@ -590,7 +593,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
         AGENT.SetDestination(gameManager.instance.player.transform.position);
 
-
         if (Time.time - lastDamageTime >= coverDamageCooldown)
         {
             lastDamageTime = Time.time;
@@ -612,6 +614,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
             }
         }
 
+
         if (HP <= 0)
         {
             //gameManager.instance.CountSpawner(); //Removing the gameGOALcount per enemy removed
@@ -624,6 +627,28 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
         }
 
     }
+
+    public void RAGE()
+    {
+        if (enraged || twin.HP > 0) return;
+
+            enraged = true;
+            GameObject sparkCLone = Instantiate(Sparks, headPOSITON.position, headPOSITON.rotation);
+            sparkCLone.transform.SetParent(headPOSITON);
+
+        sparkCLone.transform.localPosition = new Vector3(0f, 1.5f, 0f);
+        sparkCLone.transform.localRotation = Quaternion.identity;
+
+            ParticleSystem rageSparks = sparkCLone.GetComponent<ParticleSystem>();
+            if (rageSparks != null)
+        {
+            rageSparks.Play();
+        }
+
+            shootRATE *= 2;
+            AGENT.speed *= 1.5f;
+    }
+
 
     /*
     public void WINcondition(MiniBoss2_Rager_AI twinRager)
