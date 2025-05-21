@@ -622,6 +622,11 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage, IElectricJolt
             //gameManager.instance.CountSpawner(); //Removing the gameGOALcount per enemy removed
             Destroy(gameObject); //takes whatever object this script is referencing and deletes from scene
 
+            if (twin.HP > 0)
+            {
+                twin.RAGE();
+            }
+
             if (twin.HP == 0 || twin == null)
             {
                 SceneManager.LoadScene(scenename);
