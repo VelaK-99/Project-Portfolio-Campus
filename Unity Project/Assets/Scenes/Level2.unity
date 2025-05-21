@@ -5333,7 +5333,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &45409461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5590,7 +5589,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &53959130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6751,7 +6749,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &141122266
 GameObject:
   m_ObjectHideFlags: 0
@@ -7175,7 +7172,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &194386043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7431,7 +7427,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &197376138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7696,7 +7691,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &204294622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8191,7 +8185,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &253737730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8686,7 +8679,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &298176925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8941,7 +8933,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &333990864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9093,7 +9084,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &350071033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9240,7 +9230,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &354868343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9500,6 +9489,103 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 369976307}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &372017118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 372017120}
+  - component: {fileID: 372017119}
+  m_Layer: 0
+  m_Name: Point Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &372017119
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372017118}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 2
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 57.09
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 2
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
+--- !u!4 &372017120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372017118}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -116.27, y: 9.12, z: -106.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &372870529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9830,7 +9916,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &402860880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10035,6 +10120,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 672344834664098411, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
   m_PrefabInstance: {fileID: 1285254316}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &410706088 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
+  m_PrefabInstance: {fileID: 1285254316}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &426442956
 GameObject:
   m_ObjectHideFlags: 0
@@ -10092,7 +10182,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &426442959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10457,7 +10546,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &449023781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10614,7 +10702,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &463373453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10899,7 +10986,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &490389029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11579,7 +11665,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &545593320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11726,7 +11811,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &546172982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11873,7 +11957,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &548974816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12130,7 +12213,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &558214756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12317,7 +12399,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &586773547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12521,7 +12602,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &592742370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12984,7 +13064,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &662003929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13764,7 +13843,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &736532082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14303,6 +14381,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: meleeTimer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: playerSpawnPos
       value: 
       objectReference: {fileID: 410706086}
@@ -14324,7 +14406,7 @@ PrefabInstance:
       objectReference: {fileID: 203980657}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -148.3
+      value: -119.06
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14332,23 +14414,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -148.8
+      value: -101.13
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.37472185
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.92713726
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14356,7 +14438,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 135.986
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -14365,7 +14447,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 990290015}
+    - targetCorrespondingSourceObject: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 990290014}
   m_SourcePrefab: {fileID: 100100000, guid: 2c5a0d2027747c640802931560349457, type: 3}
 --- !u!1 &804290092
 GameObject:
@@ -15152,7 +15240,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1001 &845304372
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15517,7 +15604,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &891532922
 GameObject:
   m_ObjectHideFlags: 0
@@ -15831,7 +15917,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &897239252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16257,7 +16342,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &945960819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16844,6 +16928,70 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 981874849}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &990290000 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
+  m_PrefabInstance: {fileID: 799056136}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &990290006 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+  m_PrefabInstance: {fileID: 799056136}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990290000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea9bbf727120ee142b82288c866ee6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &990290014
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990290000}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &990290015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990290000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c2592675909cd429d0c6124777b63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 5
+  rb: {fileID: 990290014}
+  explosionRad: 0
+  fuseTime: 0
+  explosionEffect: {fileID: 0}
+  damageAmount: 5
+  damageRate: 0
+  speed: 0
+  destroyTime: 0
 --- !u!1 &995152292
 GameObject:
   m_ObjectHideFlags: 0
@@ -17080,7 +17228,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1017564979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17227,7 +17374,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1026412951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17602,7 +17748,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1061097887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18442,7 +18587,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1110244279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18589,7 +18733,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1115025613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18825,7 +18968,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &1115393140
 GameObject:
   m_ObjectHideFlags: 0
@@ -19093,7 +19235,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &1155044891
 GameObject:
   m_ObjectHideFlags: 0
@@ -19224,7 +19365,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1187952677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19481,7 +19621,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1195398342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19628,7 +19767,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1205155694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19821,7 +19959,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1224303505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19968,7 +20105,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1226107102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20280,7 +20416,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1249021515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20427,7 +20562,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1255440359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20574,7 +20708,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1261079819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20721,7 +20854,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1277813511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20817,27 +20949,31 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1405902368}
     m_Modifications:
     - target: {fileID: 672344834664098411, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_Name
       value: player spawn pos
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -148.3
+      value: -1118.63
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -540
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -148.8
+      value: -185.64
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.40552387
+      value: 0.04006577
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -20845,7 +20981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.91408443
+      value: 0.99919707
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalRotation.z
@@ -21583,7 +21719,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1302783907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21838,7 +21973,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1316611255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21985,7 +22119,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1321469991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22452,7 +22585,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1357472197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22599,7 +22731,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1368091735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22746,7 +22877,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1382455329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22836,6 +22966,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382455326}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!224 &1405902368 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+  m_PrefabInstance: {fileID: 1548504009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1407492848
 GameObject:
   m_ObjectHideFlags: 0
@@ -23211,7 +23346,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &1422379059
 GameObject:
   m_ObjectHideFlags: 0
@@ -23508,7 +23642,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1449020027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23724,7 +23857,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1451065323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23871,7 +24003,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1452230217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24018,7 +24149,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1453811191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24254,7 +24384,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1001 &1456859445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24514,7 +24643,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1471632347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24750,7 +24878,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!4 &1509178867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 56a9f0450fae73445bb354b32a90ad70, type: 3}
@@ -24849,7 +24976,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1519017742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24996,7 +25122,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1523511275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25143,7 +25268,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1524916481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25377,6 +25501,32 @@ Transform:
   - {fileID: 2005294931}
   m_Father: {fileID: 1759483117}
   m_LocalEulerAnglesHint: {x: -51.782, y: 90.221, z: 89.834}
+--- !u!1 &1540738154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1614713359576770118, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+  m_PrefabInstance: {fileID: 1670397551}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1540738158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540738154}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0686755, y: 0.9298884, z: 1.318585}
+  m_Center: {x: 0.0000013113025, y: 0.4649442, z: -0.000002592802}
 --- !u!1 &1541248329
 GameObject:
   m_ObjectHideFlags: 0
@@ -25611,7 +25761,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1546306668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25709,6 +25858,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2809199996803940112, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: playerSCRIPT
+      value: 
+      objectReference: {fileID: 990290006}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -25795,7 +25948,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 410706088}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
 --- !u!1 &1554312069
@@ -25855,7 +26011,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1554312072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26091,7 +26246,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &1577496065
 GameObject:
   m_ObjectHideFlags: 0
@@ -26149,7 +26303,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1577496068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26516,7 +26669,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1617537000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27088,6 +27240,78 @@ Transform:
   - {fileID: 1316611253}
   m_Father: {fileID: 1175016823}
   m_LocalEulerAnglesHint: {x: 9.743, y: -55.574, z: -90.447}
+--- !u!1001 &1670397551
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1614713359576770118, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_Name
+      value: table_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.690157
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6985763
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.2792234
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -116.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -104.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9271977
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.3745724
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -43.996
+      objectReference: {fileID: 0}
+    - target: {fileID: 2099607141971590396, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1614713359576770118, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540738158}
+  m_SourcePrefab: {fileID: 100100000, guid: 885b27966bc894849b24e915dbbd00fd, type: 3}
 --- !u!1 &1681777554
 GameObject:
   m_ObjectHideFlags: 0
@@ -27431,7 +27655,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1710725066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27578,7 +27801,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1718830142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27871,7 +28093,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1 &1741839957
 GameObject:
   m_ObjectHideFlags: 0
@@ -28718,6 +28939,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6158415743423404558, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29142,7 +29367,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!4 &1827662644 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6383963324969997433, guid: c8d5b3254e0bb554c9b9138f362c19c9, type: 3}
@@ -29205,7 +29429,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1829710047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29694,7 +29917,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1875858316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29841,7 +30063,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1880440127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30314,7 +30535,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1936967122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30461,7 +30681,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1939793308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30618,7 +30837,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1973613845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30892,7 +31110,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!114 &1988995520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32294,7 +32511,6 @@ MonoBehaviour:
   damageRate: 1
   speed: 0
   destroyTime: 0
-  meleeTimer: 0
 --- !u!1001 &2087622533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32961,7 +33177,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 596701069}
   - {fileID: 1548504009}
-  - {fileID: 1285254316}
   - {fileID: 799056136}
   - {fileID: 260009624}
   - {fileID: 893151751}
@@ -32999,3 +33214,5 @@ SceneRoots:
   - {fileID: 128213180}
   - {fileID: 738400085}
   - {fileID: 589912170}
+  - {fileID: 1670397551}
+  - {fileID: 372017120}
