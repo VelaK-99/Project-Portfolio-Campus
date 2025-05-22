@@ -3,6 +3,7 @@ using UnityEngine;
 public class ShockWaveAbilitie : MonoBehaviour
 {
     [SerializeField] GameObject SHOCKWAVEparticles;
+    [SerializeField] Animator shockWaveAnim;
     [SerializeField] float radius;
     [SerializeField] float knockback;
     [SerializeField] int damage;
@@ -30,9 +31,11 @@ public class ShockWaveAbilitie : MonoBehaviour
         {
             cooldownTimer -= Time.deltaTime;
         }
-            if (Input.GetKeyDown(KeyCode.T)&&cooldownTimer <= 0f)
         
+        if (Input.GetKeyDown(KeyCode.T)&&cooldownTimer <= 0f)
         {
+            gameManager.instance.playerScript.handsAnimator.SetTrigger("Cast");
+            shockWaveAnim.SetTrigger("Cast");
             Shock();
             cooldownTimer = cooldown;
             Debug.Log("using");

@@ -645,7 +645,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
             rageSparks.Play();
         }
 
-            shootRATE *= 2;
+            shootRATE *= 0.2f;
             AGENT.speed *= 1.5f;
     }
 

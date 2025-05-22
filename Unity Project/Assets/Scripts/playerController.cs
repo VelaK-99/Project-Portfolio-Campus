@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] CharacterController controller;
     [SerializeField] AudioSource aud;
     [SerializeField] Animator animator;
+    [SerializeField] public Animator handsAnimator;
     [SerializeField] int animTranSpeed;
     public GameObject headPosition;
 
@@ -22,6 +23,11 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 3)][SerializeField] int sprintMod;
     [Range(1, 20)][SerializeField] int jumpSpeed;
     [Range(1, 3)][SerializeField] int jumpMax;
+    public int meleeDamage = 5;
+    public float meleeRange = 2f;
+    private float meleeCooldown = 1f;
+    public float meleeTimer = 0;
+    public LayerMask Enemylayer;
     [Range(1, 10)][SerializeField] int jetForce;
     [Range(1, 10)][SerializeField] int jetMax;
     [SerializeField] int gravity;
@@ -55,7 +61,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Header("===== Crouch/Slide =====")]
     float crouchHeight = 2f;
     float crouchSpeedMod = 2f;
-    [SerializeField] Transform cam;
+    [SerializeField] public Transform cam;
 
     float slideSpeed = 6f;
     float slideDuration = 0.6f;
@@ -208,7 +214,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
-        laserLine = GetComponent<LineRenderer>();
+        laserLine = laserOrigin.GetComponent<LineRenderer>();
 
         if (startingWeapon != null)
         {
@@ -265,10 +271,13 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Movement();
 
+        meleeTimer -= Time.deltaTime;
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (freezeAbility != null)
             {
+                handsAnimator.SetTrigger("LongCast");
                 freezeAbility.ActivateFreeze();
             }
         }
@@ -440,6 +449,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         SelectGun();
         Sprint();
+        Melee();
         Crouch();
         Slide();
         ThrowGrenade();
@@ -870,6 +880,24 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
                 {
                     hotkey_Slots[i].SetSLOT(null);
                 }
+            }
+        }
+    }
+
+    public void Melee()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            animator.SetTrigger("Melee");
+            meleeTimer = meleeCooldown;
+
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeRange, ~ignoreLayer))
+            {
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+                if (dmg != null) dmg.TakeDamage(meleeDamage);
             }
         }
     }
