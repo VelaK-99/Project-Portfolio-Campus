@@ -280,7 +280,9 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             {
                 StartCoroutine(playStep());
             }
-        }
+
+             //animator.SetTrigger("die");
+    }
 
         IEnumerator playStep()
         {
