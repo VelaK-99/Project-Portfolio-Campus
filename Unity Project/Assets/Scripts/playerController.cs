@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [SerializeField] CharacterController controller;
     [SerializeField] AudioSource aud;
     [SerializeField] Animator animator;
+    [SerializeField] public Animator handsAnimator;
     [SerializeField] int animTranSpeed;
     public GameObject headPosition;
 
@@ -55,7 +56,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Header("===== Crouch/Slide =====")]
     float crouchHeight = 2f;
     float crouchSpeedMod = 2f;
-    [SerializeField] Transform cam;
+    [SerializeField] public Transform cam;
 
     float slideSpeed = 6f;
     float slideDuration = 0.6f;
@@ -208,7 +209,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
-        laserLine = GetComponent<LineRenderer>();
+        laserLine = laserOrigin.GetComponent<LineRenderer>();
 
         if (startingWeapon != null)
         {
@@ -269,6 +270,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             if (freezeAbility != null)
             {
+                handsAnimator.SetTrigger("LongCast");
                 freezeAbility.ActivateFreeze();
             }
         }

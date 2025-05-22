@@ -306,9 +306,8 @@ MonoBehaviour:
   agent: {fileID: 3604038115171440814}
   animator: {fileID: 6158415743423404558}
   headPos: {fileID: 7017721214005784707}
-  torsoPos: {fileID: 5432841925384306939}
   aud: {fileID: -5335087881832148575}
-  HP: 50
+  HP: 15
   faceTargetSpeed: 8
   fov: 180
   animTranSpeed: 0
@@ -1393,6 +1392,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: JoltChainLine
       objectReference: {fileID: 0}
+    - target: {fileID: 3574256292121043902, guid: 33abd61608aa84648896d7e987480e5b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 123ac6dc79004e54b8b352a7e64acdca, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
