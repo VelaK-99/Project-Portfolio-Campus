@@ -87,6 +87,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
 
     void Update()
     {
+        onAnimLocomotion();
+       
         if (isFrozen)
         {
             freezeTimer -= Time.deltaTime;
@@ -133,7 +135,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             EngagePlayer();
         }
 
-        onAnimLocomotion();
     }
 
 
@@ -275,10 +276,17 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
             bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
 
+            if (isMoving && !isPlayingStep)
+        {
+            StartCoroutine(playStep());
+        }
+
+        /*
             if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
             {
                 StartCoroutine(playStep());
             }
+        */
         }
 
         IEnumerator playStep()

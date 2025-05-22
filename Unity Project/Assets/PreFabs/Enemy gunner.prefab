@@ -310,7 +310,7 @@ MonoBehaviour:
   HP: 15
   faceTargetSpeed: 8
   fov: 180
-  animTranSpeed: 0
+  animTranSpeed: 6
   roamDist: 10
   roamPauseTime: 0
   shootRate: 0.5
@@ -359,7 +359,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2597403089595271390}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: f4209d51d1ad0434299f2d498ee076ba, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
   m_Controller: {fileID: 9100000, guid: a9606d7979003234bbb0689b58f9b4ee, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0

@@ -23,6 +23,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 3)][SerializeField] int sprintMod;
     [Range(1, 20)][SerializeField] int jumpSpeed;
     [Range(1, 3)][SerializeField] int jumpMax;
+    //public float meleeRange = 2f;
+    private float meleeCooldown = 1f;
+    public float meleeTimer = 0;
+    public LayerMask Enemylayer;
     [Range(1, 10)][SerializeField] int jetForce;
     [Range(1, 10)][SerializeField] int jetMax;
     [SerializeField] int gravity;
@@ -266,6 +270,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         Movement();
 
+        meleeTimer -= Time.deltaTime;
+
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (freezeAbility != null)
@@ -442,6 +448,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         SelectGun();
         Sprint();
+        Melee();
         Crouch();
         Slide();
         ThrowGrenade();
@@ -873,6 +880,16 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
                     hotkey_Slots[i].SetSLOT(null);
                 }
             }
+        }
+    }
+
+    public void Melee()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            animator.SetTrigger("Melee");
+            meleeTimer = meleeCooldown;
         }
     }
 
