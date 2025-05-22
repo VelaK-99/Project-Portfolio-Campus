@@ -19,12 +19,18 @@ MonoBehaviour:
   shootRate: 1
   reloadSpeed: 2.3
   ammoCapacity: 8
-  currentAmmo: 8
+  currentAmmo: 5
   totalAmmo: 80
   maxAmmo: 80
-  GunName: 
+  GunName: Shotgun
   isShotgun: 1
+  isSciFi: 0
   hitEffect: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
   shootSounds:
   - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
   shootSoundVol: 0.25
+  isElectricOrb: 0
+  electricOrbPrefab: {fileID: 0}
+  electricOrbSpeed: 0
+  electricOrbLifetime: 0
+  electricOrbDamage: 0

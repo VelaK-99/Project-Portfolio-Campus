@@ -9,8 +9,8 @@ public class ToNextScene : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            gameManager.instance.SaveGame();
             SceneManager.LoadScene(sceneName);
         }
     }
-
 }
