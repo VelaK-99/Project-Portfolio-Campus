@@ -23,7 +23,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 3)][SerializeField] int sprintMod;
     [Range(1, 20)][SerializeField] int jumpSpeed;
     [Range(1, 3)][SerializeField] int jumpMax;
-    //public float meleeRange = 2f;
+    public int meleeDamage = 5;
+    public float meleeRange = 2f;
     private float meleeCooldown = 1f;
     public float meleeTimer = 0;
     public LayerMask Enemylayer;
@@ -890,6 +891,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             animator.SetTrigger("Melee");
             meleeTimer = meleeCooldown;
+
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeRange, ~ignoreLayer))
+            {
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+                if (dmg != null) dmg.TakeDamage(meleeDamage);
+            }
         }
     }
 
