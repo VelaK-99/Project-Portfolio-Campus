@@ -48,7 +48,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public Transform laserOrigin;
     public float laserDuration = 0.05f;
-    public LineRenderer laserLine;
+    LineRenderer laserLine;
 
     int shootDamage;
     int shootDist;
