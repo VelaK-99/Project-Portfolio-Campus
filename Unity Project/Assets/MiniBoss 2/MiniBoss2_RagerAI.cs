@@ -498,9 +498,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
             {
                 return true;
             }
-            else
-            {
-            }
         }
         return false;
     }
