@@ -9,7 +9,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Animator animator;
     [SerializeField] Transform headPos;
-    [SerializeField] public Transform torsoPos;
     [SerializeField] AudioSource aud;
 
     [Header("===== Stats =====")]
@@ -88,6 +87,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
 
     void Update()
     {
+        onAnimLocomotion();
+       
         if (isFrozen)
         {
             freezeTimer -= Time.deltaTime;
@@ -134,7 +135,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             EngagePlayer();
         }
 
-        onAnimLocomotion();
     }
 
 
@@ -267,10 +267,17 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
             bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
 
+            if (isMoving && !isPlayingStep)
+        {
+            StartCoroutine(playStep());
+        }
+
+        /*
             if (agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance && !isPlayingStep)
             {
                 StartCoroutine(playStep());
             }
+        */
         }
 
         IEnumerator playStep()
@@ -489,7 +496,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         }
         else
         {
-            if(joltLine) joltLine.SetPosition(0, torsoPos.position);
+            if(joltLine) joltLine.SetPosition(0, new Vector3(transform.position.x, transform.position.y +1, transform.position.z));
             GameObject closestEnemy = null;
             Collider[] hitColliders = Physics.OverlapSphere(headPos.position, 5);
             float shortestDistance = Mathf.Infinity;
@@ -523,7 +530,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         yield return new WaitForSeconds(0.2f);
         if (closestEnemy != null)
         {
-            if(joltLine) joltLine.SetPosition(1, closestEnemy.transform.position);
+            if(joltLine) joltLine.SetPosition(1, new Vector3(closestEnemy.transform.position.x, closestEnemy.transform.position.y +1, closestEnemy.transform.position.z));
             StartCoroutine(ShowJolt());
             IDamage dmg = closestEnemy.GetComponent<IDamage>();
             if (dmg != null)

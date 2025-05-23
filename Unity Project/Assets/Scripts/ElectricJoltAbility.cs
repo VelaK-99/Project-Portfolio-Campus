@@ -12,7 +12,7 @@ public class ElectricJolt : MonoBehaviour
     float joltDuration = 0.5f;
     public LineRenderer joltLine;
     public Transform joltOrigin;
-
+    [SerializeField] ParticleSystem hitEffect;
     [SerializeField] AudioSource aud;
     [SerializeField] AudioClip[] audJolt;
     [Range(0, 100)][SerializeField] float audJoltVol;
@@ -28,6 +28,7 @@ public class ElectricJolt : MonoBehaviour
 
     void CastElectricJolt()
     {
+        gameManager.instance.playerScript.handsAnimator.SetTrigger("Cast");
         joltLine.SetPosition(0, joltOrigin.position);
         aud.PlayOneShot(audJolt[Random.Range(0, audJolt.Length)], audJoltVol);
         RaycastHit hit;
@@ -35,6 +36,7 @@ public class ElectricJolt : MonoBehaviour
         {
             joltLine.SetPosition(1, hit.point);
             StartCoroutine(ShootJoltRay());
+            Instantiate(hitEffect, hit.point, Quaternion.identity);
             IDamage dmg = hit.collider.GetComponent<IDamage>();
             IElectricJolt jolt = hit.collider.GetComponent<IElectricJolt>();
             
@@ -48,6 +50,11 @@ public class ElectricJolt : MonoBehaviour
                 }
                 jolt.JoltEffect(damageAmount,joltChainLength);
             }
+        }
+        else
+        {
+            joltLine.SetPosition(1, gameManager.instance.playerScript.cam.position + (gameManager.instance.playerScript.cam.forward * electricCastDistance));
+            StartCoroutine(ShootJoltRay());
         }
         StartCoroutine(CoolDown());
     }

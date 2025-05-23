@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class damage : MonoBehaviour
 {
+
     enum damageType { moving, stationary, DOT, homing, AOE, melee }
     [SerializeField] damageType type;
     [SerializeField] Rigidbody rb;
@@ -16,7 +17,7 @@ public class damage : MonoBehaviour
     [SerializeField] int speed;
     [SerializeField] float destroyTime;
 
-    [SerializeField] float meleeTimer;
+    //[SerializeField] float meleeTimer;
 
     bool isDamaging;
     void Start()

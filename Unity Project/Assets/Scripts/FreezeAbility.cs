@@ -31,7 +31,7 @@ public class FreezeAbility : MonoBehaviour
 
         if (iceAbilityEffect != null)
         {
-            activeIceEffect = Instantiate(iceAbilityEffect, shootOrigin.position, shootOrigin.rotation);
+            activeIceEffect = Instantiate(iceAbilityEffect, new Vector3(shootOrigin.position.x,shootOrigin.position.y - 0.5f, shootOrigin.position.z +0.2f), shootOrigin.rotation);
             activeIceEffect.transform.parent = shootOrigin; // Make it follow the player
             Destroy(activeIceEffect, burstDuration);
         }
