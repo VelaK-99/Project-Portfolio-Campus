@@ -95,8 +95,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     
 
 
-    float bobFrequency = 4f;
-    float bobAmplitude = 0.03f;
+    float bobFrequency = 0f;
+    float bobAmplitude = 0f;
     float bobLerpSpeed = 4f;
     float sprintBobFrequency = 1.5f;
     float sprintBobAmplitude = 0.2f;
@@ -104,10 +104,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     float walkBobAmplitude = 0.03f;
 
 
-    float camwalkBobAmplitude = 0.06f;
-    float camwalkBobFrequency = 0.50f;
-    float camsprintBobAmplitude = 0.1f;
-    float camsprintBobFrequency = 0.4f;
+    float camwalkBobAmplitude = 0f;
+    float camwalkBobFrequency = 0f;
+    float camsprintBobAmplitude = 0f;
+    float camsprintBobFrequency = 0f;
 
 
     float bobTimer;
@@ -202,7 +202,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        gameManager.instance.playerScript = this;
         canMOVE = true;
         animator = GetComponent<Animator>();
         HPOrig = HP;

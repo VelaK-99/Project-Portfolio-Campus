@@ -548,4 +548,9 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         yield return new WaitForSeconds(0.05f);
         joltLine.enabled = false;
     }
+
+    void Movement()
+    {
+        //leave empty
+    }
 }

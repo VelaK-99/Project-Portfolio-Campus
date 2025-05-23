@@ -56,6 +56,8 @@ public class gameManager : MonoBehaviour
     [Header("===== MiniBoss/Boss Fight =====")]
     public GameObject bossHealthBar;
 
+    [Header("===== Objectives =====")]
+    public TMP_Text objectiveText;
 
 
     public bool isPaused;
@@ -234,6 +236,14 @@ public class gameManager : MonoBehaviour
         {
             bossHealthBar.SetActive(true);
             bossHealthBar.GetComponent<BossHealthBar>().AssignBoss(boss);
+        }
+    }
+
+    public void SetObjective(string Objective)
+    {
+        if(objectiveText != null)
+        {
+            objectiveText.text = "Current Objective: " + Objective;
         }
     }
 }
