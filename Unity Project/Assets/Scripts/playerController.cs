@@ -193,6 +193,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
 
+
+
     /*
     /// <summary>
     /// Assign in the inspector

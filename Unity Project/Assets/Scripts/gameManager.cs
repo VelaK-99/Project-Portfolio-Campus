@@ -66,7 +66,7 @@ public class gameManager : MonoBehaviour
     public bool isPaused;
     float timeScaleOrig;    
     float gameGoalCount;
-
+    public bool haskey = false;
 
     void Awake()
     {
