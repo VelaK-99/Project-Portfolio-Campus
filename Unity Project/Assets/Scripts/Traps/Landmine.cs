@@ -18,7 +18,6 @@ public class Landmine : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isArmed)
         {
-            Debug.Log("Player stepped on the mine!");
             isArmed = true;
             model.material.color = armedColor;
         }
@@ -28,7 +27,6 @@ public class Landmine : MonoBehaviour
     {
         if (other.CompareTag("Player") && isArmed)
         {
-            Debug.Log("Player left the mine, BOOM!");
             Explode();
         }
     }

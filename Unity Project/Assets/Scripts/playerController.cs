@@ -23,7 +23,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 3)][SerializeField] int sprintMod;
     [Range(1, 20)][SerializeField] int jumpSpeed;
     [Range(1, 3)][SerializeField] int jumpMax;
-    //public float meleeRange = 2f;
+    public int meleeDamage = 5;
+    public float meleeRange = 2f;
     private float meleeCooldown = 1f;
     public float meleeTimer = 0;
     public LayerMask Enemylayer;
@@ -100,8 +101,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     
 
 
-    float bobFrequency = 4f;
-    float bobAmplitude = 0.03f;
+    float bobFrequency = 0f;
+    float bobAmplitude = 0f;
     float bobLerpSpeed = 4f;
     float sprintBobFrequency = 1.5f;
     float sprintBobAmplitude = 0.2f;
@@ -109,10 +110,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     float walkBobAmplitude = 0.03f;
 
 
-    float camwalkBobAmplitude = 0.06f;
-    float camwalkBobFrequency = 0.50f;
-    float camsprintBobAmplitude = 0.1f;
-    float camsprintBobFrequency = 0.4f;
+    float camwalkBobAmplitude = 0f;
+    float camwalkBobFrequency = 0f;
+    float camsprintBobAmplitude = 0f;
+    float camsprintBobFrequency = 0f;
 
 
     float bobTimer;
@@ -192,6 +193,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
 
 
+
+
     /*
     /// <summary>
     /// Assign in the inspector
@@ -213,9 +216,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
-        laserLine = laserOrigin.GetComponent<LineRenderer>();
-
-        if (startingWeapon != null)
+        laserLine = GetComponent<LineRenderer>();
+        List<gunStats> loadedGuns = gameManager.instance.LoadGame();
+        if (loadedGuns != null && loadedGuns.Count > 0)
+        {
+            arsenal = loadedGuns;
+            gunListPos = 0;
+            ChangeGun(gunListPos);
+        }
+        else if (startingWeapon != null)
         {
             arsenal.Add(startingWeapon);
             gunListPos = 0;
@@ -236,7 +245,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             camOriginalPos = cam.localPosition;
             camDefaultPos = camOriginalPos;
             camCrouchPos = new Vector3(camOriginalPos.x, camOriginalPos.y - 0.5f, camOriginalPos.z); // tweak the offset in Inspector if needed
-            Debug.Log("Initialized camDefaultPos to: " + cam.localPosition);
         }
 
         baseSpeed = speed;
@@ -264,7 +272,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Camera Local Position: " + cam.localPosition);
 
         OnAnimLocomotion();
 
@@ -486,10 +493,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         if (Input.GetButtonDown("Sprint"))
         {
-            Debug.Log("KeyPressed");
             isSprinting = true;
             speed *= sprintMod;
-            Debug.Log("SpeedChanged");
         }
         else if (Input.GetButtonUp("Sprint"))
         {
@@ -632,7 +637,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
                     Instantiate(arsenal[gunListPos].hitEffect, hit.point, Quaternion.identity);
 
                     Debug.DrawRay(Camera.main.transform.position, shootDirection * shootDist, Color.red, 1f);
-                    Debug.Log(hit.collider.name);
 
                     IDamage dmg = hit.collider.GetComponent<IDamage>();
                     if (dmg != null)
@@ -890,6 +894,14 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         {
             animator.SetTrigger("Melee");
             meleeTimer = meleeCooldown;
+
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeRange, ~ignoreLayer))
+            {
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+                if (dmg != null) dmg.TakeDamage(meleeDamage);
+            }
         }
     }
 

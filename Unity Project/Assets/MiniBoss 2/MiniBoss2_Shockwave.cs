@@ -6,7 +6,7 @@ public class MiniBoss2_Shockwave : MonoBehaviour
     
     [SerializeField] Animator StomperANIM;
     //[SerializeField] NavMeshAgent StomperAGENT;
-    [SerializeField] float animTRANspeed = 5f;
+    [SerializeField] private float animTRANspeed = 5f;
     
 
     [SerializeField] GameObject SHOCKWAVEparticles;
@@ -81,7 +81,6 @@ public class MiniBoss2_Shockwave : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player hit by shockwave");
             PlayerScript player = other.GetComponent<PlayerScript>();
 
             if (player != null)
