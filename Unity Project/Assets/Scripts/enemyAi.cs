@@ -34,10 +34,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
-    [SerializeField] float peekDistance = 0.75f;
-    [SerializeField] float peekSpeed = 5f;
-    [SerializeField] float coverDetectionRadius = 20f;
-    
 
     private Transform currentCoverPoint;
     private float coverSwitchTimer;
@@ -48,7 +44,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     public LineRenderer joltLine;
 
     float shootTimer;
-    bool playerInRange;
     float roamTimer;
     float angleToPlayer;
     float stoppingDistOrig;
@@ -298,14 +293,14 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         {
             if (other.CompareTag("Player"))
             {
-                playerInRange = true;
+                //playerInRange = true;
             }
         }
         public void OnTriggerExit(Collider other)
         {
             if (other.CompareTag("Player"))
             {
-                playerInRange = false;
+                //playerInRange = false;
                 agent.stoppingDistance = 0;
             }
         }

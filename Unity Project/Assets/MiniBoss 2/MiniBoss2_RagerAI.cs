@@ -76,10 +76,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
-    [SerializeField] float peekDistance = 0.75f;
-    [SerializeField] float peekSpeed = 5f;
-    [SerializeField] float coverDetectionRadius = 20f;
-
     public LineRenderer joltLine;
     bool isTakingCover = false;
     bool isAtCover;
@@ -122,13 +118,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     /// </summary>
     //[SerializeField] Collider SwordCOLLIDE;
 
-
-
-    /// <summary>
-    /// a check to see if the player in range is true
-    /// </summary>
-    bool player_IN_RANGE;
-
     /// <summary>
     /// Calculation variable for when to start roaming again
     /// </summary>
@@ -151,6 +140,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
     bool isMoving;
     bool isPlayingStep;
+    //bool player_IN_RANGE;
 
 
     /*
@@ -556,7 +546,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
-            player_IN_RANGE = true;
+            //player_IN_RANGE = true;
         }
     }
 
@@ -564,7 +554,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
-            player_IN_RANGE = false;
+            //player_IN_RANGE = false;
             AGENT.stoppingDistance = 0;
         }
     }

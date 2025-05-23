@@ -6,7 +6,6 @@ public class MiniBoss2_Shockwave : MonoBehaviour
     
     [SerializeField] Animator StomperANIM;
     //[SerializeField] NavMeshAgent StomperAGENT;
-    [SerializeField] private float animTRANspeed = 5f;
     
 
     [SerializeField] GameObject SHOCKWAVEparticles;

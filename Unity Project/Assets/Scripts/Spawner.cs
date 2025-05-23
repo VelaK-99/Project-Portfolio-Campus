@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
 
     float spawnTimer;
     int spawnCount;
-    bool startSpawning;
+    //bool startSpawning;
     
     void Start()
     {
@@ -53,7 +53,7 @@ public class Spawner : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            startSpawning = true;
+            //startSpawning = true;
             entrance.LockDoor();
             exit.LockDoor();
         }

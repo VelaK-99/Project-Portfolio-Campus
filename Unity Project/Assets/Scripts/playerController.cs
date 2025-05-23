@@ -90,7 +90,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     float normalFov = 80f;
 
     [SerializeField] Vector3 adsCamPos;
-    float adsSpeed = 100f;
 
     float recoilStrength = 0.5f;
     float recoilSpeed = 6f;
