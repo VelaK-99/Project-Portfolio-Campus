@@ -214,9 +214,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
-        laserLine = laserOrigin.GetComponent<LineRenderer>();
-
-        if (startingWeapon != null)
+        laserLine = GetComponent<LineRenderer>();
+        List<gunStats> loadedGuns = gameManager.instance.LoadGame();
+        if (loadedGuns != null && loadedGuns.Count > 0)
+        {
+            arsenal = loadedGuns;
+            gunListPos = 0;
+            ChangeGun(gunListPos);
+        }
+        else if (startingWeapon != null)
         {
             arsenal.Add(startingWeapon);
             gunListPos = 0;

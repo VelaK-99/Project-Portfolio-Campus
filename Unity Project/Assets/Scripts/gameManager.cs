@@ -56,8 +56,11 @@ public class gameManager : MonoBehaviour
     [Header("===== MiniBoss/Boss Fight =====")]
     public GameObject bossHealthBar;
 
+    [Header("===== Save System =====")]
+    public List<gunStats> allGuns;
     [Header("===== Objectives =====")]
     public TMP_Text objectiveText;
+
 
 
     public bool isPaused;
@@ -237,6 +240,46 @@ public class gameManager : MonoBehaviour
             bossHealthBar.SetActive(true);
             bossHealthBar.GetComponent<BossHealthBar>().AssignBoss(boss);
         }
+    }
+
+    public void SaveGame()
+    {
+        List<string> gunNames = new List<string>();
+
+        foreach (gunStats gun in playerScript.arsenal)
+        {
+            gunNames.Add(gun.GunName);
+        }
+
+        string listItems = string.Join(",", gunNames);
+        PlayerPrefs.SetString("OwnedWeapons", listItems);
+        PlayerPrefs.Save();
+        Debug.Log("Saved weapons: " + listItems);
+    }
+
+    public List<gunStats> LoadGame()
+    {
+        List<gunStats> loadedGuns = new List<gunStats>();
+
+        string listItems = PlayerPrefs.GetString("OwnedWeapons", "");
+        Debug.Log("Loading weapons: " + listItems);
+        if (string.IsNullOrEmpty(listItems)) return loadedGuns;
+
+        string[] gunNames = listItems.Split(',');
+
+        foreach (string name in gunNames)
+        {
+            gunStats gun =  allGuns.Find(g => g.GunName == name);
+            if(gun != null)
+            {
+                loadedGuns.Add(gun);
+            }
+            else
+            {
+                Debug.LogWarning("Missing gun in allGuns: " + name);
+            }
+        }
+        return loadedGuns;
     }
 
     public void SetObjective(string Objective)
