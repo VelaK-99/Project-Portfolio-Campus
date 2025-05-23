@@ -475,6 +475,7 @@ Transform:
   - {fileID: 1150382071403561626}
   - {fileID: 7491251138447997815}
   - {fileID: 7080824914253072861}
+  - {fileID: 6238462576589989649}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &78840824528912962
@@ -662,11 +663,10 @@ MonoBehaviour:
   gunModel: {fileID: 6027848457595790386}
   laserOrigin: {fileID: 8225238743407447842}
   laserDuration: 0.05
-  laserLine: {fileID: 8730837750782418772}
   startingWeapon: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
   cam: {fileID: 7491251138447997815}
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
-  grenadeSpawnPoint: {fileID: 0}
+  grenadeSpawnPoint: {fileID: 6238462576589989649}
   audJump:
   - {fileID: 8300000, guid: 7268c285d3390014599735fbebdb6f2a, type: 3}
   - {fileID: 8300000, guid: d9dbf138327eadb49b026f89167ac8f3, type: 3}
@@ -1257,6 +1257,37 @@ Transform:
   m_Children:
   - {fileID: 3537332814093590130}
   m_Father: {fileID: 279971937514823471}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6805491505694146281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6238462576589989649}
+  m_Layer: 0
+  m_Name: GrenadePOS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6238462576589989649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6805491505694146281}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.653, z: 0.598}
+  m_LocalScale: {x: 1, y: 1.1235956, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6668166344820973566}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7073574343090366980
 GameObject:
