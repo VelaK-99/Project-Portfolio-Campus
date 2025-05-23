@@ -20891,6 +20891,34 @@ PrefabInstance:
       propertyPath: playerSCRIPT
       value: 
       objectReference: {fileID: 990290006}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: allGuns.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'allGuns.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f48416fdc9abe1f43a8f9d33f4714f9e, type: 2}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'allGuns.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 968cd10d48e02f943b29d4585de57973, type: 2}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'allGuns.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'allGuns.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b5a7e89b71fc8e448e886b76dea77c6, type: 2}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'allGuns.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e2b082d5cae97d945adf1347236db9ab, type: 2}
+    - target: {fileID: 3521136976025040167, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: 'allGuns.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ef17201d55599c445beeeaf41f3c67eb, type: 2}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0

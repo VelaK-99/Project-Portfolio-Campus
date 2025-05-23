@@ -416,11 +416,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f535f40320084934b889eaa789390524, type: 3}
---- !u!4 &605128642 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5979861822670673480, guid: 2c5a0d2027747c640802931560349457, type: 3}
-  m_PrefabInstance: {fileID: 1468938384}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &666063477
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +524,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea9bbf727120ee142b82288c866ee6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!120 &801974717 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 8730837750782418772, guid: 2c5a0d2027747c640802931560349457, type: 3}
+  m_PrefabInstance: {fileID: 1468938384}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &842524964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -838,7 +838,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 909405381c683f14d9242cba4429dbca, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: fa2500102ab7ac548b0eb508d1f896e1, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1447503461
 Transform:
@@ -864,17 +864,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: laserLine
+      value: 
+      objectReference: {fileID: 801974717}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: playerSpawnPos
       value: 
       objectReference: {fileID: 1024480887}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: startingWeapon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: d30bfe1202974b745b681a869ded93b5, type: 2}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: grenadeSpawnPoint
       value: 
-      objectReference: {fileID: 605128642}
+      objectReference: {fileID: 0}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: 'arsenal.Array.data[0]'
       value: 
@@ -1349,6 +1353,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4709789044111884625, guid: 8e01719c0476ed948819ccd8a587f2e3, type: 3}
+      propertyPath: m_EnableTreeColliders
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5006470760216832341, guid: 8e01719c0476ed948819ccd8a587f2e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
