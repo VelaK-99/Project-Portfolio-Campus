@@ -19,13 +19,18 @@ MonoBehaviour:
   shootRate: 0.1
   reloadSpeed: 1.5
   ammoCapacity: 30
-  currentAmmo: 30
-  totalAmmo: 170
+  currentAmmo: 0
+  totalAmmo: 90
   maxAmmo: 180
   GunName: Laser
   isShotgun: 0
   isSciFi: 1
   hitEffect: {fileID: 8884371268655795233, guid: 20fda529c996a334da7fd65b48ea40df, type: 3}
   shootSounds:
-  - {fileID: 8300000, guid: c0cae6912e1322e47bc9be15d515041c, type: 3}
+  - {fileID: 8300000, guid: f5c2b171fb97bb84687b28fa7ae935f3, type: 3}
   shootSoundVol: 0.2
+  isElectricOrb: 0
+  electricOrbPrefab: {fileID: 0}
+  electricOrbSpeed: 0
+  electricOrbLifetime: 0
+  electricOrbDamage: 0
