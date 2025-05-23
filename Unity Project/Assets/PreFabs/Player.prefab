@@ -497,7 +497,8 @@ MonoBehaviour:
   gravity: 35
   interactDist: 3
   arsenal: []
-  hotkey_Slots: []
+  hotkey_Slots:
+  - {fileID: 0}
   gunModel: {fileID: 6027848457595790386}
   laserOrigin: {fileID: 8225238743407447842}
   laserDuration: 0.05
