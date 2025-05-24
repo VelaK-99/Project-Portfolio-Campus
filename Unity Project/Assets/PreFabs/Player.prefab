@@ -1674,7 +1674,7 @@ GameObject:
   - component: {fileID: 5183268418390796380}
   - component: {fileID: 6200787650819498046}
   - component: {fileID: 6069990524196867883}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Shockwave
   m_TagString: ShockWave
   m_Icon: {fileID: 0}
@@ -2405,6 +2405,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3639122857141436183, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
+      propertyPath: gun
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_Name
       value: DualPOS
@@ -2561,7 +2565,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
