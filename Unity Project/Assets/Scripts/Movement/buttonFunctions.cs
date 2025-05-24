@@ -54,6 +54,7 @@ public class buttonFunctions : MonoBehaviour
     public void Quit()
     {
         ClickSound();
+        PlayerPrefs.DeleteAll();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

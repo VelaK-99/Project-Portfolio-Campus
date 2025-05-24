@@ -107,7 +107,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.681059, y: 0.57697415, z: 0.47639745}
+  m_Size: {x: 1.58, y: 1.38, z: 1.26}
   m_Center: {x: -0.0016317666, y: 0.0071239173, z: 0.23905492}
 --- !u!114 &4383131507161352485
 MonoBehaviour:
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gun: {fileID: 0}
-  healthAmount: 5
+  healthAmount: 15
   ammoAmount: 0
   type: 0
   destroyTime: 1000

@@ -31,8 +31,15 @@ public class Destructible : MonoBehaviour, IDamage
 
     IEnumerator flashDAMAGE_color()
     {
+        if (MODEL == null || MODEL.material == null)
+        {
+            yield break;
+        }
+
         MODEL.material.color = Color.cyan;
         yield return new WaitForSeconds(0.1f);
+
+        if (MODEL != null && MODEL.material != null)
         MODEL.material.color = colorORIGINAL;
     }
 }

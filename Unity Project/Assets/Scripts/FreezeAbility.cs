@@ -28,7 +28,6 @@ public class FreezeAbility : MonoBehaviour
     private IEnumerator ActivateFreezeBurst()
     {
         isBurstActive = true;
-        Debug.Log("Freeze Ability Activated!");
 
         if (iceAbilityEffect != null)
         {
@@ -44,8 +43,6 @@ public class FreezeAbility : MonoBehaviour
             FreezeEnemiesInCone();
             yield return null;
         }
-
-        Debug.Log("Freeze Ability Deactivated!");
         isBurstActive = false;
     }
 
@@ -77,7 +74,6 @@ public class FreezeAbility : MonoBehaviour
                     {
                         enemyAI.ApplyFreeze(freezeDuration);
                         StartCoroutine(FreezeBlue(enemyAI.gameObject));
-                        Debug.Log($"Enemy {enemy.name} frozen for {freezeDuration} seconds.");
                     }
                 }
             }
