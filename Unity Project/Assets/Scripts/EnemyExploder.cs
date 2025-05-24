@@ -4,29 +4,30 @@ using UnityEngine.AI;
 public class EnemyExploder : MonoBehaviour, IDamage
 {
     [SerializeField] int health;
-    [SerializeField] float explosionRadius;
-    [SerializeField] int explosionDamage;
+    [SerializeField] float explosionRadius = 5f;
+    [SerializeField] int explosionDamage = 30;
     [SerializeField] GameObject explosionEffect;
-    [SerializeField] float moveSpeed;
+    [SerializeField] float explodeDistance = 2f; 
 
+    Transform player;
     NavMeshAgent agent;
 
     void Start()
     {
+        player = gameManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = moveSpeed;
     }
 
     void Update()
     {
-        if (!gameManager.instance.player) return;
+        if (!player) return;
 
-        agent.SetDestination(gameManager.instance.player.transform.position);
-    }
+        // Move toward the player
+        agent.SetDestination(player.position);
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        // Check if close enough to explode
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= explodeDistance)
         {
             Explode();
         }

@@ -14,6 +14,7 @@ Material:
   m_ValidKeywords:
   - _NORMALMAP
   - _PARALLAXMAP
+  - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -70,12 +71,12 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.679
     - _GlossyReflections: 1
-    - _Metallic: 0.37
+    - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 0.384
     - _Parallax: 0.0464
     - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1

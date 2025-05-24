@@ -79,9 +79,6 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
-    [SerializeField] float peekDistance = 0.75f;
-    [SerializeField] float peekSpeed = 5f;
-    [SerializeField] float coverDetectionRadius = 20f;
 
     public LineRenderer joltLine;
     bool isTakingCover = false;
@@ -122,13 +119,6 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage, IElectricJolt
     /// For melee collisions
     /// </summary>
     //[SerializeField] Collider SwordCOLLIDE;
-
-
-
-    /// <summary>
-    /// a check to see if the player in range is true
-    /// </summary>
-    bool player_IN_RANGE;
 
     /// <summary>
     /// Calculation variable for when to start roaming again
@@ -558,7 +548,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage, IElectricJolt
     {
         if (other.CompareTag("Player"))
         {
-            player_IN_RANGE = true;
+            //player_IN_RANGE = true;
         }
     }
 
@@ -566,7 +556,7 @@ public class MiniBoss2_Stomper_AI : MonoBehaviour, IDamage, IElectricJolt
     {
         if (other.CompareTag("Player"))
         {
-            player_IN_RANGE = false;
+            //player_IN_RANGE = false;
             AGENT.stoppingDistance = 0;
         }
     }
