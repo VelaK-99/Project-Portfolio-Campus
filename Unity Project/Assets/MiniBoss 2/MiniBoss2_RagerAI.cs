@@ -76,10 +76,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
-    [SerializeField] float peekDistance = 0.75f;
-    [SerializeField] float peekSpeed = 5f;
-    [SerializeField] float coverDetectionRadius = 20f;
-
     public LineRenderer joltLine;
     bool isTakingCover = false;
     bool isAtCover;
@@ -122,13 +118,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     /// </summary>
     //[SerializeField] Collider SwordCOLLIDE;
 
-
-
-    /// <summary>
-    /// a check to see if the player in range is true
-    /// </summary>
-    bool player_IN_RANGE;
-
     /// <summary>
     /// Calculation variable for when to start roaming again
     /// </summary>
@@ -151,6 +140,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
     bool isMoving;
     bool isPlayingStep;
+    //bool player_IN_RANGE;
 
 
     /*
@@ -397,14 +387,12 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
             currentCoverPoint = GetRandomCoverPoint();
             if (currentCoverPoint == null)
             {
-                Debug.LogWarning("No Available cover. staying in place");
 
                 isTakingCover = false;
                 return;
             }
 
             AGENT.SetDestination(currentCoverPoint.position);
-            Debug.Log($"Moving to cover point: {currentCoverPoint.name} at {currentCoverPoint.position}");
         }
 
         faceTARGET();
@@ -417,7 +405,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
         if (Vector3.Distance(transform.position, currentCoverPoint.position) <= 0.5f)
         {
-            Debug.Log("Enemy reached cover.");
             currentCoverState = CoverState.AtCover;
             coverSwitchTimer = 0;
         }
@@ -429,7 +416,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
         if (!CanSeePlayer())
         {
-            Debug.Log("Can't see player, switching cover.");
             currentCoverState = CoverState.SwitchingCover;
             return;
         }
@@ -444,7 +430,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
         if (coverSwitchTimer >= coverSwitchDelay)
         {
             currentCoverState = CoverState.SwitchingCover;
-            Debug.Log("Switching cover after delay");
         }
     }
 
@@ -453,27 +438,23 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
         currentCoverPoint = GetRandomCoverPoint();
         if (currentCoverPoint == null)
         {
-            Debug.LogWarning("No available cover to switch to.");
             isTakingCover = false;
             return;
         }
 
         AGENT.SetDestination(currentCoverPoint.position);
         currentCoverState = CoverState.MovingToCover;
-        Debug.Log($"Switching to new cover point: {currentCoverPoint.name}");
     }
 
     Transform GetRandomCoverPoint()
     {
         if (coverPoints.Count == 0)
         {
-            Debug.LogWarning("No cover points assigned.");
             return null;
         }
 
         Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
         coverPoints.Add(selectedCover);
-        Debug.Log($"Selected Cover Point: {selectedCover.name} at {selectedCover.position}");
         return selectedCover;
     }
 
@@ -483,7 +464,6 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
 
         if (gameManager.instance.player == null)
         {
-            Debug.Log("Player not found.");
             return false;
         }
 
@@ -508,12 +488,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
             {
                 return true;
             }
-            else
-            {
-                Debug.Log($"Raycast blocked by: {hit.collider.name}");
-            }
         }
-        Debug.Log("Player is not in sight.");
         return false;
     }
 
@@ -571,7 +546,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
-            player_IN_RANGE = true;
+            //player_IN_RANGE = true;
         }
     }
 
@@ -579,7 +554,7 @@ public class MiniBoss2_Rager_AI : MonoBehaviour, IDamage
     {
         if (other.CompareTag("Player"))
         {
-            player_IN_RANGE = false;
+            //player_IN_RANGE = false;
             AGENT.stoppingDistance = 0;
         }
     }

@@ -7,7 +7,7 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
     private Transform PlayerPos;
     [SerializeField] Animator animator;
     [SerializeField] Renderer model;
-    private Collider collider;
+    private Collider Mechcollider;
     [SerializeField] AudioSource bulletAudio;
     [SerializeField] AudioSource missileAudio;
     [SerializeField] AudioSource mortarAudio;
@@ -57,7 +57,7 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
     {
         gameManager.instance.ShowBossHealthBar(this);
 
-        collider = GetComponent<Collider>();
+        Mechcollider = GetComponent<Collider>();
         originalHealth = Health;
         animator = GetComponent<Animator>();
     }
@@ -236,9 +236,9 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
 
         if (Health <= 0)
         {
-            if(collider != null)
+            if(Mechcollider != null)
             {
-                collider.enabled = false;
+                Mechcollider.enabled = false;
             }
             StartCoroutine(MechDeath());
         }

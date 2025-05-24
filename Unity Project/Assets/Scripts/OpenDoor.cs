@@ -3,13 +3,18 @@ using UnityEngine;
 public class OpenDoor : MonoBehaviour
 {
     [SerializeField] Animator doorAnim;
+    [SerializeField] bool IsKeyPuzzle=false;
     private bool locked = false;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && !locked)
+        if(other.CompareTag("Player") && !locked )
         {
-            doorAnim.SetTrigger("Open");
+            if (!IsKeyPuzzle || (IsKeyPuzzle && gameManager.instance.haskey))
+            {
+                doorAnim.SetTrigger("Open");
+            }
+           
         }
     }
 
@@ -17,7 +22,10 @@ public class OpenDoor : MonoBehaviour
     {
         if(other.CompareTag("Player") && !locked)
         {
-            doorAnim.SetTrigger("Closed");
+            if (!IsKeyPuzzle || (IsKeyPuzzle && gameManager.instance.haskey))
+            {
+                doorAnim.SetTrigger("Closed");
+            }
         }
     }
 

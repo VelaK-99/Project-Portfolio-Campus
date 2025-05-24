@@ -58,32 +58,28 @@ public class gameManager : MonoBehaviour
 
     [Header("===== Save System =====")]
     public List<gunStats> allGuns;
+    [Header("===== Objectives =====")]
+    public TMP_Text objectiveText;
 
 
 
     public bool isPaused;
     float timeScaleOrig;    
     float gameGoalCount;
-
+    public bool haskey = false;
 
     void Awake()
     {
         instance = this;
-        player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<PlayerScript>();
         timeScaleOrig = Time.timeScale;
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
-
-        if (playerSpawnPos == null)
-        {
-            Debug.LogWarning(" 'PlayerSpawnPos' GameObject is missing in the scene! Camera may default at (0, 0, 0)!");
-        }
+        player = GameObject.FindWithTag("Player");
+        playerScript = player.GetComponent<PlayerScript>();
     }
 
 
     void Update()
     {
-        
         if (Input.GetButtonDown("num1"))
         {
             ToggleSlot(0);
@@ -284,5 +280,13 @@ public class gameManager : MonoBehaviour
             }
         }
         return loadedGuns;
+    }
+
+    public void SetObjective(string Objective)
+    {
+        if(objectiveText != null)
+        {
+            objectiveText.text = "Current Objective: " + Objective;
+        }
     }
 }

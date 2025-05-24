@@ -21,6 +21,7 @@ public class pickups : MonoBehaviour
             {
                 pickupable.HealthPickup(healthAmount);
                 Destroy(gameObject);
+                gameManager.instance.playerScript.UpdatePlayerUI();
             }
         }
 

@@ -1189,7 +1189,7 @@ GameObject:
   - component: {fileID: 3934184225192399472}
   m_Layer: 3
   m_Name: MechaHitler
-  m_TagString: Untagged
+  m_TagString: Mecha Hitler
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1272,6 +1272,7 @@ MonoBehaviour:
   fireRate: 0.8
   GoIntoDPSPhaseEvery: 25
   Phase2Multiplier: 5
+  IsActive: 0
 --- !u!65 &7627796849860194053
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1291,8 +1292,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.05801, y: 6.636282, z: 3.3365173}
-  m_Center: {x: -0.017591476, y: 2.818141, z: 0.96338654}
+  m_Size: {x: 4.05801, y: 5.5833282, z: 3.3365173}
+  m_Center: {x: -0.017591476, y: 3.2252278, z: 0.96338654}
 --- !u!82 &3934184225192399472
 AudioSource:
   m_ObjectHideFlags: 0

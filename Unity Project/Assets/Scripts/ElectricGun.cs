@@ -10,7 +10,6 @@ public class ElectricGun : MonoBehaviour
     void Start()
     {
         Destroy(gameObject, lifeTime); 
-        Debug.Log($"Electric Orb Spawned. Layer: {gameObject.layer}");
     }
 
     void Update()
