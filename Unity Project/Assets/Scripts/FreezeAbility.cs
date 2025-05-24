@@ -13,6 +13,10 @@ public class FreezeAbility : MonoBehaviour
     [SerializeField] GameObject iceAbilityEffect;
     [SerializeField] Transform shootOrigin; // Set this to the player camera or gun position
 
+    [SerializeField] AudioSource aud;
+    [SerializeField] AudioClip[] audFroozen;
+    [Range(0, 100)][SerializeField] float audFroozenVol;
+
     private bool isBurstActive = false;
     private GameObject activeIceEffect;
 
@@ -28,6 +32,9 @@ public class FreezeAbility : MonoBehaviour
     private IEnumerator ActivateFreezeBurst()
     {
         isBurstActive = true;
+        if (aud != null)
+            aud.PlayOneShot(audFroozen[Random.Range(0, audFroozen.Length)], audFroozenVol);
+
 
         if (iceAbilityEffect != null)
         {
