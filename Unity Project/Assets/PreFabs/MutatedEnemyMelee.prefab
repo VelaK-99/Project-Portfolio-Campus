@@ -614,7 +614,9 @@ MonoBehaviour:
   stunTimer: 0
   isMelee: 1
   audShoot:
-  - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
+  - {fileID: 8300000, guid: bf50a727b9c16dd49812aa7cec645514, type: 3}
+  - {fileID: 8300000, guid: 16b7f39b05c4f034e918483679031c9b, type: 3}
+  - {fileID: 8300000, guid: 2b0890dbd01886241a53c3810f1883f3, type: 3}
   audShootVol: 0.3
   audHurt:
   - {fileID: 8300000, guid: 0dab4200bd8c34a4da9210bcce98a654, type: 3}
@@ -1611,7 +1613,7 @@ MonoBehaviour:
   explosionRad: 0
   fuseTime: 0
   explosionEffect: {fileID: 0}
-  damageAmount: 1
+  damageAmount: 5
   damageRate: 0
   speed: 0
   destroyTime: 0

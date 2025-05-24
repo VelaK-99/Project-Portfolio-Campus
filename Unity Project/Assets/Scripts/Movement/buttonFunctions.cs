@@ -43,12 +43,14 @@ public class buttonFunctions : MonoBehaviour
     {
         ClickSound();
         gameManager.instance.painelSettings.SetActive(true);
+        gameManager.instance.hudPanel.SetActive(false);
         EventSystem.current.SetSelectedGameObject(firstButtonSet);
     }
     public void CloseSetting()
     {
         ClickSound();
         gameManager.instance.painelSettings.SetActive(false);
+        gameManager.instance.hudPanel.SetActive(true);
         EventSystem.current.SetSelectedGameObject(firstButtonMenu);
     }
     public void Quit()

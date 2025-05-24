@@ -17,6 +17,7 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] public GameObject hudPanel;
     public GameObject painelSettings;
     [SerializeField] private GameObject firstButtonMenu;
 
@@ -98,7 +99,7 @@ public class gameManager : MonoBehaviour
 
         if (Input.GetButtonDown("Cancel"))
         {
-            if (menuActive == null)
+            if (menuActive == null || menuActive != menuPause)
             {
                 statePause();
                 menuActive = menuPause;
