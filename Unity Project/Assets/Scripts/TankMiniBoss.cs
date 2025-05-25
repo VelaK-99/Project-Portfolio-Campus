@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class TankMiniBoss : MonoBehaviour, IDamage
 {
@@ -10,6 +11,8 @@ public class TankMiniBoss : MonoBehaviour, IDamage
     [SerializeField] Color flashColor = Color.red;
     [SerializeField] float flashDuration = 0.1f;
     [SerializeField] gameManager gameManager;
+    [SerializeField] private string scenename;
+    [SerializeField] TankMiniBoss triggerWin;
 
     Renderer[] renderers;
     List<Color> originalColors = new List<Color>();
@@ -66,6 +69,7 @@ public class TankMiniBoss : MonoBehaviour, IDamage
         if (gameManager != null)
         {
             gameManager.youWin();
+            SceneManager.LoadScene(scenename);
         }
 
         Destroy(gameObject);
