@@ -902,7 +902,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void Melee()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && meleeTimer <= 0)
+        if (Input.GetButtonDown("Melee") && meleeTimer <= 0)
         {
             animator.SetTrigger("Melee");
             meleeTimer = meleeCooldown;
