@@ -72,11 +72,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Header("===== Grenade =====")]
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] Transform grenadeSpawnPoint;
+    [SerializeField] float grenadeCooldown; 
+    float grenadeTimer; 
     float grenadeThrowForce = 100f;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audJump;
-    [Range(0, 100)][SerializeField] float audJumpVol;
     [SerializeField] AudioClip[] audHurt;
     [Range(0, 100)][SerializeField] float audHurtVol;
     [SerializeField] AudioClip[] audStep;
@@ -93,6 +94,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     float recoilStrength = 0.5f;
     float recoilSpeed = 6f;
+    [Range(0, 100)][SerializeField] float audJumpVol;
     [SerializeField] Vector3 recoilDirection;
     private Vector3 currentRecoil;
 
@@ -343,12 +345,12 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
             Vector3 baseGunPos = isAiming ? adsGunPos : hipFirePos;
             Vector3 bobOffset = new Vector3(bobX, bobY, 0);
-             targetGunPos = baseGunPos + bobOffset;
+            targetGunPos = baseGunPos + bobOffset;
 
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
             //updateDUALguns(targetGunPos);
-                
+
             /*
             if (DUALgun != null)
             {
@@ -360,7 +362,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         else
         {
             bobTimer = 0;
-             targetGunPos = isAiming ? adsGunPos : hipFirePos;
+            targetGunPos = isAiming ? adsGunPos : hipFirePos;
             gun.localPosition = Vector3.Lerp(gun.localPosition, targetGunPos, Time.deltaTime * gunAimSpeed);
 
             //updateDUALguns(targetGunPos);
@@ -374,10 +376,22 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         }
 
         CameraBobbing();
-    }    
+
+        if (isRaging)
+        {
+            rageTimer -= Time.deltaTime;
+            if (rageTimer <= 0)
+                EndRage();
+        }
+
+        if (grenadeTimer > 0f)
+        {
+            grenadeTimer -= Time.deltaTime;
+        }
+    }
 
     // Call this method whenever player does or takes damage to gain rage
- 
+
 
     void Movement()
     {
@@ -912,7 +926,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             if (isCrouching)
             {
                 controller.height = crouchHeight;
-                controller.center = new Vector3(0, crouchHeight / 4, 0);
+                controller.center = new Vector3(0, originalCenter.y - (originalHeight - crouchHeight) / 2, 0);
                 speed = (int)(baseSpeed / crouchSpeedMod);
 
                 if (cam != null)
@@ -971,7 +985,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     void ThrowGrenade()
     {
-        if (Input.GetButtonDown("ThrowGrenade"))
+        if (grenadeTimer <= 0f && Input.GetButtonDown("ThrowGrenade"))
         {
             GameObject grenade = Instantiate(grenadePrefab, grenadeSpawnPoint.position, grenadeSpawnPoint.rotation);
 
@@ -980,6 +994,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             {
                 rb.AddForce(grenadeSpawnPoint.forward * grenadeThrowForce, ForceMode.VelocityChange);
             }
+
+            grenadeTimer = grenadeCooldown; 
         }
     }
 
