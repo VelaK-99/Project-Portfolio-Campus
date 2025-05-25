@@ -1,23 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class AudioSettings : MonoBehaviour
 {
     [Header("Audio Settings")]
-    public AudioSource audioSource;
+    public List<AudioSource> audioSources; 
     public Slider volumeSlider;
 
     void Start()
     {
-       
-        volumeSlider.value = audioSource.volume;
+        if (audioSources != null && audioSources.Count > 0)
+        {
+            
+            volumeSlider.value = audioSources[0].volume;
+        }
 
-        
         volumeSlider.onValueChanged.AddListener(SetVolume);
     }
 
     public void SetVolume(float volume)
     {
-        audioSource.volume = volume;
+        foreach (AudioSource source in audioSources)
+        {
+            if (source != null)
+                source.volume = volume;
+        }
     }
 }

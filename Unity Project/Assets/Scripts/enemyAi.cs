@@ -20,7 +20,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] int roamPauseTime;
     [Range(0, 25)][SerializeField] float shootRate;
     [Range(0, 45)][SerializeField] int shootFOV;    
-    public float stunTimer;    
+    public float stunTimer;
+    [SerializeField] bool isMelee;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
@@ -34,6 +35,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
+
+    [Header("===== Mob Drops =====")]
+    [SerializeField] GameObject ammoDrop;
+    [SerializeField] GameObject healthDrop;
+    [SerializeField] float dropChance = 0.6f;
 
     private Transform currentCoverPoint;
     private float coverSwitchTimer;
@@ -138,7 +144,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         
         if (CanSeePlayer())
         {
-            
             agent.SetDestination(gameManager.instance.player.transform.position);
 
             
@@ -148,7 +153,14 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootRate)
             {
-                shoot();
+                if (isMelee && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    shoot();
+                }
+                else if (!isMelee)
+                {
+                    shoot();
+                }
             }
         }
         else
@@ -301,7 +313,10 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             if (other.CompareTag("Player"))
             {
                 //playerInRange = false;
+                if (!isMelee) 
+                { 
                 agent.stoppingDistance = 0;
+                }
             }
         }
 
@@ -311,9 +326,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         StartCoroutine(flashRed());
 
         aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+       
 
         if (HP <= 0)
         {
+        DropPickup();
             Destroy(gameObject);
             return;
         }
@@ -549,6 +566,19 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         joltLine.enabled = true;
         yield return new WaitForSeconds(0.05f);
         joltLine.enabled = false;
+    }
+
+    void DropPickup()
+    {
+        if (Random.value < dropChance)
+        {
+            int dropType = Random.Range(0, 2); 
+
+            if (dropType == 0 && ammoDrop != null)
+                Instantiate(ammoDrop, transform.position, Quaternion.identity);
+            else if (dropType == 1 && healthDrop != null)
+                Instantiate(healthDrop, transform.position, Quaternion.identity);
+        }
     }
 
     void Movement()

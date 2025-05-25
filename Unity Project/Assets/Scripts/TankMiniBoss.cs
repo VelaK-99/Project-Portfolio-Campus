@@ -1,22 +1,29 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class TankMiniBoss : MonoBehaviour, IDamage
 {
     [SerializeField] int health;
     [SerializeField] GameObject deathExplosion;
     [SerializeField] GameObject turretToDestroy;
-    [SerializeField] Renderer flashRenderer; 
     [SerializeField] Color flashColor = Color.red;
     [SerializeField] float flashDuration = 0.1f;
+    [SerializeField] gameManager gameManager;
+    [SerializeField] private string scenename;
+    [SerializeField] TankMiniBoss triggerWin;
 
-    Color originalColor;
+    Renderer[] renderers;
+    List<Color> originalColors = new List<Color>();
 
     void Start()
     {
-        if (flashRenderer != null)
+        renderers = GetComponentsInChildren<Renderer>();
+
+        foreach (var rend in renderers)
         {
-            originalColor = flashRenderer.material.color;
+            originalColors.Add(rend.material.color);
         }
     }
 
@@ -24,10 +31,7 @@ public class TankMiniBoss : MonoBehaviour, IDamage
     {
         health -= dmg;
 
-        if (flashRenderer != null)
-        {
-            StartCoroutine(FlashRed());
-        }
+        StartCoroutine(FlashRed());
 
         if (health <= 0)
         {
@@ -37,9 +41,17 @@ public class TankMiniBoss : MonoBehaviour, IDamage
 
     IEnumerator FlashRed()
     {
-        flashRenderer.material.color = flashColor;
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material.color = flashColor;
+        }
+
         yield return new WaitForSeconds(flashDuration);
-        flashRenderer.material.color = originalColor;
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material.color = originalColors[i];
+        }
     }
 
     void Die()
@@ -54,6 +66,13 @@ public class TankMiniBoss : MonoBehaviour, IDamage
             Destroy(turretToDestroy);
         }
 
+        if (gameManager != null)
+        {
+            gameManager.youWin();
+            SceneManager.LoadScene(scenename);
+        }
+
         Destroy(gameObject);
     }
 }
+ 

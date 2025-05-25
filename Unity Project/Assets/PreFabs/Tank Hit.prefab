@@ -19581,6 +19581,8 @@ GameObject:
   - component: {fileID: 7925506082720114362}
   - component: {fileID: 1131153952480104089}
   - component: {fileID: -3145253940556271956}
+  - component: {fileID: -2891708249512607784}
+  - component: {fileID: 7146799903838686630}
   m_Layer: 0
   m_Name: Tank Hit
   m_TagString: Untagged
@@ -24535,5 +24537,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d564bbf1acbbdb4f81f6d81062756d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 40
+  damage: 20
   radius: 14
+--- !u!114 &-2891708249512607784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8065133542912522630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7e3d67edcf70b40ab061312a41e802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  explosionRadius: 5
+  explosionDamage: 1
+  explosionEffect: {fileID: 8065133542912522630}
+  explodeDistance: 2
+--- !u!195 &7146799903838686630
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8065133542912522630}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
