@@ -16891,6 +16891,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4395902656146353723}
     m_Modifications:
+    - target: {fileID: 1651297097522604256, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 625d23facafe638478e7300b071851ed, type: 2}
     - target: {fileID: 3804531290277243966, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
       propertyPath: m_Name
       value: SingleSlidingDoorLocked
@@ -16934,6 +16938,18 @@ PrefabInstance:
     - target: {fileID: 4477165796809212345, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5167277577964366043, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b353d8e92d4acb640a17f18f8094ad66, type: 2}
+    - target: {fileID: 5453187799206173618, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.30372
+      objectReference: {fileID: 0}
+    - target: {fileID: 5453187799206173618, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.41276
       objectReference: {fileID: 0}
     - target: {fileID: 6717429535032912059, guid: b272599053a2bed4e9a21a5b9f502421, type: 3}
       propertyPath: m_LocalPosition.x
