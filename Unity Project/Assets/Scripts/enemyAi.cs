@@ -20,7 +20,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] int roamPauseTime;
     [Range(0, 25)][SerializeField] float shootRate;
     [Range(0, 45)][SerializeField] int shootFOV;    
-    public float stunTimer;    
+    public float stunTimer;
+    [SerializeField] bool isMelee;
 
     [Header("===== Audio =====")]
     [SerializeField] AudioClip[] audShoot;
@@ -138,7 +139,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         
         if (CanSeePlayer())
         {
-            
             agent.SetDestination(gameManager.instance.player.transform.position);
 
             
@@ -148,7 +148,14 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootRate)
             {
-                shoot();
+                if (isMelee && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    shoot();
+                }
+                else if (!isMelee)
+                {
+                    shoot();
+                }
             }
         }
         else
@@ -301,7 +308,10 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
             if (other.CompareTag("Player"))
             {
                 //playerInRange = false;
+                if (!isMelee) 
+                { 
                 agent.stoppingDistance = 0;
+                }
             }
         }
 

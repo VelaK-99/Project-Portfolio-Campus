@@ -10,6 +10,9 @@ public class  turretTrap : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
     [SerializeField] float detectionRange;
+    [SerializeField] AudioSource TurretSource;
+    [SerializeField] AudioClip[] TurretSounds;
+    [Range(0f, 2f)]  public float turretVol;
 
     float shootTimer;
     Vector3 playerDir;
@@ -46,6 +49,7 @@ public class  turretTrap : MonoBehaviour
         Quaternion bulletRot = Quaternion.LookRotation(dirToPlayer);
 
         Instantiate(bullet, shootPos.position, bulletRot);
+        TurretSource.PlayOneShot(TurretSounds[Random.Range(0, TurretSounds.Length)], turretVol);
     }
 
     void faceTarget()

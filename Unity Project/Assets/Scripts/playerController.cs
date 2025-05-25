@@ -25,8 +25,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     [Range(1, 3)][SerializeField] int jumpMax;
     public int meleeDamage = 5;
     public float meleeRange = 2f;
-    private float meleeCooldown = 1f;
-    public float meleeTimer = 0;
+    public float meleeCooldown = 3f;
+    private float meleeTimer = 0;
     public LayerMask Enemylayer;
     [Range(1, 10)][SerializeField] int jetForce;
     [Range(1, 10)][SerializeField] int jetMax;
@@ -888,19 +888,18 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void Melee()
     {
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && meleeTimer <= 0)
         {
             animator.SetTrigger("Melee");
             meleeTimer = meleeCooldown;
 
             RaycastHit hit;
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeRange, ~ignoreLayer))
-            {
-                IDamage dmg = hit.collider.GetComponent<IDamage>();
+                if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, meleeRange, ~ignoreLayer))
+                {
+                    IDamage dmg = hit.collider.GetComponent<IDamage>();
 
-                if (dmg != null) dmg.TakeDamage(meleeDamage);
-            }
+                    if (dmg != null) dmg.TakeDamage(meleeDamage);
+                }
         }
     }
 
