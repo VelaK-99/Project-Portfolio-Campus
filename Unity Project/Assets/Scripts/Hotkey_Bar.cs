@@ -70,16 +70,16 @@ public class Hotkey_Bar : MonoBehaviour
             {
                 activeSLOT = index;
                 playerSCRIPT.ChangeGun(activeSLOT);
-                refreshUI();
+                //refreshUI();
             }
         }
     }
 
-    public void refreshUI()
-    {
-        if (activeSLOT >= 0 && gameManager.instance.playerScript.arsenal[activeSLOT] != null)
-        {
-            slots_ui[activeSLOT].UpdateAmmo(gameManager.instance.playerScript.arsenal[activeSLOT]);
-        }
-    }
+    //public void refreshUI()
+    //{
+    //    if (activeSLOT >= 0 && gameManager.instance.playerScript.arsenal[activeSLOT] != null)
+    //    {
+    //        slots_ui[activeSLOT].UpdateAmmo(gameManager.instance.playerScript.arsenal[activeSLOT]);
+    //    }
+    //}
 }
