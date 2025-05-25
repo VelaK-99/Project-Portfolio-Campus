@@ -27,7 +27,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public float meleeRange = 2f;
     public float meleeCooldown = 3f;
     private float meleeTimer = 0;
-    private GameObject meleeWeapon = null;
     public LayerMask Enemylayer;
     [Range(1, 10)][SerializeField] int jetForce;
     [Range(1, 10)][SerializeField] int jetMax;
@@ -889,10 +888,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void Melee()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && meleeTimer <= 0)
         {
-            if (meleeTimer <= 0)
-           { 
             animator.SetTrigger("Melee");
             meleeTimer = meleeCooldown;
 
@@ -903,7 +900,6 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
                     if (dmg != null) dmg.TakeDamage(meleeDamage);
                 }
-            }
         }
     }
 

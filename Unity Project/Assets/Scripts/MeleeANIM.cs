@@ -13,7 +13,7 @@ public class MeleeANIM : MonoBehaviour
 
     [SerializeField] AudioSource MeleeSound;
     [SerializeField] AudioClip[] audStrikes;
-    [Range(0, 100)][SerializeField] float audStrikeVol;
+    [Range(0, 2f)] public float audStrikeVol;
 
     private float meleeTimer = 0f;
     public float meleeCooldown = 3f;
