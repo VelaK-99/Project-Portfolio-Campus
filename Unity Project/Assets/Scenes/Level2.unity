@@ -21718,6 +21718,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+--- !u!114 &1548504010 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7600439968128561695, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+  m_PrefabInstance: {fileID: 1548504009}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5baaa0360b04d014fbdf67a9ab813feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1554312069
 GameObject:
   m_ObjectHideFlags: 0
@@ -29383,7 +29394,7 @@ MonoBehaviour:
   interactDist: 3
   arsenal: []
   hotkey_Slots:
-  - {fileID: 0}
+  - {fileID: 1548504010}
   gunModel: {fileID: 6027848456964572474}
   laserOrigin: {fileID: 8730837750285368925}
   laserDuration: 0.05
@@ -29391,11 +29402,11 @@ MonoBehaviour:
   cam: {fileID: 7491251139041450623}
   grenadePrefab: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
   grenadeSpawnPoint: {fileID: 6238462576915007001}
+  grenadeCooldown: 0
   audJump:
   - {fileID: 8300000, guid: 7268c285d3390014599735fbebdb6f2a, type: 3}
   - {fileID: 8300000, guid: d9dbf138327eadb49b026f89167ac8f3, type: 3}
   - {fileID: 8300000, guid: 22a9176480377a64fbba72ad9c3abf77, type: 3}
-  audJumpVol: 0.1
   audHurt:
   - {fileID: 8300000, guid: 0dab4200bd8c34a4da9210bcce98a654, type: 3}
   - {fileID: 8300000, guid: c1c654878bcbb534cb078153b3581753, type: 3}
@@ -29420,6 +29431,7 @@ MonoBehaviour:
   audReloadVol: 0.1
   shootSoundsVol: 0.1
   adsCamPos: {x: 0, y: 1, z: 0.3}
+  audJumpVol: 0.1
   recoilDirection: {x: 0, y: 0, z: 0}
   freezeAbility: {fileID: 3600726059114409856}
   playerSpawnPos: {fileID: 1570493999}

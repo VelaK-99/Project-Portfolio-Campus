@@ -525,6 +525,10 @@ PrefabInstance:
       propertyPath: aud
       value: 
       objectReference: {fileID: 1829008791}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: 'hotkey_Slots.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1835635762}
     - target: {fileID: 1831043995532274665, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: audStrikeVol
       value: 2.3
@@ -719,6 +723,17 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 4189608926211743870, guid: 2c5a0d2027747c640802931560349457, type: 3}
   m_PrefabInstance: {fileID: 1126303197}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1835635762 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7600439968128561695, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+  m_PrefabInstance: {fileID: 211523708}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5baaa0360b04d014fbdf67a9ab813feb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1856125259
 PrefabInstance:
   m_ObjectHideFlags: 0
