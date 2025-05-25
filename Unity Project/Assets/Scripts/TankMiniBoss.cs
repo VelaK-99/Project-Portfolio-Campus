@@ -9,6 +9,7 @@ public class TankMiniBoss : MonoBehaviour, IDamage
     [SerializeField] GameObject turretToDestroy;
     [SerializeField] Color flashColor = Color.red;
     [SerializeField] float flashDuration = 0.1f;
+    [SerializeField] gameManager gameManager;
 
     Renderer[] renderers;
     List<Color> originalColors = new List<Color>();
@@ -60,6 +61,11 @@ public class TankMiniBoss : MonoBehaviour, IDamage
         if (turretToDestroy != null)
         {
             Destroy(turretToDestroy);
+        }
+
+        if (gameManager != null)
+        {
+            gameManager.youWin();
         }
 
         Destroy(gameObject);

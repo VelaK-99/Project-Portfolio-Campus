@@ -36,6 +36,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
 
+    [Header("===== Mob Drops =====")]
+    [SerializeField] GameObject ammoDrop;
+    [SerializeField] GameObject healthDrop;
+    [SerializeField] float dropChance = 0.6f;
+
     private Transform currentCoverPoint;
     private float coverSwitchTimer;
 
@@ -321,9 +326,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         StartCoroutine(flashRed());
 
         aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
+       
 
         if (HP <= 0)
         {
+        DropPickup();
             Destroy(gameObject);
             return;
         }
@@ -559,6 +566,19 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
         joltLine.enabled = true;
         yield return new WaitForSeconds(0.05f);
         joltLine.enabled = false;
+    }
+
+    void DropPickup()
+    {
+        if (Random.value < dropChance)
+        {
+            int dropType = Random.Range(0, 2); 
+
+            if (dropType == 0 && ammoDrop != null)
+                Instantiate(ammoDrop, transform.position, Quaternion.identity);
+            else if (dropType == 1 && healthDrop != null)
+                Instantiate(healthDrop, transform.position, Quaternion.identity);
+        }
     }
 
     void Movement()

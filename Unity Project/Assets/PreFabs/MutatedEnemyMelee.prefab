@@ -603,7 +603,7 @@ MonoBehaviour:
   animator: {fileID: 1458330868561658213}
   headPos: {fileID: 1599075110977781117}
   aud: {fileID: 6519538631037106119}
-  HP: 16
+  HP: 9
   faceTargetSpeed: 8
   fov: 180
   animTranSpeed: 6
@@ -640,6 +640,9 @@ MonoBehaviour:
   coverPoints: []
   coverSwitchDelay: 2
   useCoverSystem: 1
+  ammoDrop: {fileID: 0}
+  healthDrop: {fileID: 0}
+  dropChance: 0.6
   knife: {fileID: 3587609735467551870}
   shootPos: {fileID: 0}
   bullet: {fileID: 0}
