@@ -550,7 +550,7 @@ MonoBehaviour:
   damage: 10
   cooldown: 2
   duration: 0.5
-  aud: {fileID: 0}
+  aud: {fileID: 4189608926211743870}
   audShock:
   - {fileID: 8300000, guid: 60b51222c01a23a4a8a5b07d9e640298, type: 3}
   audShockVol: 0.2
@@ -576,6 +576,9 @@ MonoBehaviour:
     m_Bits: 8
   iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
   shootOrigin: {fileID: 7491251138447997815}
+  aud: {fileID: 4189608926211743870}
+  audFroozen: []
+  audFroozenVol: 0
 --- !u!114 &796805182874584243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,8 +661,7 @@ MonoBehaviour:
   gravity: 35
   interactDist: 3
   arsenal: []
-  hotkey_Slots:
-  - {fileID: 0}
+  hotkey_Slots: []
   gunModel: {fileID: 6027848457595790386}
   laserOrigin: {fileID: 8225238743407447842}
   laserDuration: 0.05

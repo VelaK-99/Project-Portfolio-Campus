@@ -1010,6 +1010,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void spawnPlayer()
     {
+        if (gameManager.instance == null)
+        {
+            Debug.Log("Game Manager is null");
+        }
         controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
 
         HP = HPOrig;
