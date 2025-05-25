@@ -501,6 +501,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7723484838638572073, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: joltOrigin
+      value: 
+      objectReference: {fileID: 2146898541}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -916,6 +920,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
+--- !u!4 &2146898541 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1150382071403561664, guid: 2c5a0d2027747c640802931560349457, type: 3}
+  m_PrefabInstance: {fileID: 1126303197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2563011552553330247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,6 +1155,11 @@ PrefabInstance:
     - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198244039124995638, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_text
+      value: "\nUse the mouse to control the camera. \nUse WASD to move \nPress \"ESC\"
+        or \"P\" to pause\n"
       objectReference: {fileID: 0}
     - target: {fileID: 4666851500634797950, guid: ba91813d925525848a01d808e06e99d9, type: 3}
       propertyPath: m_Name
