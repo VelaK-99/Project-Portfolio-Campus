@@ -27,7 +27,7 @@ public class MeleeANIM : MonoBehaviour
 
     public void Melee()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && meleeTimer <= 0f)
+        if (Input.GetButtonDown("Melee") && meleeTimer <= 0f)
         {
             meleeTimer = meleeCooldown;
 
