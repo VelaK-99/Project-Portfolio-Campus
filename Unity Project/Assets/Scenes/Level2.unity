@@ -9533,6 +9533,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1831043995532274665, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: WEAPONprefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_Name
       value: Player
@@ -20881,6 +20885,14 @@ PrefabInstance:
       propertyPath: playerSCRIPT
       value: 
       objectReference: {fileID: 990290006}
+    - target: {fileID: 3279685401487839251, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_text
+      value: Eliminate the research twins!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3318108299871584551, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
