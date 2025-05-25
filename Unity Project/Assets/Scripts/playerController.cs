@@ -27,6 +27,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     public float meleeRange = 2f;
     public float meleeCooldown = 3f;
     private float meleeTimer = 0;
+    private GameObject meleeWeapon = null;
     public LayerMask Enemylayer;
     [Range(1, 10)][SerializeField] int jetForce;
     [Range(1, 10)][SerializeField] int jetMax;
