@@ -640,7 +640,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   controller: {fileID: 5688579929998117802}
-  aud: {fileID: 0}
+  aud: {fileID: 4189608926211743870}
   animator: {fileID: 8878020144247688959}
   handsAnimator: {fileID: 660283677769112540}
   animTranSpeed: 6
@@ -1354,7 +1354,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 660283677769112540}
   WEAPONmodel: {fileID: 6027848457595790386}
-  WEAPONprefab: {fileID: 6027848457595790386}
   meleeHANDtransform: {fileID: 205453325075693649}
   MeleeSound: {fileID: 9020198196972922337}
   audStrikes:
@@ -1364,7 +1363,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 87e9d49c9f04f964c919551c141b440b, type: 3}
   - {fileID: 8300000, guid: c85b785e72cef104094f26adbd4e4118, type: 3}
   - {fileID: 8300000, guid: 79ee60f09d3f2bb4bb5cf83a49b633ae, type: 3}
-  audStrikeVol: 0.15
+  audStrikeVol: 2.3
   meleeCooldown: 1
 --- !u!82 &9020198196972922337
 AudioSource:

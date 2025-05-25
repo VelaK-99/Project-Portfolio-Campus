@@ -137,50 +137,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 463287926171523856, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 463287926171523856, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1524497904592980891, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2652211127919047741, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSources.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2652211127919047741, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: 'audioSources.Array.data[0]'
-      value: 
-      objectReference: {fileID: 438514630}
-    - target: {fileID: 3157540128739006221, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3157540128739006221, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4171146302480808431, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4171146302480808431, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSource
-      value: 
-      objectReference: {fileID: 178957950}
-    - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSources.Array.size
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: 'audioSources.Array.data[0]'
       value: 
@@ -213,34 +169,6 @@ PrefabInstance:
       propertyPath: 'audioSources.Array.data[7]'
       value: 
       objectReference: {fileID: 1829008791}
-    - target: {fileID: 6083778033209136143, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6083778033209136143, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6083778033209136143, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6318851352544562362, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7087348051450060260, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSources.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7087348051450060260, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: 'audioSources.Array.data[0]'
-      value: 
-      objectReference: {fileID: 239411511}
-    - target: {fileID: 7310924115542940843, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_text
-      value: Eliminate the gaurds
-      objectReference: {fileID: 0}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -321,49 +249,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8132768011977364689, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8132768011977364689, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8132768011977364689, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8405406872585138132, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Name
       value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 9024297712660489296, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9024297712660489296, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9024297712660489296, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
---- !u!82 &239411511 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5463315604322417895, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-  m_PrefabInstance: {fileID: 211523708}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &438514630 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3123505492697498858, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-  m_PrefabInstance: {fileID: 211523708}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &513733716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -411,22 +305,6 @@ PrefabInstance:
     - target: {fileID: 1371116704242169019, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464329641427008187, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
-      propertyPath: HP
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1464329641427008187, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
-      propertyPath: isMelee
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3254114589505309126, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
-      propertyPath: m_Speed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3254114589505309126, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
-      propertyPath: m_StoppingDistance
-      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6134072893057945072, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
       propertyPath: m_Name
@@ -517,34 +395,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 796805182874584243, guid: 2c5a0d2027747c640802931560349457, type: 3}
-      propertyPath: aud
-      value: 
-      objectReference: {fileID: 1829008791}
-    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
-      propertyPath: aud
-      value: 
-      objectReference: {fileID: 1829008791}
-    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
-      propertyPath: 'hotkey_Slots.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1835635762}
-    - target: {fileID: 1831043995532274665, guid: 2c5a0d2027747c640802931560349457, type: 3}
-      propertyPath: audStrikeVol
-      value: 2.3
-      objectReference: {fileID: 0}
     - target: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3600726058604760712, guid: 2c5a0d2027747c640802931560349457, type: 3}
-      propertyPath: aud
-      value: 
-      objectReference: {fileID: 1829008791}
-    - target: {fileID: 5472847630261547905, guid: 2c5a0d2027747c640802931560349457, type: 3}
-      propertyPath: aud
-      value: 
-      objectReference: {fileID: 1829008791}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.48
@@ -585,8 +439,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8280381488094341783, guid: 2c5a0d2027747c640802931560349457, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -639,10 +492,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1464329641427008187, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
-      propertyPath: HP
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6134072893057945072, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
       propertyPath: m_Name
       value: Enemy Melee (1)
@@ -665,10 +514,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3008137363093354194, guid: f535f40320084934b889eaa789390524, type: 3}
-      propertyPath: HP
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3787741990312499666, guid: f535f40320084934b889eaa789390524, type: 3}
       propertyPath: m_Name
       value: Enemy Grenadier
@@ -723,17 +568,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 4189608926211743870, guid: 2c5a0d2027747c640802931560349457, type: 3}
   m_PrefabInstance: {fileID: 1126303197}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1835635762 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7600439968128561695, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-  m_PrefabInstance: {fileID: 211523708}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5baaa0360b04d014fbdf67a9ab813feb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1856125259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -978,10 +812,6 @@ PrefabInstance:
     - target: {fileID: 1739142886080683352, guid: a8781680f80f80544bc420681f2dc6fe, type: 3}
       propertyPath: m_Name
       value: SceneTransitionCube
-      objectReference: {fileID: 0}
-    - target: {fileID: 8349845757349547661, guid: a8781680f80f80544bc420681f2dc6fe, type: 3}
-      propertyPath: sceneName
-      value: Level2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
