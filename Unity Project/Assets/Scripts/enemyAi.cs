@@ -151,7 +151,6 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
                 if (isMelee && agent.remainingDistance <= agent.stoppingDistance)
                 {
                     shoot();
-                    //agent.stoppingDistance = stoppingDistOrig;
                 }
                 else if (!isMelee)
                 {
