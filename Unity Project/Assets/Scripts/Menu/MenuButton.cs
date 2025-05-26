@@ -6,6 +6,7 @@ public class MenuButton : MonoBehaviour
 {
     [SerializeField] private string sceneName;
     [SerializeField] private GameObject painelMenu;
+    [SerializeField] private GameObject creditsMenu;
     [SerializeField] private GameObject painelSettings;
     [SerializeField] private GameObject firstButtonMenu;
     [SerializeField] private GameObject firstButtonSet;
@@ -31,10 +32,10 @@ public class MenuButton : MonoBehaviour
     }
 
 
-    public void Play()
+    public void Play(string sceneName)
     {
         ClickSound();
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene(sceneName);
     }
 
     public void OpenSetting()

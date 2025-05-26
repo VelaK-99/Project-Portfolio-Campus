@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecf53d86e8276949ad4a5dedbc2957f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2062827170}
+  audioSources: []
   volumeSlider: {fileID: 1344211020}
 --- !u!1 &170922175
 GameObject:
@@ -1121,13 +1121,13 @@ MonoBehaviour:
       - m_Target: {fileID: 2062827169}
         m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
         m_MethodName: Play
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Level1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &514874563
@@ -1863,6 +1863,7 @@ RectTransform:
   m_Children:
   - {fileID: 2054634303}
   - {fileID: 1805498296}
+  - {fileID: 1811287067}
   m_Father: {fileID: 2062827168}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2622,8 +2623,137 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecf53d86e8276949ad4a5dedbc2957f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 1288982261}
+  audioSources: []
   volumeSlider: {fileID: 2026853325}
+--- !u!1001 &1580409091
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1288982257}
+    m_Modifications:
+    - target: {fileID: 349048130580787166, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_Name
+      value: Credits
+      objectReference: {fileID: 0}
+    - target: {fileID: 349048130580787166, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 160
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.9301603
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.45635
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.45635
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -39.28517
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -582
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -461
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900248527930254960, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900248527930254960, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5420946735857556306, guid: b91aa9d9841e1884188fd8ae498c9b1a, type: 3}
+    - target: {fileID: 7900248527930254960, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CreditsScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900248527930254960, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: buttonFunctions, Assembly-CSharp
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
 --- !u!1 &1722423279
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,6 +3106,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1805498295}
   m_CullTransparentMesh: 1
+--- !u!1 &1811287066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 349048130580787166, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+  m_PrefabInstance: {fileID: 1580409091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1811287067 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+  m_PrefabInstance: {fileID: 1580409091}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1869684829
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,6 +3561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: Level1
   painelMenu: {fileID: 2054634302}
+  creditsMenu: {fileID: 1811287066}
   painelSettings: {fileID: 1805498295}
   firstButtonMenu: {fileID: 514874560}
   firstButtonSet: {fileID: 445203353}
