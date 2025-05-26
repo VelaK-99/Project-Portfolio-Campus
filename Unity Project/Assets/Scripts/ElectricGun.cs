@@ -19,7 +19,6 @@ public class ElectricGun : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log($"Orb trigger hit: {other.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
 
         if (other.gameObject.layer == LayerMask.NameToLayer("EnemyBody"))
         {
@@ -27,13 +26,8 @@ public class ElectricGun : MonoBehaviour
 
             if (target != null)
             {
-                Debug.Log($" Damaging: {target}");
 
                 target.TakeDamage(damage);
-            }
-            else
-            {
-                Debug.Log(" No IDamage on parent");
             }
         }
     }

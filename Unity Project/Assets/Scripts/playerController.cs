@@ -217,7 +217,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         spawnPlayer();
         bulletsInGun = AmmoCapacity;
         UpdatePlayerUI();
-        laserLine = GetComponent<LineRenderer>();
+        laserLine = this.GetComponentInChildren<LineRenderer>();
         List<gunStats> loadedGuns = gameManager.instance.LoadGame();
         if (loadedGuns != null && loadedGuns.Count > 0)
         {
@@ -1023,7 +1023,10 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void spawnPlayer()
     {
-        controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        if (gameManager.instance != null)
+        {
+            controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
+        }
 
         HP = HPOrig;
         UpdatePlayerUI();
