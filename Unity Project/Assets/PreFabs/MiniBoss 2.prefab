@@ -183,11 +183,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 4511185243119398159}
+  rb: {fileID: 0}
   AGENT: {fileID: 7779354727372955052}
   headPOSITON: {fileID: 7396385349120994130}
+  torsoPos: {fileID: 0}
   anim: {fileID: 7469391721002647725}
   animTRANspeed: 6
   HP: 25
+  ShockwaveScript: {fileID: 0}
   shootPOS: {fileID: 4874924650270710170}
   BULLET: {fileID: 136685076838340184, guid: 9350077f4f8233744a3a8d7c8c7af74c, type: 3}
   shootRATE: 0.08
@@ -196,6 +199,13 @@ MonoBehaviour:
   shootFOV: 50
   roam_DISTANCE: 10
   roam_PAUSEtime: 2
+  coverPoints: []
+  coverSwitchDelay: 2
+  useCoverSystem: 1
+  joltLine: {fileID: 0}
+  stunTimer: 0
+  coverDamageCooldown: 1.5
+  hasBeenJolted: 0
   Audio: {fileID: 6729199056105079411}
   audShoot:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
@@ -216,6 +226,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.05
+  scenename: 
+  twin: {fileID: 0}
 --- !u!195 &7779354727372955052
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -361,7 +373,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2578,8 +2590,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 9103514004449577576}
+  rb: {fileID: 0}
   AGENT: {fileID: 8787988818383758128}
   headPOSITON: {fileID: 7231167687894226529}
+  torsoPos: {fileID: 0}
+  Sparks: {fileID: 0}
   anim: {fileID: 3400363661615443830}
   animTRANspeed: 8
   HP: 15
@@ -2591,6 +2606,13 @@ MonoBehaviour:
   shootFOV: 50
   roam_DISTANCE: 15
   roam_PAUSEtime: 1
+  coverPoints: []
+  coverSwitchDelay: 2
+  useCoverSystem: 1
+  joltLine: {fileID: 0}
+  stunTimer: 0
+  coverDamageCooldown: 1.5
+  hasBeenJolted: 0
   Audio: {fileID: 4584089330228780512}
   audShoot:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
@@ -2611,6 +2633,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
   audStepVol: 0.05
+  scenename: 
+  twin: {fileID: 0}
 --- !u!195 &8787988818383758128
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2756,7 +2780,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
