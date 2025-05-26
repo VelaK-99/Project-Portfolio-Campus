@@ -247,6 +247,10 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8349845757349547661, guid: a8781680f80f80544bc420681f2dc6fe, type: 3}
+      propertyPath: sceneName
+      value: Boss Level
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2173,10 +2177,6 @@ PrefabInstance:
     - target: {fileID: 1228320149099689256, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718437566145262849, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
-      propertyPath: coverPoints.Array.size
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1718437566145262849, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
       propertyPath: 'coverPoints.Array.data[0]'
@@ -4689,6 +4689,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: sprintMod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: playerSpawnPos
       value: 
       objectReference: {fileID: 924463921}
@@ -4702,11 +4706,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 111.67794
+      value: 107.19
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0000038146973
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8326,7 +8330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.19999619
+      value: 1.22
       objectReference: {fileID: 0}
     - target: {fileID: 1785244630856463057, guid: 33d17e0bc782212458a94ac7f01f6d8a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9379,6 +9383,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7842359351084992231, guid: 8a760a9c76126f34bb1fbd244efc3762, type: 3}
+    - {fileID: 8424980841661633256, guid: 8a760a9c76126f34bb1fbd244efc3762, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -10136,6 +10141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7842359351084992231, guid: 8a760a9c76126f34bb1fbd244efc3762, type: 3}
+    - {fileID: 8424980841661633256, guid: 8a760a9c76126f34bb1fbd244efc3762, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -14,7 +14,7 @@ public class gameManager : MonoBehaviour
 
     [Header ("===== Menu =====")]
     [SerializeField] GameObject menuActive;
-    [SerializeField] GameObject menuPause;
+    [SerializeField] public GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] public GameObject hudPanel;

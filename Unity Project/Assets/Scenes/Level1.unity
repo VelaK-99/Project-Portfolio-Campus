@@ -1246,6 +1246,14 @@ PrefabInstance:
       propertyPath: m_NavMeshData
       value: 
       objectReference: {fileID: 23800000, guid: bb0b2ded70fc0d84385cb474de0d64c0, type: 2}
+    - target: {fileID: 7098447968505323614, guid: b201e1233cbaac44b951603f4c4f63ad, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7177108679332098887, guid: b201e1233cbaac44b951603f4c4f63ad, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 34.991
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
