@@ -22483,6 +22483,107 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 734879676}
   m_SourcePrefab: {fileID: 100100000, guid: e67009e1cab30a8409ec64dbfb8ee818, type: 3}
+--- !u!1001 &1594771724
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -113.84
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.91516745
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.40307388
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -68.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 27.899
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 47.541
+      objectReference: {fileID: 0}
+    - target: {fileID: 2044469415854486151, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198244039124995638, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_text
+      value: Push through the wall to get through!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4666851500634797950, guid: ba91813d925525848a01d808e06e99d9, type: 3}
+      propertyPath: m_Name
+      value: Wood Sign
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba91813d925525848a01d808e06e99d9, type: 3}
 --- !u!1 &1600182206
 GameObject:
   m_ObjectHideFlags: 0
@@ -32403,3 +32504,4 @@ SceneRoots:
   - {fileID: 372017120}
   - {fileID: 531483559}
   - {fileID: 853786937}
+  - {fileID: 1594771724}
