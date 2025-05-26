@@ -840,7 +840,7 @@ MonoBehaviour:
   Sparks: {fileID: 8007205972505421953}
   anim: {fileID: 3140683441999962510}
   animTRANspeed: 6
-  HP: 25
+  HP: 150
   shootPOS: {fileID: 6087067352784564418}
   BULLET: {fileID: 136685076838340184, guid: 3bb066e4215d38542bf609e30f3f46ba, type: 3}
   shootRATE: 0.5
@@ -852,9 +852,6 @@ MonoBehaviour:
   coverPoints: []
   coverSwitchDelay: 2
   useCoverSystem: 1
-  peekDistance: 0.75
-  peekSpeed: 5
-  coverDetectionRadius: 20
   joltLine: {fileID: 0}
   stunTimer: 0
   coverDamageCooldown: 1.5

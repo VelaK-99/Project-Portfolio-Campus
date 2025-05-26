@@ -10,7 +10,6 @@ public class buttonFunctions : MonoBehaviour
     public AudioSource audioSource;
 
 
-   
 
 
     public void ClickSound()

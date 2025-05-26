@@ -1025,7 +1025,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     {
         if (gameManager.instance != null)
         {
-            controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
+           controller.transform.position = gameManager.instance.playerSpawnPos.transform.position;
         }
 
         HP = HPOrig;

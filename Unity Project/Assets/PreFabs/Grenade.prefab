@@ -50,12 +50,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   rb: {fileID: 6250683399680201927}
-  explosionRad: 5
+  explosionRad: 10
   fuseTime: 1
   explosionEffect: {fileID: 188110, guid: eeb10f3a038431240a6690043924ec2e, type: 3}
   damageAmount: 2
   damageRate: 5
-  speed: 1
+  speed: 10
   destroyTime: 3
 --- !u!135 &4506636367142291997
 SphereCollider:

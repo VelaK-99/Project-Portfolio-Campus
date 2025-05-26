@@ -34,7 +34,7 @@ public class MenuButton : MonoBehaviour
     public void Play()
     {
         ClickSound();
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene("Level1");
     }
 
     public void OpenSetting()
