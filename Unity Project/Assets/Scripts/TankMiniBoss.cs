@@ -10,7 +10,7 @@ public class TankMiniBoss : MonoBehaviour, IDamage
     [SerializeField] GameObject turretToDestroy;
     [SerializeField] Color flashColor = Color.red;
     [SerializeField] float flashDuration = 0.1f;
-    [SerializeField] gameManager gameManager;
+    //[SerializeField] gameManager gameManager;
     [SerializeField] private string scenename;
     [SerializeField] TankMiniBoss triggerWin;
 
@@ -64,13 +64,13 @@ public class TankMiniBoss : MonoBehaviour, IDamage
         if (turretToDestroy != null)
         {
             Destroy(turretToDestroy);
-        }
-
-        if (gameManager != null)
-        {
-            gameManager.youWin();
             SceneManager.LoadScene(scenename);
         }
+
+        //if (gameManager != null)
+        //{
+        //    gameManager.youWin();
+        //}
 
         Destroy(gameObject);
     }
