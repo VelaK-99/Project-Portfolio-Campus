@@ -63,4 +63,9 @@ public class buttonFunctions : MonoBehaviour
 Application.Quit();
 #endif
     }
+
+    public void CreditsScene(string sceneMenu)
+    {
+        SceneManager.LoadScene(sceneMenu);
+    }
 }
