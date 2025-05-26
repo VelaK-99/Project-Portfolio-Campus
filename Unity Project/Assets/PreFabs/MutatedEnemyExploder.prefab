@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6617613847466983682}
   - component: {fileID: 5860713204445331220}
   - component: {fileID: 4700699350954477011}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: projectile_grenade_german
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,6 +226,9 @@ MonoBehaviour:
   coverPoints: []
   coverSwitchDelay: 2
   useCoverSystem: 1
+  ammoDrop: {fileID: 0}
+  healthDrop: {fileID: 0}
+  dropChance: 0.6
   knife: {fileID: 5860713204445331220}
   shootPos: {fileID: 0}
   bullet: {fileID: 0}
@@ -377,7 +380,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1157,7 +1160,7 @@ GameObject:
   - component: {fileID: 506879836236968128}
   - component: {fileID: 4816765828588350710}
   - component: {fileID: 8219697052089021465}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: backpack_flamethrower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1724,7 +1727,7 @@ GameObject:
   - component: {fileID: 6481172364774396139}
   - component: {fileID: 4607833877280889393}
   - component: {fileID: 3137967571224699635}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: item_tnt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1876,7 +1879,7 @@ GameObject:
   - component: {fileID: 7133509635263454364}
   - component: {fileID: 4300208615246589899}
   - component: {fileID: 2537329163860676392}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: projectile_grenade_german
   m_TagString: Untagged
   m_Icon: {fileID: 0}
