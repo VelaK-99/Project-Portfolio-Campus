@@ -10,7 +10,6 @@ public class buttonFunctions : MonoBehaviour
     public AudioSource audioSource;
 
 
-   
 
 
     public void ClickSound()
@@ -62,5 +61,10 @@ public class buttonFunctions : MonoBehaviour
 #else
 Application.Quit();
 #endif
+    }
+
+    public void CreditsScene(string sceneMenu)
+    {
+        SceneManager.LoadScene(sceneMenu);
     }
 }

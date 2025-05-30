@@ -7,9 +7,9 @@ public class MeleeANIM : MonoBehaviour
 
     //The point of these two GameObjects is to have the gun follow with melee, without the gun will appear static with melee
     public GameObject WEAPONmodel; //reference to main gun
-    public GameObject WEAPONprefab; //prefab of the same gun
+    //public GameObject WEAPONprefab; //prefab of the same gun
     public Transform meleeHANDtransform; //Where the weapon appears
-    private GameObject meleeWeapon = null;
+    //private GameObject meleeWeapon = null;
 
     [SerializeField] AudioSource MeleeSound;
     [SerializeField] AudioClip[] audStrikes;

@@ -12,6 +12,6 @@ public class MiniMapCamera : MonoBehaviour
     }
     private void LateUpdate()
     {
-        transform.position = new Vector3(Player.transform.position.x,40,Player.transform.position.z);
+       if(Player) transform.position = new Vector3(Player.transform.position.x,40,Player.transform.position.z);
     }
 }

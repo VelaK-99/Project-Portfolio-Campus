@@ -346,15 +346,16 @@ MonoBehaviour:
   animator: {fileID: 1131864792578107568}
   headPos: {fileID: 5186763443098539780}
   aud: {fileID: 2546103334933848522}
-  HP: 15
+  HP: 100
   faceTargetSpeed: 2
   fov: 180
   animTranSpeed: 6
   roamDist: 0
   roamPauseTime: 0
-  shootRate: 25
+  shootRate: 3
   shootFOV: 15
   stunTimer: 0
+  isMelee: 0
   audShoot:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
   audShootVol: 0.8
@@ -380,9 +381,9 @@ MonoBehaviour:
   coverPoints: []
   coverSwitchDelay: 2
   useCoverSystem: 0
-  peekDistance: 0.75
-  peekSpeed: 5
-  coverDetectionRadius: 20
+  ammoDrop: {fileID: 0}
+  healthDrop: {fileID: 0}
+  dropChance: 0.6
   knife: {fileID: 0}
   shootPos: {fileID: 3523957986135192304}
   bullet: {fileID: 363388776011288866, guid: 54f87d85b54ba0b4795a3823d94c12f4, type: 3}
@@ -513,7 +514,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

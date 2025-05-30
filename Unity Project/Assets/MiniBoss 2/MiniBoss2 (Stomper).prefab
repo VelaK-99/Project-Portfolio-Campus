@@ -787,7 +787,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StomperANIM: {fileID: 5013404107623993370}
-  animTRANspeed: 5
   SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
   radius: 10
   knockback: 10
@@ -817,7 +816,7 @@ MonoBehaviour:
   torsoPos: {fileID: 3330116981945959}
   anim: {fileID: 5013404107623993370}
   animTRANspeed: 6
-  HP: 40
+  HP: 150
   ShockwaveScript: {fileID: -8877343480653734839}
   shootPOS: {fileID: 2322066185492874319}
   BULLET: {fileID: 136685076838340184, guid: 9350077f4f8233744a3a8d7c8c7af74c, type: 3}
@@ -830,9 +829,6 @@ MonoBehaviour:
   coverPoints: []
   coverSwitchDelay: 2
   useCoverSystem: 1
-  peekDistance: 0.75
-  peekSpeed: 5
-  coverDetectionRadius: 20
   joltLine: {fileID: 0}
   stunTimer: 0
   coverDamageCooldown: 1.5

@@ -1269,7 +1269,7 @@ MonoBehaviour:
   rangeForBullets: 30
   rangeForMissiles: 60
   mortarInterval: 5
-  Health: 10
+  Health: 250
   fireRate: 0.8
   GoIntoDPSPhaseEvery: 25
   Phase2Multiplier: 5
@@ -1352,7 +1352,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

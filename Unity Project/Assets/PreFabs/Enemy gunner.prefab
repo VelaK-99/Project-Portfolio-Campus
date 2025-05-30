@@ -307,18 +307,19 @@ MonoBehaviour:
   animator: {fileID: 6158415743423404558}
   headPos: {fileID: 7017721214005784707}
   aud: {fileID: -5335087881832148575}
-  HP: 15
+  HP: 75
   faceTargetSpeed: 8
   fov: 180
   animTranSpeed: 6
   roamDist: 10
   roamPauseTime: 0
-  shootRate: 0.5
+  shootRate: 0.75
   shootFOV: 45
   stunTimer: 0
+  isMelee: 0
   audShoot:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
-  audShootVol: 0
+  audShootVol: 0.5
   audHurt:
   - {fileID: 8300000, guid: 0dab4200bd8c34a4da9210bcce98a654, type: 3}
   - {fileID: 8300000, guid: c1c654878bcbb534cb078153b3581753, type: 3}
@@ -326,7 +327,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 87e9d49c9f04f964c919551c141b440b, type: 3}
   - {fileID: 8300000, guid: c85b785e72cef104094f26adbd4e4118, type: 3}
   - {fileID: 8300000, guid: 79ee60f09d3f2bb4bb5cf83a49b633ae, type: 3}
-  audHurtVol: 0
+  audHurtVol: 0.3
   audStep:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
   - {fileID: 8300000, guid: f417ba1afd59f344a9dcc2e1573de7d8, type: 3}
@@ -337,13 +338,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 44973d8ef84398740bad2f77d76fed28, type: 3}
   - {fileID: 8300000, guid: 0c1896d0e14f74246b2dc18e0a1755f3, type: 3}
   - {fileID: 8300000, guid: 9a758af9fbf2f324cbf15cfb08177ad3, type: 3}
-  audStepVol: 0
-  coverPoints: []
+  audStepVol: 0.3
+  coverPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   coverSwitchDelay: 2
   useCoverSystem: 1
-  peekDistance: 0.75
-  peekSpeed: 5
-  coverDetectionRadius: 20
+  ammoDrop: {fileID: 0}
+  healthDrop: {fileID: 0}
+  dropChance: 0.6
   knife: {fileID: 0}
   shootPos: {fileID: 304202209342690472}
   bullet: {fileID: 1084385584208275833, guid: a19226d1cd1d2314aa8d44961c0f106e, type: 3}
@@ -382,7 +387,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 32
   avoidancePriority: 50
   m_AngularSpeed: 600
@@ -451,7 +456,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

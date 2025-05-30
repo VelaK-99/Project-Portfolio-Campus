@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 100000, guid: 1207eca23bed05d4b80b26abdafad5b6, type: 3}
   Image: {fileID: 21300000, guid: 043d129d51e3a014c9bf3a92e958b7de, type: 3}
-  shootDmg: 1
+  shootDmg: 3
   shootDist: 75
   shootRate: 0.1
   reloadSpeed: 1.5
   ammoCapacity: 30
-  currentAmmo: 0
-  totalAmmo: 90
+  currentAmmo: 24
+  totalAmmo: 150
   maxAmmo: 180
   GunName: Laser
   isShotgun: 0

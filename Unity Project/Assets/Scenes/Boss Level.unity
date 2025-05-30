@@ -1477,11 +1477,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2933247356161788255, guid: 2c5a0d2027747c640802931560349457, type: 3}
   m_PrefabInstance: {fileID: 1468938384}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &529580185 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5463315604322417895, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-  m_PrefabInstance: {fileID: 1588434752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &556755607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3882,38 +3877,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1125556913}
-    - target: {fileID: 2652211127919047741, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSources.Array.size
-      value: 1
+    - target: {fileID: 1524497904592980891, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2652211127919047741, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: 'audioSources.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1965324861}
     - target: {fileID: 2809199996803940112, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: playerSCRIPT
       value: 
       objectReference: {fileID: 689281297}
-    - target: {fileID: 3792740063278128402, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 3792740063278128402, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3792740063278128402, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 233
-      objectReference: {fileID: 0}
-    - target: {fileID: 3792740063278128402, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 187.29996
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSources.Array.size
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: 'audioSources.Array.data[0]'
       value: 
@@ -3954,128 +3925,6 @@ PrefabInstance:
       propertyPath: 'audioSources.Array.data[9]'
       value: 
       objectReference: {fileID: 284210208}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_text
-      value: 'Mecha Hitler
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontSize
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_colorMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 52e2fbb0ead1de744881b1e1e6bcba3e, type: 2}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColor.b
-      value: 0.054131493
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColor.g
-      value: 0.054131493
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColor.r
-      value: 0.7484276
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_isRightToLeft
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -6827073033736155723, guid: 52e2fbb0ead1de744881b1e1e6bcba3e, type: 2}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_enableAutoSizing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColor32.rgba
-      value: 4279111359
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_overrideHtmlColors
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_enableVertexGradient
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.topLeft.b
-      value: 0.025671363
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.topLeft.g
-      value: 0.025671363
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.topLeft.r
-      value: 0.74213827
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.topRight.b
-      value: 0.030952074
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.topRight.g
-      value: 0.030952074
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.topRight.r
-      value: 0.031446517
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.bottomLeft.b
-      value: 0.025671363
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.bottomLeft.g
-      value: 0.025671363
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.bottomLeft.r
-      value: 0.74213827
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.bottomRight.b
-      value: 0.030952074
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.bottomRight.g
-      value: 0.030952074
-      objectReference: {fileID: 0}
-    - target: {fileID: 4913320101930411587, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_fontColorGradient.bottomRight.r
-      value: 0.031446517
-      objectReference: {fileID: 0}
-    - target: {fileID: 6301933007382890566, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7087348051450060260, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: audioSources.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7087348051450060260, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: 'audioSources.Array.data[0]'
-      value: 
-      objectReference: {fileID: 529580185}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5552,11 +5401,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acf3df6fa97346e489dca6ce9c745687, type: 3}
---- !u!82 &1965324861 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 3123505492697498858, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-  m_PrefabInstance: {fileID: 1588434752}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1985101735
 PrefabInstance:
   m_ObjectHideFlags: 0

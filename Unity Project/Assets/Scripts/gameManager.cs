@@ -14,7 +14,7 @@ public class gameManager : MonoBehaviour
 
     [Header ("===== Menu =====")]
     [SerializeField] GameObject menuActive;
-    [SerializeField] GameObject menuPause;
+    [SerializeField] public GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] public GameObject hudPanel;
@@ -255,7 +255,6 @@ public class gameManager : MonoBehaviour
         string listItems = string.Join(",", gunNames);
         PlayerPrefs.SetString("OwnedWeapons", listItems);
         PlayerPrefs.Save();
-        Debug.Log("Saved weapons: " + listItems);
     }
 
     public List<gunStats> LoadGame()
@@ -263,7 +262,6 @@ public class gameManager : MonoBehaviour
         List<gunStats> loadedGuns = new List<gunStats>();
 
         string listItems = PlayerPrefs.GetString("OwnedWeapons", "");
-        Debug.Log("Loading weapons: " + listItems);
         if (string.IsNullOrEmpty(listItems)) return loadedGuns;
 
         string[] gunNames = listItems.Split(',');
@@ -274,10 +272,6 @@ public class gameManager : MonoBehaviour
             if(gun != null)
             {
                 loadedGuns.Add(gun);
-            }
-            else
-            {
-                Debug.LogWarning("Missing gun in allGuns: " + name);
             }
         }
         return loadedGuns;

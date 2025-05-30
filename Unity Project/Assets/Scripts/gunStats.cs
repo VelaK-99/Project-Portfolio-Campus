@@ -6,7 +6,7 @@ public class gunStats : ScriptableObject
     public GameObject model;
     public Sprite Image;
 
-    [Range(1, 20)] public int shootDmg;
+    [Range(1, 50)] public int shootDmg;
     [Range(5, 1000)] public int shootDist;
     [Range(0.1f, 3)] public float shootRate;
     [Range(0.5f, 5)] public float reloadSpeed;

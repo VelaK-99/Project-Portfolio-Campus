@@ -52,11 +52,10 @@ MonoBehaviour:
   explosionRad: 0
   fuseTime: 0
   explosionEffect: {fileID: 0}
-  damageAmount: 1
+  damageAmount: 5
   damageRate: 0
   speed: 25
   destroyTime: 0.25
-  meleeTimer: 2
 --- !u!135 &7708805964047479505
 SphereCollider:
   m_ObjectHideFlags: 0

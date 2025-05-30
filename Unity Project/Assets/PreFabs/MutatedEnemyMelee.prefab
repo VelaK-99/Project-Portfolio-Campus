@@ -603,13 +603,13 @@ MonoBehaviour:
   animator: {fileID: 1458330868561658213}
   headPos: {fileID: 1599075110977781117}
   aud: {fileID: 6519538631037106119}
-  HP: 9
+  HP: 65
   faceTargetSpeed: 8
   fov: 180
   animTranSpeed: 6
   roamDist: 8
   roamPauseTime: 2
-  shootRate: 1
+  shootRate: 0.7
   shootFOV: 0
   stunTimer: 0
   isMelee: 1
@@ -681,7 +681,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 5
+  m_Speed: 10
   m_Acceleration: 32
   avoidancePriority: 50
   m_AngularSpeed: 600
@@ -794,7 +794,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
