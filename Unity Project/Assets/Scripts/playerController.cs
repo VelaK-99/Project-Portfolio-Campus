@@ -8,6 +8,7 @@ using UnityEngine.Audio;
 
 public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 {
+
     [Header("===== Controls =====")]
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] CharacterController controller;
@@ -131,7 +132,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     int jumpCount;
     int HPOrig;
-    int gunListPos;
+    public int gunListPos;
     public GameObject playerSpawnPos;
 
     float shootTimer;
@@ -211,6 +212,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         canMOVE = true;
         animator = GetComponent<Animator>();
         HPOrig = HP;
@@ -801,6 +803,18 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         gameManager.instance.playerDamageScreen.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         gameManager.instance.playerDamageScreen.SetActive(false);
+    }
+
+    public bool HasGun(gunStats gun)
+    {
+        foreach (gunStats weapon in arsenal)
+        {
+            if (weapon.GunName == gun.name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void GetGunStats(gunStats gun)

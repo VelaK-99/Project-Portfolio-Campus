@@ -33,7 +33,9 @@ public class pickups : MonoBehaviour
 
         if (pickupable != null && type == pickupType.gun)
         {
-            if (gun.totalAmmo == gun.maxAmmo)
+            bool alreadyOWNED = pickupable.HasGun(gun);
+
+            if (alreadyOWNED && gun.totalAmmo == gun.maxAmmo)
             {
                 return;
             }

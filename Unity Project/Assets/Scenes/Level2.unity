@@ -6709,6 +6709,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3639122857141436183, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
+      propertyPath: ammoAmount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5680674233356932587, guid: 59d1809593fd4634fa26963ce46ed213, type: 3}
       propertyPath: m_Name
       value: Gun - Pistol
@@ -29669,6 +29673,7 @@ MonoBehaviour:
   audJumpVol: 0.1
   recoilDirection: {x: 0, y: 0, z: 0}
   freezeAbility: {fileID: 3600726059114409856}
+  gunListPos: 0
   playerSpawnPos: {fileID: 1570493999}
   gun: {fileID: 4241756268450941926}
   hipFirePos: {x: 0.4, y: -0.3, z: 0.6}
