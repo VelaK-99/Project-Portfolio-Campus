@@ -585,4 +585,9 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt
     {
         //leave empty
     }
+
+    void NewEvent()
+    {
+        //leave empty
+    }
 }
