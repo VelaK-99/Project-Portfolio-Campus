@@ -148,7 +148,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
 
             
             faceTarget();
-
+            SmoothAIM();
+            UpdateAIMangle();
             
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootRate)
@@ -422,21 +423,40 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     {
         
         Vector3 playerPosition = gameManager.instance.player.transform.position;
-        Vector3 shootDirection = (new Vector3(playerPosition.x, shootPos.position.y, playerPosition.z) - shootPos.position).normalized;
+        Vector3 shootDirection = GetLookDirectionToPlayer(shootPos, 1.5f);
         
         GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
     }
 
-
+    Vector3 GetLookDirectionToPlayer(Transform fromTransform, float heightOffset = 0f)
+    {
+        Vector3 targetPOS = gameManager.instance.player.transform.position + Vector3.up * heightOffset;
+        return (targetPOS - fromTransform.position).normalized;
+    }
 
     void faceTarget()
         {
-            Vector3 playerDirection = (gameManager.instance.player.transform.position - transform.position).normalized;
+        Vector3 playerDirection = GetLookDirectionToPlayer(transform);
             Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+            //Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * faceTargetSpeed);
         }
 
-        void checkRoam()
+    void SmoothAIM()
+    {
+        Vector3 targetDIR = GetLookDirectionToPlayer(shootPos, 1.5f);
+        Quaternion targetROT = Quaternion.LookRotation(targetDIR);
+        shootPos.rotation = Quaternion.Lerp(shootPos.rotation, targetROT, Time.deltaTime * faceTargetSpeed);
+    }
+
+    void UpdateAIMangle()
+    {
+        Vector3 DIR = GetLookDirectionToPlayer(shootPos, 1.5f);
+        float ANGLE = Vector3.SignedAngle(shootPos.forward, DIR.normalized, transform.right);
+        animator.SetFloat("Angle", ANGLE);
+    }
+
+    void checkRoam()
         {
             roamTimer += Time.deltaTime;
             if (roamTimer >= roamPauseTime)
@@ -583,6 +603,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         }
     }
 
+
+
     void Movement()
     {
         //leave empty
@@ -598,5 +620,10 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         model.material.color = Color.blue;
         yield return new WaitForSeconds(_freezeDuration);
         model.material.color = colorOriginal;
+    }
+    
+    void NewEvent()
+    {
+        //leave empty
     }
 }

@@ -10,6 +10,7 @@ public class MenuButton : MonoBehaviour
     [SerializeField] private GameObject painelSettings;
     [SerializeField] private GameObject firstButtonMenu;
     [SerializeField] private GameObject firstButtonSet;
+    [SerializeField] private GameObject firstButtonCred;
     public AudioSource audioSource;
 
 
@@ -50,6 +51,22 @@ public class MenuButton : MonoBehaviour
     {
         ClickSound();
         painelSettings.SetActive(false);
+        painelMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(firstButtonMenu);
+    }
+
+    public void OpenCredit()
+    {
+        ClickSound();
+        painelMenu.SetActive(false);
+        creditsMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(firstButtonCred);
+    }
+
+    public void CloseCredit()
+    {
+        ClickSound();
+        creditsMenu.SetActive(false);
         painelMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(firstButtonMenu);
     }
