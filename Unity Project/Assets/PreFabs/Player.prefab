@@ -545,10 +545,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
   shockWaveAnim: {fileID: 6069990524196867883}
-  radius: 7
-  knockback: 10
+  radius: 14
+  knockback: 2
   damage: 10
-  cooldown: 2
+  cooldown: 8
   duration: 0.5
   aud: {fileID: 4189608926211743870}
   audShock:
@@ -571,14 +571,17 @@ MonoBehaviour:
   burstDuration: 1.5
   freezeRange: 20
   freezeAngle: 45
+  cooldownTimer: 5
+  unlocked: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
   iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
   shootOrigin: {fileID: 7491251138447997815}
   aud: {fileID: 4189608926211743870}
-  audFroozen: []
-  audFroozenVol: 0
+  audFroozen:
+  - {fileID: 8300000, guid: 0fa4f2609b3ed5d4a91589552486a002, type: 3}
+  audFroozenVol: 0.3
 --- !u!114 &796805182874584243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,7 +618,7 @@ MonoBehaviour:
   isUnlocked: 1
   joltChainLength: 2
   damageAmount: 10
-  coolDownTimer: 1
+  coolDownTimer: 5
   electricCastDistance: 15
   joltLine: {fileID: 8946086278971867706}
   joltOrigin: {fileID: 1150382071403561664}

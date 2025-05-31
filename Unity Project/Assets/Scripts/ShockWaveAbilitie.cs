@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShockWaveAbilitie : MonoBehaviour
@@ -32,6 +33,7 @@ public class ShockWaveAbilitie : MonoBehaviour
             shockWaveAnim.SetTrigger("Cast");
             Shock();
             cooldownTimer = cooldown;
+            StartCoroutine(gameManager.instance.UpdateShockwaveIcon(cooldown));
             aud.PlayOneShot(audShock[Random.Range(0, audShock.Length)], audShockVol);
         }
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
+public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss, IFrozen
 {
     [Header("===== Dependencies =====")]
     private Transform PlayerPos;
@@ -139,13 +139,6 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
         this.enabled = true;
     }
 
-    IEnumerator freezeBlue()
-    {
-        model.material.color = Color.cyan;
-        yield return new WaitForSeconds(freezeAbility.bossFreezeDuration);
-        model.material.color = origColor;
-    }
-
     void FireSmallCannon()
     {
         animator.SetTrigger("FireSmallCannon");
@@ -242,5 +235,17 @@ public class mechaHitlerAI : MonoBehaviour, IDamage, IBoss
             }
             StartCoroutine(MechDeath());
         }
+    }
+
+    public void FrozenVisual(int _freezeDuration)
+    {
+        StartCoroutine(flashBlue(_freezeDuration));
+    }
+
+    IEnumerator flashBlue(int _freezeDuration)
+    {
+        model.material.color = Color.blue;
+        yield return new WaitForSeconds(_freezeDuration);
+        model.material.color = origColor;
     }
 }

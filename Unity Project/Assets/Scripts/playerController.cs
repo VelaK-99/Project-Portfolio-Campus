@@ -282,7 +282,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (freezeAbility != null)
+            if (freezeAbility != null && freezeAbility.unlocked)
             {
                 handsAnimator.SetTrigger("LongCast");
                 freezeAbility.ActivateFreeze();

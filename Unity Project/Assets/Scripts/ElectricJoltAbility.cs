@@ -9,7 +9,7 @@ public class ElectricJolt : MonoBehaviour
     public bool isUnlocked;
     [SerializeField] int joltChainLength;
     [SerializeField] int damageAmount;
-    [SerializeField] int coolDownTimer;
+    [SerializeField] public int coolDownTimer;
     [SerializeField] int electricCastDistance;
     float joltDuration = 0.5f;
     public LineRenderer joltLine;
@@ -25,6 +25,7 @@ public class ElectricJolt : MonoBehaviour
         if (Input.GetButtonDown("AbilityJolt") && isUnlocked)
         {
             CastElectricJolt();
+            StartCoroutine(gameManager.instance.UpdateElectricIcon(coolDownTimer));
         }
     }
 
