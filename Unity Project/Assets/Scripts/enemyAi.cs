@@ -371,6 +371,13 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         agent.isStopped = true;
         rb.isKinematic = false;
         rb.AddForce(force,ForceMode.Impulse);
+        StartCoroutine(StopKnockback());
+    }
+
+    IEnumerator StopKnockback()
+    {
+        yield return new WaitForSeconds(0.3f); // Adjust duration as needed
+        rb.linearVelocity = Vector3.zero; // Instantly stop movement
     }
 
     public void ApplyFreeze(float duration)

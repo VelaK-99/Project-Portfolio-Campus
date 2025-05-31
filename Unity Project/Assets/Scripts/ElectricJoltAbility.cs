@@ -24,14 +24,13 @@ public class ElectricJolt : MonoBehaviour
     {
         if (Input.GetButtonDown("AbilityJolt") && isUnlocked)
         {
-            CastElectricJolt();
+            gameManager.instance.playerScript.handsAnimator.SetTrigger("Cast");
             StartCoroutine(gameManager.instance.UpdateElectricIcon(coolDownTimer));
         }
     }
 
     void CastElectricJolt()
     {
-        gameManager.instance.playerScript.handsAnimator.SetTrigger("Cast");
         joltLine.SetPosition(0, joltOrigin.position);
         aud.PlayOneShot(audJolt[Random.Range(0, audJolt.Length)], audJoltVol);
         RaycastHit hit;

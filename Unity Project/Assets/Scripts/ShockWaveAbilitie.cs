@@ -29,7 +29,7 @@ public class ShockWaveAbilitie : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.T)&&cooldownTimer <= 0f)
         {
-            gameManager.instance.playerScript.handsAnimator.SetTrigger("Cast");
+            gameManager.instance.playerScript.handsAnimator.SetTrigger("Shock");
             shockWaveAnim.SetTrigger("Cast");
             Shock();
             cooldownTimer = cooldown;
