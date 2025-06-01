@@ -182,7 +182,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 9023650897437503046, guid: ca66fd7ad276cbc40876ce275ba4e83f, type: 3}
+    - {fileID: 2141782690503222910, guid: ca66fd7ad276cbc40876ce275ba4e83f, type: 3}
+    - {fileID: 509225606031081164, guid: ca66fd7ad276cbc40876ce275ba4e83f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca66fd7ad276cbc40876ce275ba4e83f, type: 3}
@@ -593,7 +596,7 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!1001 &1364574043
+--- !u!1001 &1030192490
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -603,15 +606,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4165549836634827654, guid: 3fdc0c897e160944fbe569b6f68cb23a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.415
+      value: -40.50063
       objectReference: {fileID: 0}
     - target: {fileID: 4165549836634827654, guid: 3fdc0c897e160944fbe569b6f68cb23a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.129
+      value: 2.072
       objectReference: {fileID: 0}
     - target: {fileID: 4165549836634827654, guid: 3fdc0c897e160944fbe569b6f68cb23a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -27.55
+      value: -27.51687
       objectReference: {fileID: 0}
     - target: {fileID: 4165549836634827654, guid: 3fdc0c897e160944fbe569b6f68cb23a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -767,5 +770,5 @@ SceneRoots:
   - {fileID: 865121238}
   - {fileID: 566115738}
   - {fileID: 187731167}
-  - {fileID: 1364574043}
   - {fileID: 1448191032}
+  - {fileID: 1030192490}
