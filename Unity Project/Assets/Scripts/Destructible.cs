@@ -6,7 +6,10 @@ using System.Collections;
 
 public class Destructible : MonoBehaviour, IDamage
 {
+    [Header("Setup")]
     [SerializeField] Renderer MODEL;
+    [SerializeField] private GameObject fracturedPrefab;
+    [SerializeField] private AudioClip fractureSound;
 
     Color colorORIGINAL;
 
