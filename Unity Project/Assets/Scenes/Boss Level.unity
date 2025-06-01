@@ -524,114 +524,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 6771910220935915204, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
   m_PrefabInstance: {fileID: 1985101735}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &90055109
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 90055110}
-  - component: {fileID: 90055113}
-  - component: {fileID: 90055112}
-  - component: {fileID: 90055111}
-  m_Layer: 17
-  m_Name: BodyCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &90055110
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90055109}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1893632840}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &90055111
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90055109}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4, y: 10, z: 3}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &90055112
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90055109}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &90055113
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90055109}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &126214346 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1420911894346058163, guid: 2591709d1978df649aebd5b6b0a68773, type: 3}
@@ -3925,6 +3817,10 @@ PrefabInstance:
       propertyPath: 'audioSources.Array.data[9]'
       value: 
       objectReference: {fileID: 284210208}
+    - target: {fileID: 7398849742366380905, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4497,7 +4393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3780504987279968935, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3849359254792246763, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4879,12 +4775,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.33691397
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 242205418967296345, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3082365804165955691, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 90055110}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
 --- !u!1001 &1785256361
@@ -5268,11 +5162,6 @@ Animator:
 --- !u!82 &1893632839 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 3934184225192399472, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
-  m_PrefabInstance: {fileID: 1781421831}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1893632840 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3082365804165955691, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
   m_PrefabInstance: {fileID: 1781421831}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1927108140
@@ -6030,7 +5919,8 @@ PrefabInstance:
       value: -0.33691397
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6797253660990685391, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47bb240c52b11884f8f652ec1767066d, type: 3}

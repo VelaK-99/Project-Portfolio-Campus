@@ -599,6 +599,8 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
             orbScript.SetDamage(arsenal[gunListPos].electricOrbDamage);
             orbScript.SetLifetime(arsenal[gunListPos].electricOrbLifetime);
         }
+
+        UpdatePlayerUI();
     }
 
     /*
