@@ -542,6 +542,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 2096178544}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &126214348
 BoxCollider:
@@ -582,6 +584,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 2096178544}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &127339525
 BoxCollider:
@@ -768,6 +772,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1594974702}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &308617164
 BoxCollider:
@@ -1030,6 +1036,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1594974702}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &379207549
 BoxCollider:
@@ -1275,6 +1283,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1594974702}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &459387676
 BoxCollider:
@@ -1936,6 +1946,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1594974702}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &739748396
 BoxCollider:
@@ -2603,6 +2615,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeae393871019e647b1485e0730911ae, type: 3}
+--- !u!114 &986697424 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6226930142688680325, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+  m_PrefabInstance: {fileID: 1588434752}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31933bbccd90ffc49a81753e60bd0c3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &999055738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2877,6 +2900,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1074780750}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!23 &1074780750 stripped
 MeshRenderer:
@@ -2921,6 +2946,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1786017504}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1127860710
 BoxCollider:
@@ -3239,6 +3266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 2096178544}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1211906831
 BoxCollider:
@@ -3363,6 +3392,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 2096178544}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1415191710
 BoxCollider:
@@ -3661,6 +3692,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1474608541}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1474608545
 BoxCollider:
@@ -3809,6 +3842,34 @@ PrefabInstance:
       propertyPath: 'audioSources.Array.data[9]'
       value: 
       objectReference: {fileID: 284210208}
+    - target: {fileID: 4632546068289253116, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4632546068289253116, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4632546068289253116, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 986697424}
+    - target: {fileID: 4632546068289253116, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4632546068289253116, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: WinRestart
+      objectReference: {fileID: 0}
+    - target: {fileID: 4632546068289253116, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: buttonFunctions, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6226930142688680325, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: winRestartButton
+      value: START_MENU_SCREEN
+      objectReference: {fileID: 0}
     - target: {fileID: 7398849742366380905, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3920,6 +3981,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1594974702}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1594974701
 BoxCollider:
@@ -4860,6 +4923,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1786017504}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1786017503
 BoxCollider:
@@ -5043,6 +5108,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 1594974702}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &1850616309
 BoxCollider:
@@ -5934,6 +6001,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 2096178544}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &2096178543
 BoxCollider:
@@ -6046,6 +6115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MODEL: {fileID: 2096178544}
+  fracturedPrefab: {fileID: 0}
+  fractureSound: {fileID: 0}
   HP: 2
 --- !u!65 &2119976132
 BoxCollider:

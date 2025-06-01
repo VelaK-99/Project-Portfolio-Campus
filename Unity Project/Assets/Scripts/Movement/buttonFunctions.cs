@@ -8,6 +8,7 @@ public class buttonFunctions : MonoBehaviour
     [SerializeField] private GameObject firstButtonMenu;
     [SerializeField] private GameObject firstButtonSet;
     public AudioSource audioSource;
+    [SerializeField] string winRestartButton;
 
 
 
@@ -32,6 +33,12 @@ public class buttonFunctions : MonoBehaviour
         ClickSound();
     }
 
+    public void WinRestart()
+    {
+        SceneManager.LoadScene(winRestartButton);
+        gameManager.instance.stateUnpause();
+        ClickSound();
+    }
     public void respawn()
     {
        
