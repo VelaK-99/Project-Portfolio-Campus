@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5774621991409143185}
   - component: {fileID: 3326646751268949777}
   - component: {fileID: 168895520826013963}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bullet_Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,6 @@ MonoBehaviour:
   damageRate: 0
   speed: 25
   destroyTime: 5
-  meleeTimer: 0
 --- !u!54 &5774621991409143185
 Rigidbody:
   m_ObjectHideFlags: 0

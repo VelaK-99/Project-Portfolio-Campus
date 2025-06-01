@@ -19,8 +19,8 @@ MonoBehaviour:
   shootRate: 0.2
   reloadSpeed: 1.6
   ammoCapacity: 23
-  currentAmmo: 23
-  totalAmmo: 41
+  currentAmmo: 20
+  totalAmmo: 120
   maxAmmo: 120
   GunName: Rifle
   isShotgun: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
   hitEffect: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
   shootSounds:
   - {fileID: 8300000, guid: 079bacde252869848a12af24f9464df1, type: 3}
-  shootSoundVol: 0.02
+  shootSoundVol: 0.15
   isElectricOrb: 0
   electricOrbPrefab: {fileID: 0}
   electricOrbSpeed: 0
