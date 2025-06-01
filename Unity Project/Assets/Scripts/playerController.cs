@@ -855,6 +855,30 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
         UpdatePlayerUI();
     }
 
+    public bool HasGun(gunStats gun)
+    {
+        foreach (gunStats weapon in arsenal)
+        {
+            if (weapon.GunName == gun.GunName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool GunNeedsAmmo(gunStats gun)
+    {
+        foreach (gunStats weapon in arsenal)
+        {
+            if (weapon.GunName == gun.GunName)
+            {
+                return  weapon.totalAmmo < weapon.maxAmmo;
+            }
+        }
+        return false;
+    }
+
     public void SelectGun()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && gunListPos < arsenal.Count - 1)
