@@ -489,7 +489,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Get to the Exit!
+  m_text: 'Current Objective: Win'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10211,6 +10211,10 @@ PrefabInstance:
     - target: {fileID: 349048130580787166, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
       propertyPath: m_Name
       value: Credits
+      objectReference: {fileID: 0}
+    - target: {fileID: 349048130580787166, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6552712756791986114, guid: 741278d16e82d4e49ad83648e8c07de2, type: 3}
       propertyPath: m_Pivot.x

@@ -21758,6 +21758,10 @@ PrefabInstance:
       propertyPath: playerSCRIPT
       value: 
       objectReference: {fileID: 1040891745299252561}
+    - target: {fileID: 3279685401487839251, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_text
+      value: 'Current Objective: Defeat the twins!'
+      objectReference: {fileID: 0}
     - target: {fileID: 7914563237376846127, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -30327,7 +30331,7 @@ PrefabInstance:
       objectReference: {fileID: 2056534588}
     - target: {fileID: 4513155616514132192, guid: 5bfe76e145386354387754ec53a029c9, type: 3}
       propertyPath: scenename
-      value: level 3(beta)
+      value: Level3
       objectReference: {fileID: 0}
     - target: {fileID: 6796791172111584224, guid: 5bfe76e145386354387754ec53a029c9, type: 3}
       propertyPath: m_Name
@@ -30527,7 +30531,7 @@ MonoBehaviour:
   freezeRange: 20
   freezeAngle: 45
   cooldownTimer: 5
-  unlocked: 0
+  unlocked: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -31493,6 +31497,7 @@ GameObject:
   - component: {fileID: 660283677490166484}
   - component: {fileID: 1831043996012546785}
   - component: {fileID: 9020198197566375145}
+  - component: {fileID: 9020198197566375146}
   m_Layer: 0
   m_Name: Hands Position
   m_TagString: Untagged
@@ -31653,7 +31658,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2933247355413080151}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
   m_Name: 
@@ -31748,7 +31753,7 @@ PrefabInstance:
       objectReference: {fileID: 2056534588}
     - target: {fileID: 5506831195196277015, guid: 424b0c6cefd4f2a40a9f741894e1edce, type: 3}
       propertyPath: scenename
-      value: level 3(beta)
+      value: Level3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32448,6 +32453,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9020198197566375146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7073574342408751884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 1
+  joltChainLength: 2
+  damageAmount: 10
+  coolDownTimer: 1
+  electricCastDistance: 15
+  joltLine: {fileID: 8946086279636706098}
+  joltOrigin: {fileID: 5257548940066408925}
+  hitEffect: {fileID: 5396372950321188654, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
+  aud: {fileID: 4189608925848961398}
+  audJolt:
+  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
+  audJoltVol: 0.25
 --- !u!1 &9072960242002450433
 GameObject:
   m_ObjectHideFlags: 0

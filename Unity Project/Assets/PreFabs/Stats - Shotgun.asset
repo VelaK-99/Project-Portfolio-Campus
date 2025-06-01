@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 100000, guid: 153354fc8498b684f871a5f054ac2236, type: 3}
   Image: {fileID: 21300000, guid: c908e100cf570ca458889557b9a4cd59, type: 3}
-  shootDmg: 20
+  shootDmg: 45
   shootDist: 15
   shootRate: 1
   reloadSpeed: 2.3
   ammoCapacity: 8
-  currentAmmo: 5
-  totalAmmo: 75
+  currentAmmo: 7
+  totalAmmo: 65
   maxAmmo: 80
   GunName: Shotgun
   isShotgun: 1
@@ -28,7 +28,7 @@ MonoBehaviour:
   hitEffect: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}
   shootSounds:
   - {fileID: 8300000, guid: 81b53d967731cce48afc9f97879d07fb, type: 3}
-  shootSoundVol: 0.25
+  shootSoundVol: 0.1
   isElectricOrb: 0
   electricOrbPrefab: {fileID: 0}
   electricOrbSpeed: 0

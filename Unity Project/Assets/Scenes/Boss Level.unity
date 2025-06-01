@@ -3946,18 +3946,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 432474318639729639, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 432474318639729639, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_ReferenceResolution.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 432474318639729639, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_ReferenceResolution.y
-      value: 1080
-      objectReference: {fileID: 0}
     - target: {fileID: 602637430593445788, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Camera
       value: 
@@ -3966,10 +3954,6 @@ PrefabInstance:
       propertyPath: playerSCRIPT
       value: 
       objectReference: {fileID: 689281297}
-    - target: {fileID: 3279685401487839251, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
-      propertyPath: m_text
-      value: 'Current Objective: Win'
-      objectReference: {fileID: 0}
     - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: 'audioSources.Array.data[0]'
       value: 

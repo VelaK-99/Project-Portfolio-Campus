@@ -409,6 +409,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1718437566145262849, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
+      propertyPath: HP
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 2597403089595271390, guid: 950c4a40bc8c1084c96dbb8e65cf37c3, type: 3}
       propertyPath: m_Name
       value: Enemy gunner
@@ -746,6 +750,10 @@ PrefabInstance:
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3008137363093354194, guid: f535f40320084934b889eaa789390524, type: 3}
+      propertyPath: HP
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3787741990312499666, guid: f535f40320084934b889eaa789390524, type: 3}
       propertyPath: m_Name
       value: Enemy Grenadier
@@ -1077,7 +1085,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3198244039124995638, guid: ba91813d925525848a01d808e06e99d9, type: 3}
       propertyPath: m_text
-      value: " \nUse Left Click to fire\n\nUse Right Click to aim"
+      value: " \nUse Left Click to fire\nUse Right Click to aim\nPress \"Q\" to melee"
       objectReference: {fileID: 0}
     - target: {fileID: 4666851500634797950, guid: ba91813d925525848a01d808e06e99d9, type: 3}
       propertyPath: m_Name
