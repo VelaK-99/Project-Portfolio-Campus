@@ -11,6 +11,7 @@ public class ToNextScene : MonoBehaviour
         {
             gameManager.instance.SaveGame();
             SceneManager.LoadScene(sceneName);
+            gameManager.instance.stateUnpause();
         }
     }
 }

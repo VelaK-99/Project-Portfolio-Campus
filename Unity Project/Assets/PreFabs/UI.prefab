@@ -1219,6 +1219,7 @@ MonoBehaviour:
   firstButtonMenu: {fileID: 4979521832930528020}
   firstButtonSet: {fileID: 7843409810193678866}
   audioSource: {fileID: 5463315604322417895}
+  winRestartButton: START_MENU_SCREEN
 --- !u!1 &1114954027891768673
 GameObject:
   m_ObjectHideFlags: 0
@@ -10053,7 +10054,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6226930142688680325}
         m_TargetAssemblyTypeName: buttonFunctions, Assembly-CSharp
-        m_MethodName: restart
+        m_MethodName: WinRestart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
