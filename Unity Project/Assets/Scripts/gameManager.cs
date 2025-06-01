@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
+using System.Collections;
 
 public class gameManager : MonoBehaviour
 {
@@ -62,8 +63,15 @@ public class gameManager : MonoBehaviour
     [Header("===== Objectives =====")]
     public TMP_Text objectiveText;
 
+    [Header("===== Abilities =====")]
+    [SerializeField] Image abilityOne;
+    Color abilityOneColorOrig;
+    [SerializeField] Image abilityTwo;
+    Color abilityTwoColorOrig;
+    [SerializeField] Image abilityThree;
+    Color abilityThreeColorOrig;
 
-
+    [Header("===== Other =====")]
     public bool isPaused;
     float timeScaleOrig;    
     float gameGoalCount;
@@ -76,6 +84,9 @@ public class gameManager : MonoBehaviour
         playerSpawnPos = GameObject.FindWithTag("Player Spawn Pos");
         player = GameObject.FindWithTag("Player");
         playerScript = player.GetComponent<PlayerScript>();
+        abilityOneColorOrig = abilityOne.color;
+        abilityTwoColorOrig = abilityTwo.color;
+        abilityThreeColorOrig = abilityThree.color;
     }
 
 
@@ -284,4 +295,26 @@ public class gameManager : MonoBehaviour
             objectiveText.text = "Current Objective: " + Objective;
         }
     }
+    public IEnumerator UpdateElectricIcon(int _cooldown)
+    {
+        abilityOne.color = new Color(0.588f, 0.588f, 0.588f, abilityOne.color.a);
+        yield return new WaitForSeconds(_cooldown);
+        abilityOne.color = abilityOneColorOrig;
+    }
+
+    public IEnumerator UpdateFreezeIcon(int _cooldown)
+    {
+        abilityTwo.color = new Color(0.588f, 0.588f, 0.588f, abilityTwo.color.a);
+        yield return new WaitForSeconds(_cooldown);
+        abilityTwo.color= abilityTwoColorOrig;
+    }
+
+
+    public IEnumerator UpdateShockwaveIcon(int _cooldown)
+    {
+        abilityThree.color = new Color(0.588f, 0.588f, 0.588f, abilityThree.color.a);
+        yield return new WaitForSeconds(_cooldown);
+        abilityThree.color = abilityThreeColorOrig;
+    }
+
 }
