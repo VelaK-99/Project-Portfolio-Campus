@@ -282,7 +282,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if (freezeAbility != null)
+            if (freezeAbility != null && freezeAbility.unlocked)
             {
                 handsAnimator.SetTrigger("LongCast");
                 freezeAbility.ActivateFreeze();
@@ -807,6 +807,7 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void GetGunStats(gunStats gun)
     {
+        
         if (!arsenal.Contains(gun))
         {
             arsenal.Add(gun);
@@ -828,11 +829,15 @@ public class PlayerScript : MonoBehaviour, IDamage, IInteract, IPickup
 
     public void AmmoPickup(int amount)
     {
-        arsenal[gunListPos].totalAmmo += amount;
-        if (arsenal[gunListPos].totalAmmo > MaxAmmo)
+        if (arsenal[gunListPos].totalAmmo == MaxAmmo)
+        {
+            return;
+        }
+        else if (arsenal[gunListPos].totalAmmo > MaxAmmo)
         {
             arsenal[gunListPos].totalAmmo = MaxAmmo;
         }
+            arsenal[gunListPos].totalAmmo += amount; 
 
         UpdatePlayerUI();
     } //When picking up Ammo

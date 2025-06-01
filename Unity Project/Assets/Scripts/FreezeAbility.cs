@@ -4,11 +4,13 @@ using System.Collections;
 
 public class FreezeAbility : MonoBehaviour
 {
-    [SerializeField] float freezeDuration = 3f;
-    [SerializeField] public float bossFreezeDuration = 2f;
+    [SerializeField] int freezeDuration = 3;
+    [SerializeField] int bossFreezeDuration = 2;
     [SerializeField] float burstDuration = 1.5f;
     [SerializeField] float freezeRange = 20f;
     [SerializeField] float freezeAngle = 45f;
+    [SerializeField] int cooldownTimer = 5;
+    [SerializeField] public bool unlocked;
     [SerializeField] LayerMask enemyLayer;
     [SerializeField] GameObject iceAbilityEffect;
     [SerializeField] Transform shootOrigin; // Set this to the player camera or gun position
@@ -26,6 +28,8 @@ public class FreezeAbility : MonoBehaviour
         if (!isBurstActive)
         {
             StartCoroutine(ActivateFreezeBurst());
+            StartCoroutine(gameManager.instance.UpdateFreezeIcon(cooldownTimer));
+            StartCoroutine(AbilityCooldown());
         }
     }
 
@@ -71,42 +75,19 @@ public class FreezeAbility : MonoBehaviour
                     if (mechaHitler != null)
                     {
                         mechaHitler.ApplyFreeze(bossFreezeDuration);
-                        StartCoroutine(FreezeBlue(mechaHitler.gameObject));
+                        mechaHitler.FrozenVisual(bossFreezeDuration);
                     }
                 }
-                else
+                else if(enemy.CompareTag("Enemy"))
                 {
                     EnemyAI enemyAI = enemy.GetComponent<EnemyAI>();
                     if (enemyAI != null)
                     {
                         enemyAI.ApplyFreeze(freezeDuration);
-                        StartCoroutine(FreezeBlue(enemyAI.gameObject));
+                        enemyAI.FrozenVisual(freezeDuration);
                     }
                 }
             }
-        }
-    }
-
-    IEnumerator FreezeBlue(GameObject target)
-    {
-        Renderer renderer = GetComponent<Renderer>();
-
-        if(renderer != null)
-        {
-            Color originalColor = renderer.material.color;
-            renderer.material.color = Color.cyan;
-
-            if (target.CompareTag("Mecha Hitler"))
-                {
-                yield return new WaitForSeconds(bossFreezeDuration);
-                renderer.material.color = originalColor;
-                }
-            else
-            {
-                yield return new WaitForSeconds(freezeDuration);
-                renderer.material.color = originalColor;
-            }
-            
         }
     }
 
@@ -122,5 +103,12 @@ public class FreezeAbility : MonoBehaviour
 
         Gizmos.DrawLine(shootOrigin.position, shootOrigin.position + leftLimit);
         Gizmos.DrawLine(shootOrigin.position, shootOrigin.position + rightLimit);
+    }
+
+    IEnumerator AbilityCooldown()
+    {
+        unlocked = false;
+        yield return new WaitForSeconds(cooldownTimer);
+        unlocked = true;
     }
 }

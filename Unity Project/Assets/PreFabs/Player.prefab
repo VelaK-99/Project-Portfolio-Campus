@@ -446,7 +446,6 @@ GameObject:
   - component: {fileID: 5472847630261547905}
   - component: {fileID: 3600726058604760712}
   - component: {fileID: 796805182874584243}
-  - component: {fileID: 7723484838638572073}
   - component: {fileID: 1040891745825612889}
   - component: {fileID: 5688579929998117802}
   - component: {fileID: 4189608926211743870}
@@ -545,11 +544,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SHOCKWAVEparticles: {fileID: 6037018096225161629, guid: 44093ac16e87fdf40848756f30c494bd, type: 3}
   shockWaveAnim: {fileID: 6069990524196867883}
-  radius: 7
-  knockback: 10
-  damage: 10
-  cooldown: 2
-  duration: 0.5
+  radius: 14
+  knockback: 1
+  damage: 5
+  cooldown: 8
+  duration: 2
   aud: {fileID: 4189608926211743870}
   audShock:
   - {fileID: 8300000, guid: 60b51222c01a23a4a8a5b07d9e640298, type: 3}
@@ -571,14 +570,17 @@ MonoBehaviour:
   burstDuration: 1.5
   freezeRange: 20
   freezeAngle: 45
+  cooldownTimer: 5
+  unlocked: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
   iceAbilityEffect: {fileID: 1474674067455751121, guid: 9e9aae6bcc6154143a6e0c81d2629a4a, type: 3}
   shootOrigin: {fileID: 7491251138447997815}
   aud: {fileID: 4189608926211743870}
-  audFroozen: []
-  audFroozenVol: 0
+  audFroozen:
+  - {fileID: 8300000, guid: 0fa4f2609b3ed5d4a91589552486a002, type: 3}
+  audFroozenVol: 0.3
 --- !u!114 &796805182874584243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,30 +602,6 @@ MonoBehaviour:
   audDash:
   - {fileID: 8300000, guid: 6e83ebab313401747b683f661e67972d, type: 3}
   audDashVol: 0.2
---- !u!114 &7723484838638572073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933247356161788255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnlocked: 1
-  joltChainLength: 2
-  damageAmount: 10
-  coolDownTimer: 1
-  electricCastDistance: 15
-  joltLine: {fileID: 8946086278971867706}
-  joltOrigin: {fileID: 1150382071403561664}
-  hitEffect: {fileID: 5396372950321188654, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
-  aud: {fileID: 4189608926211743870}
-  audJolt:
-  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
-  audJoltVol: 0.25
 --- !u!114 &1040891745825612889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1293,6 +1271,7 @@ GameObject:
   - component: {fileID: 1850753198877803923}
   - component: {fileID: 660283677769112540}
   - component: {fileID: 1831043995532274665}
+  - component: {fileID: 7932783393645285465}
   - component: {fileID: 9020198196972922337}
   m_Layer: 0
   m_Name: Hands Position
@@ -1365,6 +1344,30 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 79ee60f09d3f2bb4bb5cf83a49b633ae, type: 3}
   audStrikeVol: 0.2
   meleeCooldown: 1
+--- !u!114 &7932783393645285465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7073574343090366980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93be84f9a5465e047abc76371d99d994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 1
+  joltChainLength: 2
+  damageAmount: 10
+  coolDownTimer: 5
+  electricCastDistance: 15
+  joltLine: {fileID: 8946086278971867706}
+  joltOrigin: {fileID: 5257548940810873045}
+  hitEffect: {fileID: 5396372950321188654, guid: fcb74f28d107e284e80af037bfec14ca, type: 3}
+  aud: {fileID: 4189608926211743870}
+  audJolt:
+  - {fileID: 8300000, guid: 2501a0c225996714cb098679903d6fa2, type: 3}
+  audJoltVol: 0.25
 --- !u!82 &9020198196972922337
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2252,59 +2255,14 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.2
+        time: 0.017391205
+        value: 0.5
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.23090285
-        value: 0.11403656
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.38020235
-        value: 0.66666603
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.60937506
-        value: 0.986842
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.73784053
-        value: 0.34210205
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.9392362
-        value: 0.20613998
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -2357,11 +2315,6 @@ GameObject:
 --- !u!4 &1150382071403561626 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400052, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
-  m_PrefabInstance: {fileID: 1150382071403436078}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1150382071403561664 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400110, guid: 8ba014c199f919143ba7457db0873f7e, type: 3}
   m_PrefabInstance: {fileID: 1150382071403436078}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2265926802634790922

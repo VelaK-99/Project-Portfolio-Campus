@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7708805964047479505}
   - component: {fileID: 136712771494931596}
   - component: {fileID: 2778486063238554784}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Bullet
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -56,7 +56,6 @@ MonoBehaviour:
   damageRate: 3
   speed: 25
   destroyTime: 3
-  meleeTimer: 0
 --- !u!135 &7708805964047479505
 SphereCollider:
   m_ObjectHideFlags: 0
