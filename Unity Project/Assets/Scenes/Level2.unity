@@ -30327,7 +30327,7 @@ PrefabInstance:
       objectReference: {fileID: 2056534588}
     - target: {fileID: 4513155616514132192, guid: 5bfe76e145386354387754ec53a029c9, type: 3}
       propertyPath: scenename
-      value: level 3(beta)
+      value: Level3
       objectReference: {fileID: 0}
     - target: {fileID: 6796791172111584224, guid: 5bfe76e145386354387754ec53a029c9, type: 3}
       propertyPath: m_Name
@@ -31393,8 +31393,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2933247355413080151}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0002633794, y: 0.5127735, z: -0.0029453435, w: 0.8585188}
-  m_LocalPosition: {x: -159.77, y: -0.72, z: -185.43}
+  m_LocalRotation: {x: -0.00030529674, y: 0.3389511, z: -0.0029412943, w: 0.94079936}
+  m_LocalPosition: {x: -159.56, y: 0.15, z: -185.32}
   m_LocalScale: {x: 1, y: 0.89, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -31404,7 +31404,7 @@ Transform:
   - {fileID: 7080824913894500565}
   - {fileID: 6238462576915007001}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0.199, y: 61.697, z: -0.274}
+  m_LocalEulerAnglesHint: {x: 0.081, y: 39.626, z: -0.329}
 --- !u!1 &6805491505201340385
 GameObject:
   m_ObjectHideFlags: 0
@@ -31748,7 +31748,7 @@ PrefabInstance:
       objectReference: {fileID: 2056534588}
     - target: {fileID: 5506831195196277015, guid: 424b0c6cefd4f2a40a9f741894e1edce, type: 3}
       propertyPath: scenename
-      value: level 3(beta)
+      value: Level3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
