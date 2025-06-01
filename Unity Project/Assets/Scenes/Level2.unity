@@ -2265,6 +2265,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8d5b3254e0bb554c9b9138f362c19c9, type: 3}
+--- !u!1 &190666331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3545442650953658381, guid: 32b74ef3241edbf41b4b068367b29d6a, type: 3}
+  m_PrefabInstance: {fileID: 1734586596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &190666335 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3545442650953559085, guid: 32b74ef3241edbf41b4b068367b29d6a, type: 3}
+  m_PrefabInstance: {fileID: 1734586596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &191849037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ef9754ec140262b47838c2e650f0fa24, type: 3}
@@ -24068,6 +24078,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4042501652232931336, guid: 32b74ef3241edbf41b4b068367b29d6a, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 190666331}
+    - target: {fileID: 4042501652232931336, guid: 32b74ef3241edbf41b4b068367b29d6a, type: 3}
+      propertyPath: shootPos
+      value: 
+      objectReference: {fileID: 190666335}
     - target: {fileID: 5410066186615142486, guid: 32b74ef3241edbf41b4b068367b29d6a, type: 3}
       propertyPath: m_Name
       value: MutatedEnemyMelee
@@ -30537,6 +30555,8 @@ MonoBehaviour:
   burstDuration: 1.5
   freezeRange: 20
   freezeAngle: 45
+  cooldownTimer: 5
+  unlocked: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
