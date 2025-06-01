@@ -76,6 +76,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     Vector3 coverPosition;
     Vector3 knockbackfoce;
 
+    float smoothANGLE = 0f;
+
 
     void Start()
     {
@@ -147,9 +149,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
             agent.SetDestination(gameManager.instance.player.transform.position);
 
 
-            faceTarget();
-            SmoothAIM();
-            UpdateAIMangle();
+            UpdateAimingSystem();
 
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootRate)
@@ -203,7 +203,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
             agent.SetDestination(currentCoverPoint.position);
         }
 
-        faceTarget();
+        UpdateAimingSystem();
 
         shootTimer += Time.deltaTime;
         if (shootTimer >= shootRate)
@@ -228,7 +228,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
             return;
         }
 
-        faceTarget();
+        UpdateAimingSystem();
         shootTimer += Time.deltaTime;
         if (shootTimer >= shootRate)
         {
@@ -430,19 +430,28 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     {
         if (!isMelee)
         {
+            Vector3 shootDirection = shootPos.forward;
+            
+            /*
             Vector3 playerPosition = gameManager.instance.player.transform.position;
             Vector3 shootDirection = GetLookDirectionToPlayer(shootPos, 1.5f);
+            */
+
+
+
 
             GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
         }
     }
 
-    Vector3 GetLookDirectionToPlayer(Transform fromTransform, float heightOffset = 0f)
+    
+    Vector3 GetLookDirectionToPlayer(Transform fromTransform)
     {
-        Vector3 targetPOS = gameManager.instance.player.transform.position + Vector3.up * heightOffset;
+        Vector3 targetPOS = gameManager.instance.player.GetComponent<Collider>().bounds.center;
         return (targetPOS - fromTransform.position).normalized;
     }
 
+    /*
     void faceTarget()
     {
         Vector3 playerDirection = GetLookDirectionToPlayer(transform);
@@ -457,18 +466,70 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         {
             Vector3 targetDIR = GetLookDirectionToPlayer(shootPos, 1.5f);
             Quaternion targetROT = Quaternion.LookRotation(targetDIR);
-            shootPos.rotation = Quaternion.Lerp(shootPos.rotation, targetROT, Time.deltaTime * faceTargetSpeed);
+
+            if (Vector3.Angle(shootPos.forward, targetDIR) > 0.5f)
+           { shootPos.rotation = Quaternion.Lerp(shootPos.rotation, targetROT, Time.deltaTime * faceTargetSpeed); }
         }
     }
 
     void UpdateAIMangle()
     {
+        
+
         if (!isMelee)
         {
             Vector3 DIR = GetLookDirectionToPlayer(shootPos, 1.5f);
+
+            //signed angle based on right-axis (to isolate vertical angle)
             float ANGLE = Vector3.SignedAngle(shootPos.forward, DIR.normalized, transform.right);
-            animator.SetFloat("Angle", ANGLE);
+
+           smoothANGLE = Mathf.Lerp(smoothANGLE, ANGLE, Time.deltaTime * 10f);
+
+            smoothANGLE = Mathf.Lerp(smoothANGLE, -45f, 45f);
+
+            float normalizedANGLE = Mathf.InverseLerp(-45f, 45f, smoothANGLE);
+
+            animator.SetFloat("Angle", normalizedANGLE);
         }
+    }
+    */
+
+    void UpdateAimingSystem()
+    {
+        if (isMelee) return;
+
+        // ==Rotate ShootPOS==
+        Vector3 aimDirection = GetLookDirectionToPlayer(shootPos); //includes vertical offset
+
+        // ==Rotate Body ==
+        Vector3 flatDirection = new Vector3(aimDirection.x, 0f, aimDirection.z); //Y removed
+        //Quaternion bodyRotation = Quaternion.LookRotation(new Vector3(flatDirection.x, 0f, flatDirection.z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(flatDirection), Time.deltaTime * faceTargetSpeed);
+
+        //Vertical + horizontal aim
+        Quaternion aimRotation = Quaternion.LookRotation(aimDirection);
+        shootPos.rotation = Quaternion.Lerp(shootPos.rotation, aimRotation, Time.deltaTime * faceTargetSpeed);
+        
+        /*
+        if (Vector3.Angle(shootPos.forward, aimDirection) > 0.5f)
+        {
+            shootPos.rotation = Quaternion.Lerp(shootPos.rotation, shootRotation, Time.deltaTime * faceTargetSpeed);
+        }
+        */
+
+        // ==UPDATE AIM ANIMATION
+        float rawAngle = Vector3.SignedAngle(shootPos.forward, aimDirection, transform.right);
+        smoothANGLE = Mathf.Lerp(smoothANGLE, rawAngle, Time.deltaTime * 10f);
+        smoothANGLE = Mathf.Clamp(smoothANGLE, -45f, 45f);
+        float normalizedAngle = Mathf.InverseLerp(-45f, 45f, smoothANGLE);
+        animator.SetFloat("Angle", normalizedAngle);
+
+#if UNITY_EDITOR
+        Debug.DrawRay(transform.position + Vector3.up * 1.5f, transform.forward * 5f, Color.blue);       // Body forward
+        Debug.DrawRay(shootPos.position, shootPos.forward * 5f, Color.red);                             // Gun forward
+        Debug.DrawLine(shootPos.position, gameManager.instance.player.transform.position, Color.green); // Line to player
+#endif
+
     }
 
     void checkRoam()
