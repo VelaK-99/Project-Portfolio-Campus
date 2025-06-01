@@ -3660,7 +3660,7 @@ PrefabInstance:
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: startingWeapon
       value: 
-      objectReference: {fileID: 11400000, guid: 29ac06c5f19dfa747a8a68e2d6df6270, type: 2}
+      objectReference: {fileID: 11400000, guid: 1b5a7e89b71fc8e448e886b76dea77c6, type: 2}
     - target: {fileID: 1040891745825612889, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: 'hotkey_Slots.Array.data[0]'
       value: 
@@ -3873,6 +3873,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 432474318639729639, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 432474318639729639, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 432474318639729639, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 602637430593445788, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: m_Camera
       value: 
@@ -3881,6 +3893,10 @@ PrefabInstance:
       propertyPath: playerSCRIPT
       value: 
       objectReference: {fileID: 689281297}
+    - target: {fileID: 3279685401487839251, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_text
+      value: 'Current Objective: Win'
+      objectReference: {fileID: 0}
     - target: {fileID: 4183883938760905200, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
       propertyPath: 'audioSources.Array.data[0]'
       value: 

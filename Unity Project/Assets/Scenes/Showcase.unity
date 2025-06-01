@@ -7927,7 +7927,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5472847630261547905, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: duration
-      value: 0.3
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5472847630261547905, guid: 2c5a0d2027747c640802931560349457, type: 3}
+      propertyPath: knockback
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6668166344820973566, guid: 2c5a0d2027747c640802931560349457, type: 3}
       propertyPath: m_LocalPosition.x
