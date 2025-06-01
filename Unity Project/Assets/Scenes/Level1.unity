@@ -397,6 +397,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 8405406872585138132, guid: cabb218c9b281bc45a9e6c3485485a6c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -410,10 +414,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -7665960896629748515, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1371116704242169019, guid: 31dc9d48582e37a44aa9a715f8b8106e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.4195032

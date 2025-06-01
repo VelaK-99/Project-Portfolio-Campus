@@ -19,7 +19,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     [SerializeField] int roamDist;
     [SerializeField] int roamPauseTime;
     [Range(0, 25)][SerializeField] float shootRate;
-    [Range(0, 45)][SerializeField] int shootFOV;    
+    [Range(0, 45)][SerializeField] int shootFOV;
     public float stunTimer;
     [SerializeField] bool isMelee;
 
@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     [SerializeField] AudioClip[] audStep;
     [Range(0, 100)][SerializeField] float audStepVol;
 
-    [Header("===== Cover System =====")]    
+    [Header("===== Cover System =====")]
     [SerializeField] List<Transform> coverPoints;
     [SerializeField] float coverSwitchDelay = 2f;
     [SerializeField] bool useCoverSystem = true;
@@ -63,7 +63,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
 
     private enum CoverState { MovingToCover, AtCover, SwitchingCover }
     private CoverState currentCoverState = CoverState.MovingToCover;
-    
+
 
     [SerializeField] float coverDamageCooldown = 1.5f;
     private float lastDamageTime = -100f;
@@ -75,6 +75,8 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     Vector3 startingPos;
     Vector3 coverPosition;
     Vector3 knockbackfoce;
+
+    float smoothANGLE = 0f;
 
 
     void Start()
@@ -89,7 +91,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     void Update()
     {
         onAnimLocomotion();
-       
+
         if (isFrozen)
         {
             freezeTimer -= Time.deltaTime;
@@ -132,7 +134,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         }
         else
         {
-            
+
             EngagePlayer();
         }
 
@@ -141,16 +143,14 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
 
     void EngagePlayer()
     {
-        
+
         if (CanSeePlayer())
         {
             agent.SetDestination(gameManager.instance.player.transform.position);
 
-            
-            faceTarget();
-            SmoothAIM();
-            UpdateAIMangle();
-            
+
+            UpdateAimingSystem();
+
             shootTimer += Time.deltaTime;
             if (shootTimer >= shootRate)
             {
@@ -165,7 +165,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
             }
         }
         else
-        {            
+        {
             checkRoam();
         }
     }
@@ -203,7 +203,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
             agent.SetDestination(currentCoverPoint.position);
         }
 
-        faceTarget();
+        UpdateAimingSystem();
 
         shootTimer += Time.deltaTime;
         if (shootTimer >= shootRate)
@@ -228,7 +228,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
             return;
         }
 
-        faceTarget();
+        UpdateAimingSystem();
         shootTimer += Time.deltaTime;
         if (shootTimer >= shootRate)
         {
@@ -242,7 +242,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     }
 
     void SwitchCover()
-    {        
+    {
         currentCoverPoint = GetRandomCoverPoint();
         if (currentCoverPoint == null)
         {
@@ -259,23 +259,23 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         if (coverPoints.Count == 0)
         {
             return null;
-        }   
+        }
 
         Transform selectedCover = coverPoints[Random.Range(0, coverPoints.Count)];
         coverPoints.Add(selectedCover);
         return selectedCover;
-    } 
+    }
 
 
-        void onAnimLocomotion()
-        {
-            float agentSpeedCur = agent.velocity.normalized.magnitude;
-            float animSpeedCur = animator.GetFloat("speed");
+    void onAnimLocomotion()
+    {
+        float agentSpeedCur = agent.velocity.normalized.magnitude;
+        float animSpeedCur = animator.GetFloat("speed");
 
-            animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
-            bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
+        animator.SetFloat("speed", Mathf.Lerp(animSpeedCur, agentSpeedCur, Time.deltaTime * animTranSpeed));
+        bool isMoving = agent.velocity.magnitude > 0.1f && agent.remainingDistance > agent.stoppingDistance;
 
-            if (isMoving && !isPlayingStep)
+        if (isMoving && !isPlayingStep)
         {
             StartCoroutine(playStep());
         }
@@ -286,40 +286,40 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
                 StartCoroutine(playStep());
             }
         */
+    }
+
+    IEnumerator playStep()
+    {
+        isPlayingStep = true;
+
+        if (audStep.Length > 0)
+        {
+            aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
         }
 
-        IEnumerator playStep()
+        yield return new WaitForSeconds(0.3f);
+
+        isPlayingStep = false;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            isPlayingStep = true;
-
-            if (audStep.Length > 0)
-            {
-                aud.PlayOneShot(audStep[Random.Range(0, audStep.Length)], audStepVol);
-            }
-
-            yield return new WaitForSeconds(0.3f);
-
-            isPlayingStep = false;
+            //playerInRange = true;
         }
-
-        public void OnTriggerEnter(Collider other)
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
+            //playerInRange = false;
+            if (!isMelee)
             {
-                //playerInRange = true;
-            }
-        }
-        public void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag("Player"))
-            {
-                //playerInRange = false;
-                if (!isMelee) 
-                { 
                 agent.stoppingDistance = 0;
-                }
             }
         }
+    }
 
     public void TakeDamage(int amount)
     {
@@ -327,11 +327,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         StartCoroutine(flashRed());
 
         aud.PlayOneShot(audHurt[Random.Range(0, audHurt.Length)], audHurtVol);
-       
+
 
         if (HP <= 0)
         {
-        DropPickup();
+            DropPickup();
             Destroy(gameObject);
             return;
         }
@@ -348,17 +348,17 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
                 if (currentCoverPoint != null)
                 {
                     agent.SetDestination(currentCoverPoint.position);
-                    currentCoverState = CoverState.MovingToCover;                    
-                }                
+                    currentCoverState = CoverState.MovingToCover;
+                }
             }
             else
-            {                
+            {
                 isTakingCover = false;
             }
         }
     }
 
-    public void Stun(float duration,Vector3 force)
+    public void Stun(float duration, Vector3 force)
     {
         if (isStuned)
         {
@@ -367,7 +367,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         isStuned = true;
         stunTimer = duration;
         knockbackfoce = force;
-        
+
         agent.isStopped = true;
         rb.isKinematic = false;
         rb.AddForce(force,ForceMode.Impulse);
@@ -395,11 +395,11 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     {
         isFrozen = false;
 
-        if(agent != null)
+        if (agent != null)
         {
             agent.isStopped = false;
         }
-        if(animator != null)
+        if (animator != null)
         {
             animator.enabled = true;
         }
@@ -422,76 +422,145 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     }
     public void createBullet()
     {
-        
-        Vector3 playerPosition = gameManager.instance.player.transform.position;
-        Vector3 shootDirection = GetLookDirectionToPlayer(shootPos, 1.5f);
-        
-        GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
+        if (!isMelee)
+        {
+            Vector3 shootDirection = shootPos.forward;
+            
+            /*
+            Vector3 playerPosition = gameManager.instance.player.transform.position;
+            Vector3 shootDirection = GetLookDirectionToPlayer(shootPos, 1.5f);
+            */
+
+
+
+
+            GameObject spawnedBullet = Instantiate(bullet, shootPos.position, Quaternion.LookRotation(shootDirection));
+        }
     }
 
-    Vector3 GetLookDirectionToPlayer(Transform fromTransform, float heightOffset = 0f)
+    
+    Vector3 GetLookDirectionToPlayer(Transform fromTransform)
     {
-        Vector3 targetPOS = gameManager.instance.player.transform.position + Vector3.up * heightOffset;
+        Vector3 targetPOS = gameManager.instance.player.GetComponent<Collider>().bounds.center;
         return (targetPOS - fromTransform.position).normalized;
     }
 
+    /*
     void faceTarget()
-        {
+    {
         Vector3 playerDirection = GetLookDirectionToPlayer(transform);
-            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
-            //Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * faceTargetSpeed);
-        }
+        Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerDirection.x, 0, playerDirection.z));
+        //Quaternion targetRotation = Quaternion.LookRotation(playerDirection);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * faceTargetSpeed);
+    }
 
     void SmoothAIM()
     {
-        Vector3 targetDIR = GetLookDirectionToPlayer(shootPos, 1.5f);
-        Quaternion targetROT = Quaternion.LookRotation(targetDIR);
-        shootPos.rotation = Quaternion.Lerp(shootPos.rotation, targetROT, Time.deltaTime * faceTargetSpeed);
+        if (!isMelee)
+        {
+            Vector3 targetDIR = GetLookDirectionToPlayer(shootPos, 1.5f);
+            Quaternion targetROT = Quaternion.LookRotation(targetDIR);
+
+            if (Vector3.Angle(shootPos.forward, targetDIR) > 0.5f)
+           { shootPos.rotation = Quaternion.Lerp(shootPos.rotation, targetROT, Time.deltaTime * faceTargetSpeed); }
+        }
     }
 
     void UpdateAIMangle()
     {
-        Vector3 DIR = GetLookDirectionToPlayer(shootPos, 1.5f);
-        float ANGLE = Vector3.SignedAngle(shootPos.forward, DIR.normalized, transform.right);
-        animator.SetFloat("Angle", ANGLE);
+        
+
+        if (!isMelee)
+        {
+            Vector3 DIR = GetLookDirectionToPlayer(shootPos, 1.5f);
+
+            //signed angle based on right-axis (to isolate vertical angle)
+            float ANGLE = Vector3.SignedAngle(shootPos.forward, DIR.normalized, transform.right);
+
+           smoothANGLE = Mathf.Lerp(smoothANGLE, ANGLE, Time.deltaTime * 10f);
+
+            smoothANGLE = Mathf.Lerp(smoothANGLE, -45f, 45f);
+
+            float normalizedANGLE = Mathf.InverseLerp(-45f, 45f, smoothANGLE);
+
+            animator.SetFloat("Angle", normalizedANGLE);
+        }
+    }
+    */
+
+    void UpdateAimingSystem()
+    {
+        if (isMelee) return;
+
+        // ==Rotate ShootPOS==
+        Vector3 aimDirection = GetLookDirectionToPlayer(shootPos); //includes vertical offset
+
+        // ==Rotate Body ==
+        Vector3 flatDirection = new Vector3(aimDirection.x, 0f, aimDirection.z); //Y removed
+        //Quaternion bodyRotation = Quaternion.LookRotation(new Vector3(flatDirection.x, 0f, flatDirection.z));
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(flatDirection), Time.deltaTime * faceTargetSpeed);
+
+        //Vertical + horizontal aim
+        Quaternion aimRotation = Quaternion.LookRotation(aimDirection);
+        shootPos.rotation = Quaternion.Lerp(shootPos.rotation, aimRotation, Time.deltaTime * faceTargetSpeed);
+        
+        /*
+        if (Vector3.Angle(shootPos.forward, aimDirection) > 0.5f)
+        {
+            shootPos.rotation = Quaternion.Lerp(shootPos.rotation, shootRotation, Time.deltaTime * faceTargetSpeed);
+        }
+        */
+
+        // ==UPDATE AIM ANIMATION
+        float rawAngle = Vector3.SignedAngle(shootPos.forward, aimDirection, transform.right);
+        smoothANGLE = Mathf.Lerp(smoothANGLE, rawAngle, Time.deltaTime * 10f);
+        smoothANGLE = Mathf.Clamp(smoothANGLE, -45f, 45f);
+        float normalizedAngle = Mathf.InverseLerp(-45f, 45f, smoothANGLE);
+        animator.SetFloat("Angle", normalizedAngle);
+
+#if UNITY_EDITOR
+        Debug.DrawRay(transform.position + Vector3.up * 1.5f, transform.forward * 5f, Color.blue);       // Body forward
+        Debug.DrawRay(shootPos.position, shootPos.forward * 5f, Color.red);                             // Gun forward
+        Debug.DrawLine(shootPos.position, gameManager.instance.player.transform.position, Color.green); // Line to player
+#endif
+
     }
 
     void checkRoam()
+    {
+        roamTimer += Time.deltaTime;
+        if (roamTimer >= roamPauseTime)
         {
-            roamTimer += Time.deltaTime;
-            if (roamTimer >= roamPauseTime)
-            {
-                roamTimer = 0;
-                roam();
-            }
+            roamTimer = 0;
+            roam();
         }
-        void roam()
+    }
+    void roam()
+    {
+        Vector3 randomPos = Random.insideUnitSphere * roamDist + startingPos;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPos, out hit, roamDist, 1))
         {
-            Vector3 randomPos = Random.insideUnitSphere * roamDist + startingPos;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPos, out hit, roamDist, 1))
-            {
-                agent.SetDestination(hit.position);
-            }
+            agent.SetDestination(hit.position);
         }
+    }
 
-        bool CanSeePlayer()
-        {
+    bool CanSeePlayer()
+    {
 
         if (gameManager.instance.player == null)
         {
             return false;
         }
-        
+
         playerDir = (gameManager.instance.player.transform.position - headPos.position).normalized;
         angleToPlayer = Vector3.Angle(new Vector3(playerDir.x, 0, playerDir.z), transform.forward);
-        
+
         if (angleToPlayer > fov)
-        {            
+        {
             return false;
         }
-        
+
         Vector3 rayOrigin = headPos.position;
         Vector3 targetPoint = gameManager.instance.player.transform.position + Vector3.up * 1.5f;
         Debug.DrawRay(rayOrigin, (targetPoint - rayOrigin).normalized * 50f, Color.red);
@@ -500,24 +569,24 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
         int layerMask = ~(1 << LayerMask.NameToLayer("Ground")); // Ignore ground
 
         if (Physics.Raycast(rayOrigin, (targetPoint - rayOrigin).normalized, out hit, 50f, layerMask))
-        {            
+        {
             if (hit.collider.CompareTag("Player"))
-            {                
+            {
                 return true;
             }
         }
         return false;
     }
 
-        public void SwordColOn()
-        {
-            knife.enabled = true;
-        }
+    public void SwordColOn()
+    {
+        knife.enabled = true;
+    }
 
-        public void SwordColOff()
-        {
-            knife.enabled = false;
-        }
+    public void SwordColOff()
+    {
+        knife.enabled = false;
+    }
 
 
     public void JoltEffect(int joltAmount, int joltChainLength)
@@ -595,7 +664,7 @@ public class EnemyAI : MonoBehaviour, IDamage, IElectricJolt, IFrozen
     {
         if (Random.value < dropChance)
         {
-            int dropType = Random.Range(0, 2); 
+            int dropType = Random.Range(0, 2);
 
             if (dropType == 0 && ammoDrop != null)
                 Instantiate(ammoDrop, transform.position, Quaternion.identity);
